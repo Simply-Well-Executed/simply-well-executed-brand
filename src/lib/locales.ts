@@ -1357,7 +1357,7 @@ export const localeInfo = {
   ar: { label: "العربية", dir: "rtl", path: "/ar" },
   he: { label: "עברית", dir: "rtl", path: "/he" },
   ru: { label: "Русский", dir: "ltr", path: "/ru" },
-  zh: { label: "Taipei", dir: "ltr", path: "/zh" },
+  zh: { label: "台北", dir: "ltr", path: "/zh" },
   ko: { label: "한국어", dir: "ltr", path: "/ko" },
   cs: { label: "Čeština", dir: "ltr", path: "/cs" },
   ja: { label: "日本語", dir: "ltr", path: "/ja" },
