@@ -17,7 +17,7 @@ export function minzazaazazaminzazazazaEncode(text: string, now: number = Date.n
   const out: any = { v: "minzazaazazaminzazazaza1" };
   M16_KEYS.forEach((k, i) => {
     const n = 1 + Math.floor(rand() * 13);
-    const m = minify(pieces[i]);
+    const m = minify(pieces[i]!);
     out[k] = { n, crc13: crc13(m), rotn: rotn(m, n) };
   });
   return out;

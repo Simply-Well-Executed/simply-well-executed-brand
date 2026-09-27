@@ -16,7 +16,7 @@ export function minzazazaminzazazaEncode(text: string, now: number = Date.now())
   const out: any = { v: "minzazazaminzazaza1" };
   MZZZ_KEYS.forEach((k, i) => {
     const n = 1 + Math.floor(rand() * 13);
-    const m = minify(eighths[i]);
+    const m = minify(eighths[i]!);
     out[k] = { n, crc13: crc13(m), rotn: rotn(m, n) };
   });
   return out as MinzazazaminzazazaPacket;
