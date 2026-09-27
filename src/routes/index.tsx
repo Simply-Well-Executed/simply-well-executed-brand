@@ -114,13 +114,32 @@ function Index() {
       </section>
 
       <section id="foundations" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8">
-        <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-          <div><SectionLabel>(a) Standards taxonomy</SectionLabel><h2 className="font-display text-4xl font-extrabold">The index</h2></div>
+        <div className="mb-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div><SectionLabel>(a) Standards library</SectionLabel><h2 className="font-display text-4xl font-extrabold">The index</h2></div>
           <label className="flex h-11 items-center gap-2 rounded-full border border-border bg-paper px-4"><Search className="size-4 text-muted-foreground"/><span className="sr-only">Search standards</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search guidance" className="w-44 bg-transparent text-sm outline-none placeholder:text-muted-foreground"/></label>
         </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {filtered.map(t => <button key={t.id} onClick={() => go(t.id)} className={`${t.accent} group min-h-40 cursor-pointer rounded-2xl p-5 text-left ring-1 ring-border transition-transform hover:-translate-y-1`}><div className="font-mono text-[11px] opacity-60">{t.n}</div><div className="mt-7 font-display text-xl font-bold">{t.title}</div><div className="mt-1 text-[13px] opacity-70">{t.note}</div></button>)}
-          {!filtered.length && <p className="col-span-full py-10 text-muted-foreground">No standards match “{query}”.</p>}
+        <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+          {[{ id: "all", title: "All" }, ...topics].map((t) => (
+            <Button key={t.id} variant={category === t.id ? "ink" : "outline"} size="sm" onClick={() => setCategory(t.id)} className="rounded-full">{t.title}</Button>
+          ))}
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((e) => (
+            <button key={e.title} onClick={() => go(e.cat)} className="group cursor-pointer rounded-2xl bg-paper p-5 text-left ring-1 ring-border transition-transform hover:-translate-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <span className="rounded-full bg-coral/10 px-2.5 py-1 font-mono text-[10px] uppercase text-coral">{catTitle(e.cat)}</span>
+                <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+              </div>
+              <div className="mt-4 font-display text-lg font-bold">{e.title}</div>
+              <div className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{e.note}</div>
+            </button>
+          ))}
+          {!filtered.length && (
+            <div className="col-span-full rounded-2xl bg-paper py-12 text-center ring-1 ring-border">
+              <p className="text-muted-foreground">No standards match {query ? `“${query}”` : "this filter"}.</p>
+              <Button variant="outline" size="sm" className="mt-4 rounded-full" onClick={() => { setQuery(""); setCategory("all"); }}>Clear filters</Button>
+            </div>
+          )}
         </div>
       </section>
 
