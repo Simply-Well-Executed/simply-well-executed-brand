@@ -9,7 +9,7 @@ Successor to MINZAZAMINZAZA. MINMIN, MINAMINA, MINZAMINZA and MINZAZAMINZAZA sta
 ## Encode (server)
 1. PLAINTEXT → split A/B → each split again (a1,a2,b1,b2) → each split again: a11,a12,a21,a22,b11,b12,b21,b22. Splits are by code point, first piece gets the ceil half.
 2. Gate: the eight pieces joined must equal PLAINTEXT.
-3. Seed mulberry32 with Date.now(); roll eight n values (1–13) in key order.
+3. Seed Park–Miller roll arithmetic (s = s·48271 mod 2³¹−1, n = 1 + s mod 13) with Date.now(); roll eight n values (1–13) in key order.
 4. Per piece: zlib → dictionary + index minify (gated round trip) → CRC13 (poly 0x1CF5, init 0) → ROTn on letters.
 5. Send `{v:"minzazazaminzazaza1", a11:{n,crc13,rotn}, … b22:{…}}`.
 

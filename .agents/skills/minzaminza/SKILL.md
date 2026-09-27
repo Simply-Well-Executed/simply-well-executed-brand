@@ -17,7 +17,7 @@ Same as MINAMINA, but the plaintext is split in two and each half gets its own r
 4. `min = base64(dict) + "." + base64(idx)`; **CRC13** (CRC-13/BBC, poly 0x1CF5, init 0) over `min`.
 
 ## Rolls
-5. Seed mulberry32 with `Date.now()`. Roll `nA = 1 + floor(rand()*13)`, then `nB` the same way from the same generator.
+5. Seed Park–Miller roll arithmetic (s = s·48271 mod 2³¹−1, n = 1 + s mod 13) with `Date.now()`. Roll `nA = 1 + (s mod 13)`, then `nB` the same way from the same generator.
 6. CIPHERTEXTa = ROTnA(minA), CIPHERTEXTb = ROTnB(minB). Only letters rotate.
 7. Server sends `{ v: "minzaminza1", a: { n: nA, crc13, rotn: CIPHERTEXTa }, b: { n: nB, crc13, rotn: CIPHERTEXTb } }`.
 
