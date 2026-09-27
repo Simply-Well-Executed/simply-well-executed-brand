@@ -165,7 +165,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
         </label>
         <label className="block text-sm font-medium">{tr("Language")}
           <select value={language} onChange={(e) => setLanguage(e.target.value as typeof language)} className={field}>
-            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option>
+            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option><option value="ru">Русский</option>
           </select>
         </label>
       </div>
@@ -174,7 +174,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
       {result && (
         <div className="mt-6 rounded-2xl bg-paper p-6 ring-1 ring-border">
           <div className="font-mono text-[11px] uppercase text-violet">{tr("AI draft · review before use")}</div>
-          <div lang={result.lang} dir={result.lang === "en" ? "ltr" : "rtl"} className="mt-3 whitespace-pre-wrap text-start text-sm leading-relaxed" data-testid="sequence-output">{result.text}</div>
+          <div lang={result.lang} dir={localeInfo[result.lang as Locale]?.dir ?? "ltr"} className="mt-3 whitespace-pre-wrap text-start text-sm leading-relaxed" data-testid="sequence-output">{result.text}</div>
         </div>
       )}
     </form>
@@ -215,7 +215,7 @@ export function StandardsPage({ locale }: { locale: Locale }) {
 
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
 
-  return <div lang={locale} dir={info.dir} className="min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground">
+  return <div lang={locale} dir={info.dir} data-locale={locale} className={`min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${locale === "ru" ? "locale-ru" : ""}`}>
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>

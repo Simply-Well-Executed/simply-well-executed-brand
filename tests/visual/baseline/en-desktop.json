@@ -23,9 +23,9 @@
  "innerWidth": 1280,
  "els": {
   "header.lang": {
-   "x": 858,
+   "x": 786,
    "y": 16,
-   "w": 149,
+   "w": 221,
    "h": 32,
    "align": "start",
    "dir": "ltr"

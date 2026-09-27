@@ -81,6 +81,33 @@
   :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; }
 }
 
+/* Russian uses a more formal, reading-first editorial cadence while staying in the brand type system. */
+.locale-ru main p,
+.locale-ru main li,
+.locale-ru main h2,
+.locale-ru main h3 {
+  font-family: var(--font-display);
+  overflow-wrap: anywhere;
+}
+
+.locale-ru main p,
+.locale-ru main li {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.locale-ru main section * {
+  min-width: 0;
+}
+
+.locale-ru header,
+.locale-ru button,
+.locale-ru input,
+.locale-ru select,
+.locale-ru textarea {
+  font-family: var(--font-body);
+}
+
 @utility dot-grid {
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 22px 22px;
