@@ -225,8 +225,8 @@ export function StandardsPage({ locale }: { locale: Locale }) {
         </nav>
         <div className="flex items-center gap-2">
           <div className="flex rounded-full border border-border p-0.5" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <Link key={id} to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`rounded-full px-2.5 py-1 text-[12px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>)}</div>
-          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">{tr("demo")}</Button>
-          <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>{tr("kit")} <ArrowDown /></a></Button>
+          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">{tr("Request a demo")}</Button>
+          <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>{tr("Get the kit")} <ArrowDown /></a></Button>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
@@ -237,12 +237,12 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       <section id="overview" className="relative overflow-hidden border-b border-border">
         <div className="dot-grid absolute inset-0 opacity-60" />
         <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
-          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span>{tr("eyebrow")}</span> <span className="h-px w-8 bg-border" /> <bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
+          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span>{tr("Public operating standards")}</span> <span className="h-px w-8 bg-border" /> <bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
           <h1 className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
           <div className="mt-12 grid items-end gap-8 lg:grid-cols-12">
             <div className="rise-in lg:col-span-6 [animation-delay:160ms]">
-<p className="max-w-[48ch] text-xl leading-relaxed">{tr("lede")}</p>
-              <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>{tr("explore")} <ArrowRight className="rtl:-scale-x-100" /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">{tr("resources")} <Download /></Button></div>
+ <p className="max-w-[48ch] text-xl leading-relaxed">{tr("AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.")}</p>
+              <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>{tr("Explore standards")} <ArrowRight className="rtl:-scale-x-100" /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">{tr("Brand resources")} <Download /></Button></div>
             </div>
             <div className="rise-in grid grid-cols-3 overflow-hidden rounded-2xl bg-border ring-1 ring-border lg:col-span-6 [animation-delay:240ms]">
               {([[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']] as [string,string][]).map(([v,l]) => <div key={l} className="bg-paper p-4 sm:p-6"><div className="font-mono text-[10px] text-muted-foreground">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">{v}</div></div>)}
