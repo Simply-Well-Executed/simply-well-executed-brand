@@ -1263,8 +1263,7 @@ const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
   pt: {},
   fr: {},
   sv: {},
-  sw: {},
-  "zh-hans": {}
+  sw: {}
 } as const;
 
 // zh-hans shares the Simplified Chinese strings already written for zh.
@@ -1355,8 +1354,7 @@ const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
     "See it applied to your work.": "Uone ikitekelezwa katika kazi yako.",
     "Your pitch, in their language.": "Uwasilishaji wako, kwa lugha yao.",
     "Standards Rev 1.0 · Built to be reviewed": "Viwango Rev 1.0 · Vimejengwa kwa ukaguzi"
-  },
-  "zh-hans": {}
+  }
 };
 
 // zh-hans shares the Simplified Chinese overrides with zh.
