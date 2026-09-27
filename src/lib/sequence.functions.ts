@@ -14,7 +14,7 @@ export const generateSalesSequence = createServerFn({ method: "POST" })
     try {
       const text = await generateSequence(data);
       if (!text) return { ok: false as const, error: "The AI returned nothing for this request. Try describing your product differently." };
-      const { minzazazaminzazazaEncode: minzaminzaEncode } = await import("./minzazazaminzazaza.server");
+      const { minzazaazazaminzazazazaEncode: minzaminzaEncode } = await import("./minzazaazazaminzazazaza.server");
       return { ok: true as const, packet: minzaminzaEncode(text) };
     } catch (e) {
       const status = (e as { statusCode?: number }).statusCode;
