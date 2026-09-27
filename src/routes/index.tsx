@@ -182,8 +182,6 @@ export function StandardsPage({ locale }: { locale: Locale }) {
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>
         <div className="flex min-w-0 items-center gap-3">
           <div className="flex min-w-0 gap-1 overflow-x-auto rounded-full border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <Link key={id} to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>)}</div>
-          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">{tr("Request a demo")}</Button>
-          <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>{tr("Get the kit")} <ArrowDown /></a></Button>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
