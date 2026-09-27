@@ -1,4 +1,4 @@
-import { crc13, minify, mulberry32, rotn, split, type MinzaHalf } from "./minzaminza.server";
+import { dateRolls, piece, split, type MinzaHalf } from "./minzaminza.server";
 import { minzazaminzazaEncode, type AnyMinPacket as AnyMinPacket4 } from "./minzazaminzaza.server";
 
 export const MZZZ_KEYS = ["a11", "a12", "a21", "a22", "b11", "b12", "b21", "b22"] as const;
@@ -12,12 +12,10 @@ export function minzazazaminzazazaEncode(text: string, now: number = Date.now())
   if (len < 8) return minzazaminzazaEncode(text, now);
   const eighths = split(text).flatMap(split).flatMap(split);
   if (eighths.length !== 8 || eighths.join("") !== text) throw new Error("MINZAZAZAMINZAZAZA split gate failed");
-  const rand = mulberry32(now);
+  const roll = dateRolls(now);
   const out: any = { v: "minzazazaminzazaza1" };
   MZZZ_KEYS.forEach((k, i) => {
-    const n = 1 + Math.floor(rand() * 13);
-    const m = minify(eighths[i]!);
-    out[k] = { n, crc13: crc13(m), rotn: rotn(m, n) };
+    out[k] = piece(eighths[i]!, roll());
   });
   return out as MinzazazaminzazazaPacket;
 }

@@ -14,16 +14,10 @@ export function crc13(s: string): number {
   return crc;
 }
 
-// mulberry32 PRNG, seeded explicitly (Date.now() by default).
-export function mulberry32(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+// Date.now() seed → rolls 1–13 with plain Park–Miller arithmetic (s = s·48271 mod 2³¹−1). No PRNG library.
+export function dateRolls(now: number = Date.now()): () => number {
+  let s = (Math.abs(Math.floor(now)) % 2147483646) + 1;
+  return () => { s = (s * 48271) % 2147483647; return 1 + (s % 13); };
 }
 
 export const rotn = (s: string, n: number) =>
@@ -45,6 +39,6 @@ export function minaminaEncode(text: string, now: number = Date.now()): Minamina
   if (inflateSync(drawn).toString("utf8") !== text) throw new Error("MINAMINA phase 1 gate failed: input !== output");
 
   const min = Buffer.from(dict).toString("base64") + "." + Buffer.from(idx).toString("base64");
-  const n = 1 + Math.floor(mulberry32(now)() * 13); // 1..13
+  const n = dateRolls(now)(); // 1..13
   return { v: "minamina1", n, crc13: crc13(min), rotn: rotn(min, n) };
 }

@@ -1,4 +1,4 @@
-import { crc13, minify, mulberry32, rotn, split, type MinzaHalf } from "./minzaminza.server";
+import { dateRolls, piece, split, type MinzaHalf } from "./minzaminza.server";
 import { minzazazazaminzazazazaEncode, type AnyMinPacket as AnyMinPacket16 } from "./minzazazazaminzazazaza.server";
 
 /** MIN-family level d: 2^d pieces. Name = MIN + ZA×d + MIN + ZA×d. Levels 5–18 are generated here. */
@@ -21,12 +21,10 @@ export function minzaDepthEncode(text: string, depth: number, now: number = Date
   let pieces = [text];
   for (let i = 0; i < depth; i++) pieces = pieces.flatMap(split);
   if (pieces.length !== count || pieces.join("") !== text) throw new Error(`${minzaName(depth)} split gate failed`);
-  const rand = mulberry32(now);
+  const roll = dateRolls(now);
   const out: any = { v: minzaName(depth) + "1" };
   minzaKeys(depth).forEach((k, i) => {
-    const n = 1 + Math.floor(rand() * 13);
-    const m = minify(pieces[i]!);
-    out[k] = { n, crc13: crc13(m), rotn: rotn(m, n) };
+    out[k] = piece(pieces[i]!, roll());
   });
   return out;
 }

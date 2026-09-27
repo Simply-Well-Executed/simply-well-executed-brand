@@ -17,7 +17,7 @@ MINAMINA is also the **fallback for MINZAMINZA**: when a plaintext has fewer tha
 ## Phase 2: transport
 4. `min = base64(dict) + "." + base64(idx)`.
 5. **CRC13** (CRC-13/BBC, poly `0x1CF5`, init 0) over `min`. Keep it.
-6. **Seed**: start a mulberry32 random generator with `Date.now()` (milliseconds since the UNIX epoch).
+6. **Seed**: start a Park–Miller roll arithmetic (s = s·48271 mod 2³¹−1, n = 1 + s mod 13) with `Date.now()` (milliseconds since the UNIX epoch).
 7. **Roll** `n` = a whole number from 1 to 13 (`1 + floor(rand() * 13)`).
 8. **ROTn** over `min`. Only letters change; `0-9+/=.` stay as they are.
 9. The server sends `{ v: "minamina1", n, crc13, rotn }`.

@@ -10,7 +10,7 @@ Level 10 of the MIN family (2^10 = 1024 pieces). All earlier skills stay saved.
 `scripts/minza-depth.server.ts` → `minzaDepthEncode(text, 10)`:
 1. Halve PLAINTEXT 10 times by code point (first piece gets the ceil half) → 1024 pieces, keys in order (a…, then b…; each extra round appends 1 or 2).
 2. Gate: pieces joined must equal PLAINTEXT.
-3. Seed mulberry32 with Date.now(); roll 1024 n values (1–13) in key order.
+3. Seed Park–Miller roll arithmetic (s = s·48271 mod 2³¹−1, n = 1 + s mod 13) with Date.now(); roll 1024 n values (1–13) in key order.
 4. Per piece: zlib → dictionary + index minify (gated round trip) → CRC13 (poly 0x1CF5, init 0) → ROTn on letters.
 5. Send `{v:"minzazazazazazazazazazaminzazazazazazazazazaza1", <key>:{n,crc13,rotn}, …}`.
 

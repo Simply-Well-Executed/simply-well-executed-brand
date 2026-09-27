@@ -14,7 +14,7 @@ description: MINZAZAMINZAZA text transport — MINZAMINZA variant that splits pl
 3. `min = base64(dict) + "." + base64(idx)`; CRC13 (poly 0x1CF5, init 0) over `min`.
 
 ## Rolls
-4. Seed mulberry32 with `Date.now()`; roll nA1, nA2, nB1, nB2 in that order, each `1 + floor(rand()*13)`.
+4. Seed Park–Miller roll arithmetic (s = s·48271 mod 2³¹−1, n = 1 + s mod 13) with `Date.now()`; roll nA1, nA2, nB1, nB2 in that order, each `1 + (s mod 13)`.
 5. Each quarter's CIPHERTEXT = ROTn(min) (letters only).
 6. Send `{ v: "minzazaminzaza1", a1:{n,crc13,rotn}, a2:{…}, b1:{…}, b2:{…} }`.
 
