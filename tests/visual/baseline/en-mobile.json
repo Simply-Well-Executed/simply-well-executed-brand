@@ -1,0 +1,160 @@
+{
+ "dir": "ltr",
+ "lang": "en",
+ "sections": [
+  "overview",
+  "foundations",
+  "intelligence",
+  "patterns",
+  "content",
+  "accessibility",
+  "identity",
+  "resources",
+  "demo"
+ ],
+ "headerOrder": [
+  "BUTTON:Simply Well Executed home",
+  "NAV:Main navigation",
+  "DIV"
+ ],
+ "scrollWidth": 390,
+ "innerWidth": 390,
+ "els": {
+  "header.logo": {
+   "x": 20,
+   "y": 17,
+   "w": 147,
+   "h": 30,
+   "align": "center",
+   "dir": "ltr"
+  },
+  "header.lang": {
+   "x": 183,
+   "y": 16,
+   "w": 143,
+   "h": 32,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h1": {
+   "x": 20,
+   "y": 186,
+   "w": 350,
+   "h": 104,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#overview": {
+   "x": 0,
+   "y": 65,
+   "w": 390,
+   "h": 690,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#foundations": {
+   "x": 0,
+   "y": 755,
+   "w": 390,
+   "h": 3710,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h2#foundations": {
+   "x": 20,
+   "y": 884,
+   "w": 350,
+   "h": 40,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#intelligence": {
+   "x": 0,
+   "y": 4465,
+   "w": 390,
+   "h": 1115,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h2#intelligence": {
+   "x": 20,
+   "y": 4595,
+   "w": 350,
+   "h": 137,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#patterns": {
+   "x": 0,
+   "y": 5580,
+   "w": 390,
+   "h": 702,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#content": {
+   "x": 0,
+   "y": 6282,
+   "w": 390,
+   "h": 841,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h2#content": {
+   "x": 20,
+   "y": 6412,
+   "w": 350,
+   "h": 96,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#accessibility": {
+   "x": 0,
+   "y": 7123,
+   "w": 390,
+   "h": 753,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h2#accessibility": {
+   "x": 20,
+   "y": 7251,
+   "w": 354,
+   "h": 144,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#identity": {
+   "x": 0,
+   "y": 7875,
+   "w": 390,
+   "h": 1219,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#resources": {
+   "x": 0,
+   "y": 9094,
+   "w": 390,
+   "h": 1077,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "section#demo": {
+   "x": 0,
+   "y": 10171,
+   "w": 390,
+   "h": 1069,
+   "align": "start",
+   "dir": "ltr"
+  },
+  "h2#demo": {
+   "x": 20,
+   "y": 10300,
+   "w": 350,
+   "h": 91,
+   "align": "start",
+   "dir": "ltr"
+  }
+ }
+}
