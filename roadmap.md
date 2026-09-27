@@ -15,7 +15,7 @@
 - [ ] Build separate Arabic and Hebrew pages from English content
 - [ ] Translate library, standards, demo, and sequence sections naturally
 - [ ] Add prospect email delivery for generated sample sequences
-- [ ] Regenerate downloadable brand guide with FreeSerif, FreeSans, and FreeMono
+- [x] Regenerate downloadable brand guide with FreeSerif, FreeSans, and FreeMono
 - [ ] Verify all locales and downloadable guide
 
 ## 2026-09-27 — Dedicated localized pages and FreeFont guide
@@ -27,9 +27,9 @@
 - [ ] Add explicit review-and-send email delivery after a sender domain is configured and verified.
 
 ## 2026-09-27 — Russian locale and completed sample delivery
-- [ ] Add a dedicated Russian page with natural translated standards and sample-tool copy.
-- [ ] Extend the language switcher to `/ru` while preserving dedicated Arabic and Hebrew routes.
-- [ ] Apply restrained Kremlin.ru-inspired Russian typography and editorial hierarchy without copying its identity.
-- [ ] Confirm the downloadable FreeSerif, FreeSans, and FreeMono brand guide is current and shareable.
+- [x] Add a dedicated Russian page with natural translated standards and sample-tool copy.
+- [x] Extend the language switcher to `/ru` while preserving dedicated Arabic and Hebrew routes.
+- [x] Apply restrained Kremlin.ru-inspired Russian typography and editorial hierarchy without copying its identity.
+- [x] Confirm the downloadable FreeSerif, FreeSans, and FreeMono brand guide is current and shareable.
 - [ ] Wire reviewed sample sequences to one confirmed inbox delivery, subject to sender-domain readiness.
-- [ ] Verify all four locales and the final download.
+- [x] Verify all four locales and the final download.

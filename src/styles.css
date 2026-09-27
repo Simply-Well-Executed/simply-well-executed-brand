@@ -87,6 +87,11 @@
   font-family: var(--font-display);
   font-size: 1.0625rem;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.locale-ru main section * {
+  min-width: 0;
 }
 
 .locale-ru header,
