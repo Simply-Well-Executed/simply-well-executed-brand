@@ -5,3 +5,5 @@
 - [x] Create social media assets.
 - [x] Create the downloadable brand guide and package.
 - [x] Verify the site across desktop and mobile.
+- [x] Add a demo request form (submissions saved in Lovable Cloud).
+- [ ] Review and accept the "Operating standards" draft — waiting on the user. If accepted, re-apply the demo request form to the expanded manual.

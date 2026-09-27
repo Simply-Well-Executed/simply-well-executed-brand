@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -55,6 +57,72 @@ const principles = [
   ["People retain agency", "Review, pass, correct, and exit remain available wherever automation acts."],
 ];
 
+function DemoRequestForm() {
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+
+  const set = (k: keyof typeof form) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm({ ...form, [k]: e.target.value });
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    const name = form.name.trim();
+    const email = form.email.trim();
+    if (!name) return setError("Add your name so we know who to reply to.");
+    if (name.length > 100) return setError("Keep the name under 100 characters.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError("Enter a valid email address.");
+    if (email.length > 255) return setError("That email address is too long.");
+    if (form.company.trim().length > 120) return setError("Keep the company under 120 characters.");
+    if (form.message.length > 2000) return setError("Keep the note under 2,000 characters.");
+    setError(null);
+    setStatus("sending");
+    const { error: dbError } = await supabase.from("demo_requests").insert({
+      name,
+      email,
+      company: form.company.trim() || null,
+      message: form.message.trim() || null,
+    });
+    if (dbError) {
+      setStatus("idle");
+      setError("Something went wrong sending your request. Please try again.");
+      return;
+    }
+    setStatus("sent");
+  };
+
+  if (status === "sent") return (
+    <div className="rounded-3xl bg-paper p-8 ring-1 ring-border">
+      <span className="grid size-12 place-items-center rounded-full bg-teal text-primary-foreground"><Check className="size-6" /></span>
+      <h3 className="mt-6 font-display text-2xl font-bold">Request received.</h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">We'll review what you sent and reply from a real person — no automated funnel.</p>
+      <Button variant="outline" size="sm" className="mt-6 rounded-full" onClick={() => { setForm({ name: "", email: "", company: "", message: "" }); setStatus("idle"); }}>Send another request</Button>
+    </div>
+  );
+
+  const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-coral";
+  return (
+    <form onSubmit={submit} className="rounded-3xl bg-paper p-8 ring-1 ring-border" noValidate>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block text-sm font-medium">Name
+          <input required value={form.name} onChange={set("name")} className={field} placeholder="Your name" maxLength={100} autoComplete="name" />
+        </label>
+        <label className="block text-sm font-medium">Work email
+          <input required type="email" value={form.email} onChange={set("email")} className={field} placeholder="you@company.com" maxLength={255} autoComplete="email" />
+        </label>
+        <label className="block text-sm font-medium sm:col-span-2">Company <span className="font-normal text-muted-foreground">(optional)</span>
+          <input value={form.company} onChange={set("company")} className={field} placeholder="Where you work" maxLength={120} autoComplete="organization" />
+        </label>
+        <label className="block text-sm font-medium sm:col-span-2">What should the demo cover? <span className="font-normal text-muted-foreground">(optional)</span>
+          <textarea value={form.message} onChange={set("message")} className={`${field} min-h-28 resize-y`} placeholder="The workflow, team, or decision you want to see handled." maxLength={2000} />
+        </label>
+      </div>
+      {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
+      <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Request a demo"}</Button>
+    </form>
+  );
+}
+
 function Logo({ compact = false }: { compact?: boolean }) {
   return <span className="inline-flex items-center gap-2.5"><span className="relative block size-3 after:absolute after:-inset-1 after:rounded-full after:border after:border-coral"><span className="absolute inset-0 rounded-full bg-coral" /></span>{!compact && <span className="font-display text-[15px] font-extrabold leading-none">Simply Well Executed</span>}</span>;
 }
@@ -88,6 +156,7 @@ function Index() {
           <button onClick={() => go("resources")} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">Resources</button>
         </nav>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">Request a demo</Button>
           <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>Get the kit <ArrowDown /></a></Button>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</Button>
         </div>
@@ -171,8 +240,24 @@ function Index() {
       <section id="resources" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(g) Resource access</SectionLabel><div className="grid gap-4 md:grid-cols-3">
         {[['Brand guide','PDF · 3 pages','/downloads/Simply-Well-Executed-brand-guide.pdf'],['Logo package','SVG · primary + compact','/downloads/logo-primary.svg'],['Social artwork','PNG · landscape','/downloads/social-landscape.png']].map(([h,m,u])=><article key={h} className="flex min-h-64 flex-col rounded-3xl bg-paper p-6 ring-1 ring-border"><div className="font-mono text-[11px] text-muted-foreground">{m}</div><h3 className="mt-5 font-display text-2xl font-bold">{h}</h3><p className="mt-2 text-sm text-muted-foreground">Ready-to-use files from the current identity system.</p><Button variant="ink" className="mt-auto" asChild><a href={u} download>Download <Download/></a></Button></article>)}
       </div><div className="mt-4 flex flex-wrap gap-3 text-sm"><a className="underline underline-offset-4" href="/downloads/social-square.png" download>Square social post</a><a className="underline underline-offset-4" href="/downloads/social-avatar.png" download>Social avatar</a><a className="underline underline-offset-4" href="/downloads/brand-art-poster.png" download>Brand art poster</a><a className="underline underline-offset-4" href="/downloads/design-philosophy.md" download>Design philosophy</a><a className="underline underline-offset-4" href="/downloads/logo-compact.svg" download>Compact logo</a></div></section>
+
+      <section id="demo" className="border-t border-border">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <SectionLabel>(h) Request a demo</SectionLabel>
+            <h2 className="font-display text-5xl font-black leading-[.95]">See it applied<br/>to your work.</h2>
+            <p className="mt-5 max-w-[46ch] text-muted-foreground">A walkthrough of the operating standards applied to a workflow your team actually runs — led by the people who wrote them.</p>
+            <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-muted-foreground">
+              <div className="flex items-center gap-2"><span className="text-coral">●</span> Replies from a real person</div>
+              <div className="flex items-center gap-2"><span className="text-teal">●</span> No sales sequence, no drip</div>
+              <div className="flex items-center gap-2"><span className="text-violet">●</span> Your workflow, not a canned pitch</div>
+            </div>
+          </div>
+          <div className="lg:col-span-7"><DemoRequestForm /></div>
+        </div>
+      </section>
     </main>
 
-    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed</div></div></footer>
+    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">Request a demo</button></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed</div></div></footer>
   </div>;
 }
