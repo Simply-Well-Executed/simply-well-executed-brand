@@ -3075,10 +3075,20 @@ export const localeInfo = {
   sw: { label: "SW", dir: "ltr", path: "/sw" },
 } as const;
 
+/** Greek epigraphic script: inscription-style capitals, no accents or breathings. Only Greek letters change; Latin brand names stay intact. */
+export function toEpigraphicGreek(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\u0370-\u03ff\u1f00-\u1fff]/g, (c) => c.toUpperCase())
+    .normalize("NFC");
+}
+
 export function translate(locale: Locale, source: string | undefined): string {
   if (!source) return "";
   if (locale === "en") return source;
-  return overrides[locale][source] ?? translations[locale][source] ?? source;
+  const out = overrides[locale][source] ?? translations[locale][source] ?? source;
+  return locale === "el" ? toEpigraphicGreek(out) : out;
 }
 
 export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", "zh-hans": "zh-Hans", ko: "ko", cs: "cs", ja: "ja", el: "el", it: "it", es: "es", pt: "pt", fr: "fr", sv: "sv", sw: "sw" };
