@@ -25,6 +25,29 @@ const topics = [
   { id: "resources", n: "07", title: "Resources", note: "Guides, kits, templates", accent: "bg-paper" },
 ];
 
+const library = [
+  { cat: "foundations", title: "Outcome before mechanism", note: "Lead with the work a team can complete; explain the AI only when it changes the decision." },
+  { cat: "foundations", title: "Chosen, not assumed", note: "Make consequential choices explicit. Never present an inference as an instruction." },
+  { cat: "foundations", title: "Change keeps its history", note: "A revision adds provenance; it does not silently replace what came before." },
+  { cat: "foundations", title: "People retain agency", note: "Review, pass, correct, and exit remain available wherever automation acts." },
+  { cat: "intelligence", title: "Review over awe", note: "Design AI output to be checked, not admired. Confidence is useful; false finality is not." },
+  { cat: "intelligence", title: "Trust through provenance", note: "Every recommendation carries its source, its reasoning, and its limits." },
+  { cat: "patterns", title: "Recommendation", note: "Show the recommendation and why. Never hide alternatives behind certainty." },
+  { cat: "patterns", title: "Approval", note: "Name exactly what approval changes. Never treat silence as consent." },
+  { cat: "patterns", title: "Correction", note: "Preserve the original and the correction. Never erase the path that led here." },
+  { cat: "content", title: "Direct", note: "Put the outcome in the first sentence." },
+  { cat: "content", title: "Grounded", note: "Say only what the evidence supports." },
+  { cat: "content", title: "Human", note: "Use plain words without hiding complexity." },
+  { cat: "accessibility", title: "Keyboard paths", note: "Keyboard navigation is complete, with visible focus everywhere." },
+  { cat: "accessibility", title: "Meaning beyond color", note: "Color never carries meaning alone; pair it with labels or icons." },
+  { cat: "accessibility", title: "Motion and recovery", note: "Motion respects user preferences; errors explain the next action." },
+  { cat: "identity", title: "Logo and clear space", note: "Clear space equals one node. Never stretch or rotate the mark." },
+  { cat: "identity", title: "State color", note: "Coral for action, amber for attention, teal for resolved, violet for inquiry." },
+  { cat: "identity", title: "Type system", note: "Archivo for display, Space Grotesk for text, JetBrains Mono for data." },
+  { cat: "resources", title: "Brand guide", note: "The three-page PDF covering logo, color, type, and usage rules." },
+  { cat: "resources", title: "Logo and social assets", note: "SVG logos, social artwork, avatar, and poster — ready to download." },
+];
+
 const principles = [
   ["Outcome before mechanism", "Lead with the work a team can complete. Explain the AI only when it changes the decision."],
   ["Chosen, not assumed", "Make consequential choices explicit. Never present an inference as an instruction."],
@@ -43,8 +66,16 @@ function SectionLabel({ children }: { children: string }) {
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("all");
   const [activePattern, setActivePattern] = useState(0);
-  const filtered = useMemo(() => topics.filter((t) => `${t.title} ${t.note}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return library.filter((e) =>
+      (category === "all" || e.cat === category) &&
+      (!q || `${e.title} ${e.note} ${e.cat}`.toLowerCase().includes(q))
+    );
+  }, [query, category]);
+  const catTitle = (id: string) => topics.find((t) => t.id === id)?.title ?? id;
 
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
 
@@ -83,13 +114,32 @@ function Index() {
       </section>
 
       <section id="foundations" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8">
-        <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-          <div><SectionLabel>(a) Standards taxonomy</SectionLabel><h2 className="font-display text-4xl font-extrabold">The index</h2></div>
+        <div className="mb-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div><SectionLabel>(a) Standards library</SectionLabel><h2 className="font-display text-4xl font-extrabold">The index</h2></div>
           <label className="flex h-11 items-center gap-2 rounded-full border border-border bg-paper px-4"><Search className="size-4 text-muted-foreground"/><span className="sr-only">Search standards</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search guidance" className="w-44 bg-transparent text-sm outline-none placeholder:text-muted-foreground"/></label>
         </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {filtered.map(t => <button key={t.id} onClick={() => go(t.id)} className={`${t.accent} group min-h-40 cursor-pointer rounded-2xl p-5 text-left ring-1 ring-border transition-transform hover:-translate-y-1`}><div className="font-mono text-[11px] opacity-60">{t.n}</div><div className="mt-7 font-display text-xl font-bold">{t.title}</div><div className="mt-1 text-[13px] opacity-70">{t.note}</div></button>)}
-          {!filtered.length && <p className="col-span-full py-10 text-muted-foreground">No standards match “{query}”.</p>}
+        <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+          {[{ id: "all", title: "All" }, ...topics].map((t) => (
+            <Button key={t.id} variant={category === t.id ? "ink" : "outline"} size="sm" onClick={() => setCategory(t.id)} className="rounded-full">{t.title}</Button>
+          ))}
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((e) => (
+            <button key={e.title} onClick={() => go(e.cat)} className="group cursor-pointer rounded-2xl bg-paper p-5 text-left ring-1 ring-border transition-transform hover:-translate-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <span className="rounded-full bg-coral/10 px-2.5 py-1 font-mono text-[10px] uppercase text-coral">{catTitle(e.cat)}</span>
+                <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+              </div>
+              <div className="mt-4 font-display text-lg font-bold">{e.title}</div>
+              <div className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{e.note}</div>
+            </button>
+          ))}
+          {!filtered.length && (
+            <div className="col-span-full rounded-2xl bg-paper py-12 text-center ring-1 ring-border">
+              <p className="text-muted-foreground">No standards match {query ? `“${query}”` : "this filter"}.</p>
+              <Button variant="outline" size="sm" className="mt-4 rounded-full" onClick={() => { setQuery(""); setCategory("all"); }}>Clear filters</Button>
+            </div>
+          )}
         </div>
       </section>
 
