@@ -1,8 +1,8 @@
 ---
-name: minzazaazazaminzazazaza
-description: Minzazaazazaminzazazaza encoding — splits plaintext into sixteen pieces (four rounds of halving, keys a111…b222), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAMINZAZAZA under 16 characters. The site's default delivery. Use when a request asks for Minzazaazazaminzazazaza or sixteen-piece MIN-family delivery.
+name: minzazazazaminzazazaza
+description: Minzazazazaminzazazaza encoding — splits plaintext into sixteen pieces (four rounds of halving, keys a111…b222), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAMINZAZAZA under 16 characters. The site's default delivery. Use when a request asks for Minzazazazaminzazazaza or sixteen-piece MIN-family delivery.
 ---
-# Minzazaazazaminzazazaza
+# Minzazazazaminzazazaza
 
 Successor to MINZAZAZAMINZAZAZA. MINMIN, MINAMINA, MINZAMINZA, MINZAZAMINZAZA and MINZAZAZAMINZAZAZA stay saved.
 
@@ -11,7 +11,7 @@ Successor to MINZAZAZAMINZAZAZA. MINMIN, MINAMINA, MINZAMINZA, MINZAZAMINZAZA an
 2. Gate: the pieces joined must equal PLAINTEXT.
 3. Seed mulberry32 with Date.now(); roll sixteen n values (1–13) in key order.
 4. Per piece: zlib → dictionary + index minify (gated round trip) → CRC13 (poly 0x1CF5, init 0) → ROTn on letters.
-5. Send `{v:"minzazaazazaminzazazaza1", a111:{n,crc13,rotn}, … b222:{…}}`.
+5. Send `{v:"minzazazazaminzazazaza1", a111:{n,crc13,rotn}, … b222:{…}}`.
 
 ## Fallback
 Fewer than 16 code points → MINZAZAZAMINZAZAZA (→ MINZAZAMINZAZA under 8 → MINZAMINZA under 4 → MINAMINA under 2). Empty text throws.
