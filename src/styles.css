@@ -108,6 +108,38 @@
   font-family: var(--font-body);
 }
 
+/* Optional Russian reading modes; the existing editorial treatment remains the default. */
+.locale-ru[data-ru-script="ustav"] main p,
+.locale-ru[data-ru-script="ustav"] main li,
+.locale-ru[data-ru-script="ustav"] main h2,
+.locale-ru[data-ru-script="ustav"] main h3 {
+  font-family: "FreeSerif", serif;
+  font-weight: 600;
+  font-variant-caps: small-caps;
+  line-height: 1.7;
+}
+
+.locale-ru[data-ru-script="ustav"] main h2,
+.locale-ru[data-ru-script="ustav"] main h3 {
+  text-transform: uppercase;
+}
+
+.locale-ru[data-ru-script="vyaz"] main h2,
+.locale-ru[data-ru-script="vyaz"] main h3,
+.locale-ru[data-ru-script="vyaz"] main article > div:not([class*="font-mono"]) {
+  font-family: "FreeSerif", serif;
+  font-variant-caps: small-caps;
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.locale-ru[data-ru-script="vyaz"] main p,
+.locale-ru[data-ru-script="vyaz"] main li {
+  font-family: "FreeSerif", serif;
+  line-height: 1.65;
+}
+
 @utility dot-grid {
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 22px 22px;
