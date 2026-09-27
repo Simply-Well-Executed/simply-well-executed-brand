@@ -105,9 +105,3 @@
   margin-left: auto;
   margin-right: 0;
 }
-.anchor-right .flex {
-  justify-content: flex-end;
-}
-.anchor-right .grid {
-  direction: ltr;
-}
