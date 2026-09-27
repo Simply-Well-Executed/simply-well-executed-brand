@@ -182,18 +182,18 @@ function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChan
   }, [open]);
 
   return (
-    <div ref={root} className="absolute end-5 top-4 z-20 lg:end-8 lg:top-6">
+    <div ref={root} className="relative -ms-2 me-1 shrink-0 self-start">
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon"
-        className="size-9 rounded-full bg-background/90 shadow-sm backdrop-blur"
+        className="size-5 rounded-full p-0 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
         aria-label={`Выбрать начертание: ${selectedLabel}`}
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
       >
-        <ChevronDown className={`size-4 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`size-3 transition-transform ${open ? "rotate-180" : ""}`} />
       </Button>
       {open && (
         <div role="menu" aria-label="Начертание русского текста" className="absolute end-0 mt-2 w-56 overflow-hidden rounded-lg border border-border bg-paper p-1 shadow-lg">
@@ -252,6 +252,10 @@ export function StandardsPage({ locale }: { locale: Locale }) {
   const [category, setCategory] = useState("all");
   const [activePattern, setActivePattern] = useState(0);
   const [russianScript, setRussianScript] = useState<RussianScript>("default");
+  useEffect(() => {
+    const stored = localStorage.getItem("swe-ru-script");
+    if (stored === "default" || stored === "ustav" || stored === "vyaz") setRussianScript(stored);
+  }, []);
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return library.filter((e) =>
@@ -262,13 +266,18 @@ export function StandardsPage({ locale }: { locale: Locale }) {
   const catTitle = (id: string) => topics.find((t) => t.id === id)?.title ?? id;
 
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
+  const chooseRussianScript = (script: RussianScript) => {
+    localStorage.setItem("swe-ru-script", script);
+    setRussianScript(script);
+    if (locale !== "ru") window.location.assign("/ru");
+  };
 
   return <div lang={locale} dir={info.dir} data-locale={locale} data-ru-script={locale === "ru" ? russianScript : undefined} className={`min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${locale === "ru" ? "locale-ru" : ""}`}>
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex min-w-0 gap-1 overflow-x-auto rounded-full border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <Link key={id} to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>)}</div>
+          <div className="flex min-w-0 items-center gap-1 overflow-x-auto rounded-full border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <div key={id} className="flex shrink-0 items-center"><Link to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>{id === "ru" && <RussianScriptPicker value={russianScript} onChange={chooseRussianScript} />}</div>)}</div>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
@@ -278,7 +287,6 @@ export function StandardsPage({ locale }: { locale: Locale }) {
     <main data-minmin={minmin}>
       <section id="overview" className="relative overflow-hidden border-b border-border">
         <div className="dot-grid absolute inset-0 opacity-60" />
-        {locale === "ru" && <RussianScriptPicker value={russianScript} onChange={setRussianScript} />}
         <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
           <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span>{tr("Public operating standards")}</span> <span className="h-px w-8 bg-border" /> <bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
           <h1 className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
