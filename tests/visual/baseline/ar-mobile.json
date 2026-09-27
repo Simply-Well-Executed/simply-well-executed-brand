@@ -14,32 +14,17 @@
   "sequence"
  ],
  "headerOrder": [
-  "BUTTON:Simply Well Executed home",
-  "NAV:Main navigation",
+  "BUTTON:\u0627\u0644\u0635\u0641\u062d\u0629 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629 \u0644\u0640 Simply Well Executed",
+  "NAV:\u0627\u0644\u062a\u0646\u0642\u0644 \u0627\u0644\u0631\u0626\u064a\u0633\u064a",
   "DIV"
  ],
+ "untranslatedTokens": [],
  "scrollWidth": 390,
  "innerWidth": 390,
  "els": {
-  "header.logo": {
-   "x": 228,
-   "y": 17,
-   "w": 142,
-   "h": 30,
-   "align": "center",
-   "dir": "rtl"
-  },
-  "header.lang": {
-   "x": 64,
-   "y": 16,
-   "w": 148,
-   "h": 32,
-   "align": "start",
-   "dir": "rtl"
-  },
   "h1": {
    "x": 20,
-   "y": 170,
+   "y": 186,
    "w": 350,
    "h": 104,
    "align": "start",
@@ -49,21 +34,21 @@
    "x": 0,
    "y": 65,
    "w": 390,
-   "h": 674,
+   "h": 690,
    "align": "start",
    "dir": "rtl"
   },
   "section#foundations": {
    "x": 0,
-   "y": 739,
+   "y": 755,
    "w": 390,
-   "h": 3710,
+   "h": 3649,
    "align": "start",
    "dir": "rtl"
   },
   "h2#foundations": {
    "x": 20,
-   "y": 867,
+   "y": 884,
    "w": 350,
    "h": 40,
    "align": "start",
@@ -71,7 +56,7 @@
   },
   "section#intelligence": {
    "x": 0,
-   "y": 4449,
+   "y": 4404,
    "w": 390,
    "h": 1047,
    "align": "start",
@@ -79,7 +64,7 @@
   },
   "h2#intelligence": {
    "x": 20,
-   "y": 4578,
+   "y": 4534,
    "w": 350,
    "h": 91,
    "align": "start",
@@ -87,31 +72,31 @@
   },
   "section#patterns": {
    "x": 0,
-   "y": 5495,
+   "y": 5451,
    "w": 390,
-   "h": 670,
+   "h": 629,
    "align": "start",
    "dir": "rtl"
   },
   "section#content": {
    "x": 0,
-   "y": 6165,
+   "y": 6079,
    "w": 390,
-   "h": 841,
+   "h": 793,
    "align": "start",
    "dir": "rtl"
   },
   "h2#content": {
    "x": 20,
-   "y": 6295,
+   "y": 6209,
    "w": 350,
-   "h": 96,
+   "h": 48,
    "align": "start",
    "dir": "rtl"
   },
   "section#accessibility": {
    "x": 0,
-   "y": 7006,
+   "y": 6872,
    "w": 390,
    "h": 681,
    "align": "start",
@@ -119,7 +104,7 @@
   },
   "h2#accessibility": {
    "x": 20,
-   "y": 7134,
+   "y": 7000,
    "w": 350,
    "h": 96,
    "align": "start",
@@ -127,7 +112,7 @@
   },
   "section#identity": {
    "x": 0,
-   "y": 7686,
+   "y": 7552,
    "w": 390,
    "h": 1219,
    "align": "start",
@@ -135,23 +120,23 @@
   },
   "section#resources": {
    "x": 0,
-   "y": 8905,
+   "y": 8771,
    "w": 390,
-   "h": 1077,
+   "h": 1109,
    "align": "start",
    "dir": "rtl"
   },
   "section#demo": {
    "x": 0,
-   "y": 9982,
+   "y": 9880,
    "w": 390,
-   "h": 1069,
+   "h": 1089,
    "align": "start",
    "dir": "rtl"
   },
   "h2#demo": {
    "x": 20,
-   "y": 10111,
+   "y": 10009,
    "w": 350,
    "h": 91,
    "align": "start",
@@ -159,17 +144,17 @@
   },
   "section#sequence": {
    "x": 0,
-   "y": 11051,
+   "y": 10969,
    "w": 390,
-   "h": 848,
+   "h": 757,
    "align": "start",
    "dir": "rtl"
   },
   "h2#sequence": {
    "x": 20,
-   "y": 11180,
+   "y": 11099,
    "w": 350,
-   "h": 137,
+   "h": 46,
    "align": "start",
    "dir": "rtl"
   }

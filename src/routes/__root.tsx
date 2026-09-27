@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -92,10 +93,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?display=swap" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Noto+Sans+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Hebrew:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+Thai:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+TC:wght@400;700&family=Noto+Sans+Egyptian+Hieroglyphs&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -105,8 +102,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const locale = pathname === "/ar" ? "ar" : pathname === "/he" ? "he" : "en";
+  const direction = locale === "en" ? "ltr" : "rtl";
   return (
-    <html lang="en">
+    <html lang={locale} dir={direction}>
       <head>
         <HeadContent />
       </head>

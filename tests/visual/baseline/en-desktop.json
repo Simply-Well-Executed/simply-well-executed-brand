@@ -18,21 +18,14 @@
   "NAV:Main navigation",
   "DIV"
  ],
+ "untranslatedTokens": [],
  "scrollWidth": 1280,
  "innerWidth": 1280,
  "els": {
-  "header.logo": {
-   "x": 32,
-   "y": 20,
-   "w": 163,
-   "h": 24,
-   "align": "center",
-   "dir": "ltr"
-  },
   "header.lang": {
-   "x": 859,
+   "x": 858,
    "y": 16,
-   "w": 148,
+   "w": 149,
    "h": 32,
    "align": "start",
    "dir": "ltr"

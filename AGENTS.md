@@ -12,4 +12,4 @@
 - The brand website is a single-page, searchable standards library with anchored topic sections; this keeps marketing and operating guidance in one public reference surface.
 - Brand downloads are generated static files served from `public/downloads`; this keeps user-facing resources reliable without a backend.
 
-- Locale (en/ar/he) sets <html lang/dir> client-side and persists in localStorage; use logical Tailwind classes (ms/ps/text-start) so RTL mirrors automatically.
+- English `/`, Arabic `/ar`, and Hebrew `/he` share one standards-page component and locale dictionary; dedicated URLs keep localization crawlable while logical CSS and isolated mixed-direction fragments preserve natural RTL.

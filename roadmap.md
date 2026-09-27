@@ -17,3 +17,11 @@
 - [ ] Add prospect email delivery for generated sample sequences
 - [ ] Regenerate downloadable brand guide with FreeSerif, FreeSans, and FreeMono
 - [ ] Verify all locales and downloadable guide
+
+## 2026-09-27 — Dedicated localized pages and FreeFont guide
+- [x] Ship dedicated `/`, `/ar`, and `/he` pages from one shared standards-page system.
+- [x] Translate library entries, standards, identity/resources, demo form, and sample-sequence interface into Arabic and Hebrew.
+- [x] Apply native RTL at the document root and isolate mixed-direction identifiers.
+- [x] Add direct-route desktop/mobile visual baselines for all three locales.
+- [x] Rebuild the three-page downloadable brand guide with FreeSerif, FreeSans, and FreeMono.
+- [ ] Add explicit review-and-send email delivery after a sender domain is configured and verified.
