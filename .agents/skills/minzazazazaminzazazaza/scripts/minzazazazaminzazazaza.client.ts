@@ -1,4 +1,4 @@
-// @ts-nocheck -- shared verbatim with the Minzazaazazaminzazazaza skill script
+// @ts-nocheck -- shared verbatim with the Minzazazazaminzazazaza skill script
 // Browser side: sixteen pieces each EBCn → CRC13 → draw → inflate, joined in order. Accepts all older packet versions.
 import { minzaminzaDecode } from "./minzaminza-decode";
 import { minzazazaminzazazaDecode } from "./minzazazaminzazaza-decode";

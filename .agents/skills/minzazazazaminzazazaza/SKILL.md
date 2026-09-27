@@ -1,8 +1,8 @@
 ---
 name: minzazazazaminzazazaza
-description: Minzazaazazaminzazazaza encoding — splits plaintext into sixteen pieces (four rounds of halving, keys a111…b222), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAMINZAZAZA under 16 characters. The site's default delivery. Use when a request asks for Minzazaazazaminzazazaza or sixteen-piece MIN-family delivery.
+description: Minzazazazaminzazazaza encoding — splits plaintext into sixteen pieces (four rounds of halving, keys a111…b222), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAMINZAZAZA under 16 characters. The site's default delivery. Use when a request asks for Minzazazazaminzazazaza or sixteen-piece MIN-family delivery.
 ---
-# Minzazaazazaminzazazaza
+# Minzazazazaminzazazaza
 
 Successor to MINZAZAZAMINZAZAZA. MINMIN, MINAMINA, MINZAMINZA, MINZAZAMINZAZA and MINZAZAZAMINZAZAZA stay saved.
 
