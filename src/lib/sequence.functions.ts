@@ -4,7 +4,7 @@ import { z } from "zod";
 const schema = z.object({
   product: z.string().trim().min(2).max(300),
   audience: z.string().trim().min(2).max(300),
-  language: z.enum(["en", "ar", "he"]),
+  language: z.enum(["en", "ar", "he", "ru"]),
 });
 
 export const generateSalesSequence = createServerFn({ method: "POST" })

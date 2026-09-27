@@ -14,11 +14,11 @@ from pathlib import Path
 from PIL import Image, ImageChops
 from playwright.async_api import async_playwright
 
-URLS = {"en": "http://localhost:8080/", "ar": "http://localhost:8080/ar", "he": "http://localhost:8080/he"}
+URLS = {"en": "http://localhost:8080/", "ar": "http://localhost:8080/ar", "he": "http://localhost:8080/he", "ru": "http://localhost:8080/ru"}
 HERE = Path(__file__).parent
 BASE = HERE / "baseline"
 OUT = HERE / "output"
-LOCALES = {"en": "ltr", "ar": "rtl", "he": "rtl"}
+LOCALES = {"en": "ltr", "ar": "rtl", "he": "rtl", "ru": "ltr"}
 VIEWPORTS = {"desktop": (1280, 1800), "mobile": (390, 844)}
 TOL_PX = 4
 MAX_PIXEL_DIFF = 0.01  # 1% of pixels

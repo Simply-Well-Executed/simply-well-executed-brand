@@ -12,4 +12,5 @@
 - The brand website is a single-page, searchable standards library with anchored topic sections; this keeps marketing and operating guidance in one public reference surface.
 - Brand downloads are generated static files served from `public/downloads`; this keeps user-facing resources reliable without a backend.
 
-- English `/`, Arabic `/ar`, and Hebrew `/he` share one standards-page component and locale dictionary; dedicated URLs keep localization crawlable while logical CSS and isolated mixed-direction fragments preserve natural RTL.
+- English `/`, Arabic `/ar`, Hebrew `/he`, and Russian `/ru` share one standards-page component and locale dictionary; dedicated URLs keep localization crawlable while logical CSS and isolated mixed-direction fragments preserve natural RTL.
+- Russian uses a FreeSerif-led editorial reading treatment within the shared brand system; this creates a formal typographic cadence without copying another site's identity.

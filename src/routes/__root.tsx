@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { localeInfo, type Locale } from "../lib/locales";
 
 function NotFoundComponent() {
   return (
@@ -103,8 +104,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const locale = pathname === "/ar" ? "ar" : pathname === "/he" ? "he" : "en";
-  const direction = locale === "en" ? "ltr" : "rtl";
+  const locale: Locale = pathname === "/ar" ? "ar" : pathname === "/he" ? "he" : pathname === "/ru" ? "ru" : "en";
+  const direction = localeInfo[locale].dir;
   return (
     <html lang={locale} dir={direction}>
       <head>
