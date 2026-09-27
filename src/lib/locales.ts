@@ -1,4 +1,4 @@
-export type Locale = "en" | "ar" | "he" | "ru" | "zh" | "ko" | "cs";
+export type Locale = "en" | "ar" | "he" | "ru" | "zh" | "ko" | "cs" | "ja" | "el" | "it" | "es" | "pt" | "fr" | "sv" | "sw";
 
 const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
   "ar": {
@@ -1293,6 +1293,54 @@ const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
     "See it applied to your work.": "Podívejte se na aplikaci ve vaší práci.",
     "Your pitch, in their language.": "Vaše prodejní sdělení v jejich jazyce.",
     "Standards Rev 1.0 · Built to be reviewed": "Standardy Rev 1.0 · Vytvořeno k revizi"
+  },
+  ja: {
+    "Built for review, not awe.": "感嘆のためではなく、レビューのために作られています。",
+    "See it applied to your work.": "あなたの仕事への適用例をご覧ください。",
+    "Your pitch, in their language.": "あなたのピッチを、相手の言語で。",
+    "Standards Rev 1.0 · Built to be reviewed": "標準 Rev 1.0 · レビューのために構築"
+  },
+  el: {
+    "Built for review, not awe.": "Φτιαγμένο για έλεγχο, όχι για θαυμασμό.",
+    "See it applied to your work.": "Δείτε την εφαρμογή του στη δουλειά σας.",
+    "Your pitch, in their language.": "Το πιτς σας, στη γλώσσα τους.",
+    "Standards Rev 1.0 · Built to be reviewed": "Πρότυπα Rev 1.0 · Φτιαγμένα για έλεγχο"
+  },
+  it: {
+    "Built for review, not awe.": "Fatto per essere revisionato, non per stupire.",
+    "See it applied to your work.": "Guardalo applicato al tuo lavoro.",
+    "Your pitch, in their language.": "Il tuo pitch, nella loro lingua.",
+    "Standards Rev 1.0 · Built to be reviewed": "Standard Rev 1.0 · Fatti per essere revisionati"
+  },
+  es: {
+    "Built for review, not awe.": "Hecho para revisarse, no para impresionar.",
+    "See it applied to your work.": "Míralo aplicado a tu trabajo.",
+    "Your pitch, in their language.": "Tu propuesta, en su idioma.",
+    "Standards Rev 1.0 · Built to be reviewed": "Estándares Rev 1.0 · Hechos para revisarse"
+  },
+  pt: {
+    "Built for review, not awe.": "Feito para ser revisto, não para impressionar.",
+    "See it applied to your work.": "Veja-o aplicado ao seu trabalho.",
+    "Your pitch, in their language.": "O seu pitch, na língua deles.",
+    "Standards Rev 1.0 · Built to be reviewed": "Padrões Rev 1.0 · Feitos para serem revistos"
+  },
+  fr: {
+    "Built for review, not awe.": "Conçu pour être relu, pas pour impressionner.",
+    "See it applied to your work.": "Voyez-le appliqué à votre travail.",
+    "Your pitch, in their language.": "Votre argumentaire, dans leur langue.",
+    "Standards Rev 1.0 · Built to be reviewed": "Normes Rev 1.0 · Conçues pour être relues"
+  },
+  sv: {
+    "Built for review, not awe.": "Byggd för granskning, inte för att imponera.",
+    "See it applied to your work.": "Se den tillämpad på ditt arbete.",
+    "Your pitch, in their language.": "Din pitch, på deras språk.",
+    "Standards Rev 1.0 · Built to be reviewed": "Standarder Rev 1.0 · Byggda för granskning"
+  },
+  sw: {
+    "Built for review, not awe.": "Imejengwa kwa ukaguzi, si kwa mshangao.",
+    "See it applied to your work.": "Uone ikitekelezwa katika kazi yako.",
+    "Your pitch, in their language.": "Uwasilishaji wako, kwa lugha yao.",
+    "Standards Rev 1.0 · Built to be reviewed": "Viwango Rev 1.0 · Vimejengwa kwa ukaguzi"
   }
 };
 
@@ -1304,6 +1352,14 @@ export const localeInfo = {
   zh: { label: "Taipei", dir: "ltr", path: "/zh" },
   ko: { label: "한국어", dir: "ltr", path: "/ko" },
   cs: { label: "Čeština", dir: "ltr", path: "/cs" },
+  ja: { label: "日本語", dir: "ltr", path: "/ja" },
+  el: { label: "Ελληνικά", dir: "ltr", path: "/el" },
+  it: { label: "Italiano", dir: "ltr", path: "/it" },
+  es: { label: "Español", dir: "ltr", path: "/es" },
+  pt: { label: "Português", dir: "ltr", path: "/pt" },
+  fr: { label: "Français", dir: "ltr", path: "/fr" },
+  sv: { label: "Svenska", dir: "ltr", path: "/sv" },
+  sw: { label: "Kiswahili", dir: "ltr", path: "/sw" },
 } as const;
 
 export function translate(locale: Locale, source: string | undefined): string {
@@ -1312,7 +1368,7 @@ export function translate(locale: Locale, source: string | undefined): string {
   return overrides[locale][source] ?? translations[locale][source] ?? source;
 }
 
-export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", ko: "ko", cs: "cs" };
+export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", ko: "ko", cs: "cs", ja: "ja", el: "el", it: "it", es: "es", pt: "pt", fr: "fr", sv: "sv", sw: "sw" };
 export const SITE = "https://simpwellx.com";
 export function alternateLinks() {
   const links = (Object.keys(localeInfo) as Locale[]).map((l) => ({ rel: "alternate", hrefLang: hreflang[l], href: SITE + (localeInfo[l].path === "/" ? "/" : localeInfo[l].path) }));
