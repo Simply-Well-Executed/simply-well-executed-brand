@@ -149,7 +149,6 @@ const STRINGS: Record<Locale, Record<string, string>> = {
 function Index() {
   const [locale, setLocale] = useState<Locale>("en");
   useEffect(() => { const saved = localStorage.getItem("swe-locale") as Locale | null; if (saved && STRINGS[saved]) setLocale(saved); }, []);
-  const isRtl = locale === "ar" || locale === "he";
   useEffect(() => {
     const l = LOCALES.find((x) => x.id === locale)!;
     document.documentElement.lang = l.id;
@@ -173,7 +172,7 @@ function Index() {
 
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
 
-  return <div className={`min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${isRtl ? "anchor-right" : ""}`}>
+  return <div className="min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground">
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label="Simply Well Executed home"><Logo /></button>
@@ -195,11 +194,11 @@ function Index() {
       <section id="overview" className="relative overflow-hidden border-b border-border">
         <div className="dot-grid absolute inset-0 opacity-60" />
         <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
-          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span dir={isRtl ? "rtl" : undefined}>{tr("eyebrow")}</span> <span className="h-px w-8 bg-border" /> Rev 1.0 · 2026</div>
-          <h1 dir="ltr" className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
+          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span>{tr("eyebrow")}</span> <span className="h-px w-8 bg-border" /> Rev 1.0 · 2026</div>
+          <h1 className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
           <div className="mt-12 grid items-end gap-8 lg:grid-cols-12">
             <div className="rise-in lg:col-span-6 [animation-delay:160ms]">
-<p dir={isRtl ? "rtl" : undefined} className="max-w-[48ch] text-xl leading-relaxed">{tr("lede")}</p>
+<p className="max-w-[48ch] text-xl leading-relaxed">{tr("lede")}</p>
               <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>{tr("explore")} <ArrowRight /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">{tr("resources")} <Download /></Button></div>
             </div>
             <div className="rise-in grid grid-cols-3 overflow-hidden rounded-2xl bg-border ring-1 ring-border lg:col-span-6 [animation-delay:240ms]">

@@ -94,14 +94,3 @@
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
-/* Right-anchored layout for Arabic/Hebrew: no mirroring, content hugs the right edge */
-.anchor-right {
-  text-align: right;
-}
-.anchor-right h1,
-.anchor-right .max-w-\[48ch\],
-.anchor-right .max-w-\[46ch\],
-.anchor-right .max-w-\[52ch\] {
-  margin-left: auto;
-  margin-right: 0;
-}
