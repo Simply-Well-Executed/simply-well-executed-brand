@@ -35,8 +35,11 @@ export function runGate(locale: L) {
     if (/\uFFFD|Ã.|â€/.test(out)) failures.push(`mojibake: ${tag}`);
     if (/\{\{|\}\}|TODO|TRANSLATE|lorem/i.test(out)) failures.push(`placeholder leak: ${tag}`);
     // Numbers and codes must survive translation unchanged.
-    const nums = (s: string) => (s.replace(/(\d)[,.\s\u00A0\u202F](?=\d{3})/g, "$1").match(/\d+/g) ?? []).sort().join(",");
-    if (nums(src) !== nums(out) && !["ar"].includes(locale)) failures.push(`number mismatch: ${tag}`);
+    // Numbers must survive: no invented figures (spelled-out 1–10 may become digits, or vice-versa).
+    const nums = (x: string) => x.replace(/(\d)[,.\s\u00A0\u202F](?=\d{3})/g, "$1").match(/\d+/g) ?? [];
+    const srcN = nums(src), outN = nums(out);
+    if (outN.some((n) => !srcN.includes(n) && Number(n) > 10) || srcN.some((n) => !outN.includes(n) && Number(n) > 10))
+      failures.push(`number mismatch: ${tag}`);
     if (src.includes("Simply Well Executed") && !out.includes("Simply Well Executed")) failures.push(`brand name altered: ${tag}`);
 
     const body = letters(out);
@@ -50,7 +53,7 @@ export function runGate(locale: L) {
       if (tells >= 3) failures.push(`English leftovers (${tells} words): ${tag}`);
     }
     // RTL: no stray LTR punctuation-only runs that break reading order.
-    if ((locale === "ar" || locale === "he") && /^[A-Za-z]/.test(out) && !/^Simply/.test(out)) {
+    if ((locale === "ar" || locale === "he") && /^[A-Za-z]/.test(out.replace(KEEP, "").trim().replace(/^[\s\p{P}\p{S}]+/u, ""))) {
       failures.push(`RTL string starts with Latin text: ${tag}`);
     }
   }
