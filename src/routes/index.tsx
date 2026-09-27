@@ -137,13 +137,13 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 type Locale = "en" | "ar" | "he";
-const LOCALES: { id: Locale; label: string; dir: "ltr" | "rtl" }[] = [
-  { id: "en", label: "EN", dir: "ltr" }, { id: "ar", label: "العربية", dir: "rtl" }, { id: "he", label: "עברית", dir: "rtl" },
+const LOCALES: { id: Locale; label: string }[] = [
+  { id: "en", label: "EN" }, { id: "ar", label: "العربية" }, { id: "he", label: "עברית" },
 ];
 const STRINGS: Record<Locale, Record<string, string>> = {
   en: { eyebrow: "Public operating standards", lede: "AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.", explore: "Explore standards", resources: "Brand resources", demo: "Request a demo", kit: "Get the kit", foundations: "Foundations", intelligence: "Intelligence", patterns: "Patterns", content: "Content", accessibility: "Accessibility", identity: "Identity", Resources: "Resources", DOMAINS: "DOMAINS", PRINCIPLES: "PRINCIPLES", ASSETS: "ASSETS" },
   ar: { eyebrow: "معايير تشغيل عامة", lede: "عمل الذكاء الاصطناعي، جاهز للتشغيل. نساعد فرق الأعمال على تحويل الغموض إلى إجراءات واضحة قابلة للمراجعة.", explore: "استكشف المعايير", resources: "موارد العلامة", demo: "اطلب عرضًا توضيحيًا", kit: "حمّل الحزمة", foundations: "الأسس", intelligence: "الذكاء", patterns: "الأنماط", content: "المحتوى", accessibility: "إمكانية الوصول", identity: "الهوية", Resources: "الموارد", DOMAINS: "المجالات", PRINCIPLES: "المبادئ", ASSETS: "الأصول" },
-  he: { eyebrow: "תקני תפעול ציבוריים", lede: "עבודת בינה מלאכותית, מוכנה לתפעול. אנו עוזרים לצוותים עסקיים להפוך עמימות לפעולה ברורה שניתן לבדוק.", explore: "גלו את התקנים", resources: "משאבי המותג", demo: "בקשו הדגמה", kit: "הורידו את הערכה", foundations: "יסודות", intelligence: "בינה", patterns: "דפוסים", content: "תוכן", accessibility: "נגישות", identity: "זהות", Resources: "משאבים", DOMAINS: "תחומים", PRINCIPLES: "עקרונות", ASSETS: "נכסים" },
+  he: { eyebrow: "תקני תפעול ציבוריים", lede: "עבודת בינה מלאכותית, מוכנה לתפעול. אנו עוזרים לצוותים עסקיים להפוך עמימות לפעולה ברורה וניתנת לבדיקה.", explore: "גלו את התקנים", resources: "משאבי המותג", demo: "בקשו הדגמה", kit: "הורידו את הערכה", foundations: "יסודות", intelligence: "בינה", patterns: "דפוסים", content: "תוכן", accessibility: "נגישות", identity: "זהות", Resources: "משאבים", DOMAINS: "תחומים", PRINCIPLES: "עקרונות", ASSETS: "נכסים" },
 };
 
 function Index() {
@@ -152,7 +152,7 @@ function Index() {
   useEffect(() => {
     const l = LOCALES.find((x) => x.id === locale)!;
     document.documentElement.lang = l.id;
-    document.documentElement.dir = "ltr"; // never mirror the layout; right-anchor instead
+    document.documentElement.dir = "ltr"; // never mirror or re-anchor the layout; only the words change
     localStorage.setItem("swe-locale", l.id);
   }, [locale]);
   const tr = (k: string) => STRINGS[locale][k] ?? STRINGS.en[k] ?? k;
@@ -284,6 +284,6 @@ function Index() {
       </section>
     </main>
 
-    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">Request a demo</button></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed</div></div></footer>
+    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">Request a demo</button></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
   </div>;
 }
