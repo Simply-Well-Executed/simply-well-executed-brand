@@ -442,7 +442,8 @@ export const localeInfo = {
   he: { label: "עברית", dir: "rtl", path: "/he" },
 } as const;
 
-export function translate(locale: Locale, source: string): string {
+export function translate(locale: Locale, source: string | undefined): string {
+  if (!source) return "";
   if (locale === "en") return source;
   return overrides[locale][source] ?? translations[locale][source] ?? source;
 }
