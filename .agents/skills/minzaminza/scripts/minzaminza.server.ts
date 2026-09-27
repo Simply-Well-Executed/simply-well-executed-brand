@@ -55,6 +55,7 @@ export function split(text: string): [string, string] {
 }
 
 export function minzaminzaEncode(text: string, now: number = Date.now()): MinzaminzaPacket {
+  if (Array.from(text).length < 2) throw new Error("MINZAMINZA: PLAINTEXT must be at least 2 characters to split");
   const [pa, pb] = split(text);
   if (pa + pb !== text) throw new Error("MINZAMINZA split gate failed");
   const rand = mulberry32(now);

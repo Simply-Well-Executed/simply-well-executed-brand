@@ -62,7 +62,9 @@ async function minminDeliver(request: Request, res: Response): Promise<Response>
   if (open < 0 || close < 0) return new Response(html, { status: res.status, headers });
   const tagEnd = html.indexOf(">", open) + 1;
   const { minzaminzaEncode } = await import("./lib/minzaminza.server");
-  const packet = JSON.stringify(minzaminzaEncode(html.slice(tagEnd, close))).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
+  const body = html.slice(tagEnd, close);
+  if (Array.from(body).length < 2) return new Response(html, { status: res.status, headers }); // too short for MINZAMINZA
+  const packet = JSON.stringify(minzaminzaEncode(body)).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
   const out = html.slice(0, tagEnd - 1) + ` data-minmin-packet='${packet}'>` + "</main><script>" + MINMIN_DECODER + "</script>" + html.slice(close + 7);
   headers.delete("content-length");
   return new Response(out, { status: res.status, headers });
