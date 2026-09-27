@@ -163,7 +163,7 @@ const russianScripts: { id: RussianScript; label: string; note: string }[] = [
 function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChange: (value: RussianScript) => void }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
-  const selected = russianScripts.find((script) => script.id === value) ?? russianScripts[0];
+  const selectedLabel = russianScripts.find((script) => script.id === value)?.label ?? "Современный";
 
   useEffect(() => {
     if (!open) return;
@@ -188,7 +188,7 @@ function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChan
         variant="outline"
         size="icon"
         className="size-9 rounded-full bg-background/90 shadow-sm backdrop-blur"
-        aria-label={`Выбрать начертание: ${selected.label}`}
+        aria-label={`Выбрать начертание: ${selectedLabel}`}
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
