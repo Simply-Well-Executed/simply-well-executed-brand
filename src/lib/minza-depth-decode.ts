@@ -1,4 +1,4 @@
-// @ts-nocheck -- generic browser decoder for MIN-family levels 5–18; older versions delegate.
+// @ts-nocheck -- generic browser decoder for MIN-family levels 5–256; older versions delegate.
 import { minzaminzaDecode } from "./minzaminza-decode";
 import { minzazazazaminzazazazaDecode } from "./minzazazazaminzazazaza-decode";
 

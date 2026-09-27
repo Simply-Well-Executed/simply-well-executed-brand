@@ -1,8 +1,8 @@
 import { dateRolls, piece, split, type MinzaHalf } from "./minzaminza.server";
 import { minzazazazaminzazazazaEncode, type AnyMinPacket as AnyMinPacket16 } from "./minzazazazaminzazazaza.server";
 
-/** MIN-family level d: 2^d pieces. Name = MIN + ZA×d + MIN + ZA×d. Levels 5–18 are generated here. */
-export const MINZA_MAX_DEPTH = 18;
+/** MIN-family level d: 2^d pieces. Name = MIN + ZA×d + MIN + ZA×d. Levels 5–256 are generated here. */
+export const MINZA_MAX_DEPTH = 256;
 export const minzaName = (d: number) => "min" + "za".repeat(d) + "min" + "za".repeat(d);
 export const minzaKeys = (d: number): string[] => {
   let keys = ["a", "b"];
