@@ -44,11 +44,11 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-// MINMIN delivery (mirrors the .htaccess rule the owner asked for):
+// MINAMINA delivery (supersedes MINMIN) (mirrors the .htaccess rule the owner asked for):
 // known search/social crawlers get the plain SSR page; every other visitor gets the
-// <main> copy as a ROT13+CRC13 packet that an inline decoder rebuilds in the browser.
+// <main> copy as a ROTn+CRC13 packet (n sent alongside) that an inline decoder rebuilds in the browser.
 const SEO_BOTS = /(googlebot|bingbot|yandex|baiduspider|yisouspider|yeti|sogou|seznambot|petalbot|duckduckbot|applebot|facebookexternalhit|twitterbot|linkedinbot|slackbot)/i;
-const MINMIN_DECODER = `(async()=>{const m=document.querySelector("main[data-minmin-packet]");if(!m)return;const p=JSON.parse(m.dataset.minminPacket);const r=s=>s.replace(/[a-z]/gi,c=>{const b=c<="Z"?65:97;return String.fromCharCode((c.charCodeAt(0)-b+13)%26+b)});const crc=s=>{let c=0;for(const b of new TextEncoder().encode(s))for(let i=7;i>=0;i--){const t=((b>>i)&1)^((c>>12)&1);c=(c<<1)&8191;if(t)c^=7413}return c};const min=r(p.rot13);if(crc(min)!==p.crc13){m.textContent="Integrity check failed — please reload.";return}const[d,x]=min.split(".");const u=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));const D=u(d),X=u(x);const bytes=Uint8Array.from(X,k=>D[k]);const t=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"))).text();m.innerHTML=t;m.removeAttribute("data-minmin-packet")})()`;
+const MINMIN_DECODER = `(async()=>{const m=document.querySelector("main[data-minmin-packet]");if(!m)return;const p=JSON.parse(m.dataset.minminPacket);const r=s=>s.replace(/[a-z]/gi,c=>{const b=c<="Z"?65:97;return String.fromCharCode((c.charCodeAt(0)-b+26-p.n)%26+b)});const crc=s=>{let c=0;for(const b of new TextEncoder().encode(s))for(let i=7;i>=0;i--){const t=((b>>i)&1)^((c>>12)&1);c=(c<<1)&8191;if(t)c^=7413}return c};if(!(p.n>=1&&p.n<=13))return;const min=r(p.rotn);if(crc(min)!==p.crc13){m.textContent="Integrity check failed — please reload.";return}const[d,x]=min.split(".");const u=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));const D=u(d),X=u(x);const bytes=Uint8Array.from(X,k=>D[k]);const t=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"))).text();m.innerHTML=t;m.removeAttribute("data-minmin-packet")})()`;
 
 async function minminDeliver(request: Request, res: Response): Promise<Response> {
   const url = new URL(request.url);
@@ -61,8 +61,8 @@ async function minminDeliver(request: Request, res: Response): Promise<Response>
   const open = html.search(/<main\b[^>]*>/), close = html.lastIndexOf("</main>");
   if (open < 0 || close < 0) return new Response(html, { status: res.status, headers });
   const tagEnd = html.indexOf(">", open) + 1;
-  const { minminEncode } = await import("./lib/minmin.server");
-  const packet = JSON.stringify(minminEncode(html.slice(tagEnd, close))).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
+  const { minaminaEncode } = await import("./lib/minamina.server");
+  const packet = JSON.stringify(minaminaEncode(html.slice(tagEnd, close))).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
   const out = html.slice(0, tagEnd - 1) + ` data-minmin-packet='${packet}'>` + "</main><script>" + MINMIN_DECODER + "</script>" + html.slice(close + 7);
   headers.delete("content-length");
   return new Response(out, { status: res.status, headers });

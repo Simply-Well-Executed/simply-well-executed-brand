@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { generateSalesSequence } from "@/lib/sequence.functions";
 import { getPagePacket } from "@/lib/minmin.functions";
-import { minminDecode } from "@/lib/minmin-decode";
+import { minaminaDecode } from "@/lib/minamina-decode";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { localeInfo, translate, alternateLinks, pageWording, type Locale } from "@/lib/locales";
@@ -113,7 +113,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
     setError(null); setBusy(true); setResult(null);
     try {
       const r = await run({ data: { product, audience, language } });
-      if (r.ok) setResult({ text: await minminDecode(r.packet), lang: language }); else setError(r.error);
+      if (r.ok) setResult({ text: await minaminaDecode(r.packet), lang: language }); else setError(r.error);
     } catch { setError(tr("Something went wrong generating your sequence. Please try again.")); }
     finally { setBusy(false); }
   };
@@ -161,7 +161,7 @@ function useMinminCheck(locale: Locale) {
   useEffect(() => {
     let live = true;
     fetchPacket({ data: { locale } })
-      .then(minminDecode)
+      .then(minaminaDecode)
       .then((text: string) => { if (live) setState(text === JSON.stringify(pageWording(locale)) ? "verified" : "failed"); })
       .catch(() => live && setState("failed"));
     return () => { live = false; };

@@ -7,7 +7,7 @@ const LOCALES = ["en", "ar", "he", "ru", "zh", "zh-hans", "ko", "cs", "ja", "el"
 export const getPagePacket = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ locale: z.enum(LOCALES) }).parse(d))
   .handler(async ({ data }) => {
-    const { minminEncode } = await import("./minmin.server");
+    const { minaminaEncode } = await import("./minamina.server");
     const { pageWording } = await import("./locales");
-    return minminEncode(JSON.stringify(pageWording(data.locale)));
+    return minaminaEncode(JSON.stringify(pageWording(data.locale)));
   });
