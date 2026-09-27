@@ -18,21 +18,14 @@
   "NAV:Main navigation",
   "DIV"
  ],
+ "untranslatedTokens": [],
  "scrollWidth": 390,
  "innerWidth": 390,
  "els": {
-  "header.logo": {
-   "x": 20,
-   "y": 17,
-   "w": 142,
-   "h": 30,
-   "align": "center",
-   "dir": "ltr"
-  },
   "header.lang": {
-   "x": 178,
+   "x": 177,
    "y": 16,
-   "w": 148,
+   "w": 149,
    "h": 32,
    "align": "start",
    "dir": "ltr"
@@ -161,7 +154,7 @@
    "x": 0,
    "y": 11067,
    "w": 390,
-   "h": 848,
+   "h": 803,
    "align": "start",
    "dir": "ltr"
   },
@@ -169,7 +162,7 @@
    "x": 20,
    "y": 11197,
    "w": 350,
-   "h": 137,
+   "h": 91,
    "align": "start",
    "dir": "ltr"
   }

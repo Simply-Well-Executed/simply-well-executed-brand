@@ -30,7 +30,7 @@ PROBE = """() => {
              align: cs.textAlign, dir: cs.direction }; };
   const els = {};
   const add = (key, el) => { if (el) els[key] = box(el); };
-  add("header.logo", document.querySelector('header button[aria-label="Simply Well Executed home"]'));
+  add("header.logo", document.querySelector('header a[aria-label]'));
   add("header.lang", document.querySelector('header [aria-label="Language"]'));
   add("h1", document.querySelector("h1"));
   pick("main > section").forEach((s) => { add("section#" + s.id, s); add("h2#" + s.id, s.querySelector("h2")); });
@@ -38,6 +38,7 @@ PROBE = """() => {
     dir: document.documentElement.dir, lang: document.documentElement.lang,
     sections: pick("main > section").map((s) => s.id),
     headerOrder: pick("header > div > *").map((e) => e.tagName + (e.getAttribute("aria-label") ? ":" + e.getAttribute("aria-label") : "")),
+    untranslatedTokens: (document.querySelector('main')?.innerText.match(/\b(eyebrow|lede|explore|resources|demo|kit)\b/g) || []),
     scrollWidth: document.documentElement.scrollWidth, innerWidth,
     els,
   };
@@ -55,7 +56,7 @@ async def capture(page, locale, vp):
     return await page.evaluate(PROBE), shot
 
 def compare(name, cur, base, errors):
-    for k in ("dir", "lang", "sections", "headerOrder"):
+    for k in ("dir", "lang", "sections", "headerOrder", "untranslatedTokens"):
         if cur[k] != base[k]:
             errors.append(f"{name}: {k} changed {base[k]} -> {cur[k]}")
     for key, b in base["els"].items():
@@ -91,6 +92,7 @@ async def main():
                 # invariants
                 if data["dir"] != expected_dir: errors.append(f"{name}: dir is {data['dir']}, expected {expected_dir}")
                 if data["scrollWidth"] > data["innerWidth"]: errors.append(f"{name}: horizontal overflow")
+                if data["untranslatedTokens"]: errors.append(f"{name}: unresolved translation tokens {data['untranslatedTokens']}")
                 logo = data["els"].get("header.logo")
                 if logo:
                     right_side = logo["x"] > w / 2
