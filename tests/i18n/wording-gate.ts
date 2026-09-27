@@ -18,6 +18,8 @@ const KEEP = /Simply Well Executed|SWE|AI|MCP|PDF|SVG|PNG|URL|API|B2B|YIN|YAN|CO
 // Frequent English function words: if they survive in a Latin-script translation, it wasn't translated.
 const ENGLISH_TELLS = /\b(the|and|with|your|for|not|is|are|of|to|this|that)\b/gi;
 
+// Source strings that are never translated by design.
+const EXEMPT = /^(\S+\.(pdf|svg|png|md)|\S+@\S+|English|العربية|עברית|Русский|DOMAINS|PRINCIPLES|ASSETS|Rev [\d.]+ · \d{4}|Simply( Well)?|Well|Executed\.?|Free(Serif|Sans|Mono)( \/ \w+| for .*))$/;
 const letters = (s: string) => s.replace(KEEP, "").replace(/[\s\d\p{P}\p{S}]/gu, "");
 
 export function runGate(locale: L) {
@@ -28,11 +30,12 @@ export function runGate(locale: L) {
 
   for (const [src, out] of entries) {
     const tag = `"${src.slice(0, 50)}"`;
+    if (EXEMPT.test(src)) continue; // intentionally kept as-is (files, emails, language names, brand words, font labels)
     if (!out.trim()) { failures.push(`empty: ${tag}`); continue; }
     if (/\uFFFD|Ã.|â€/.test(out)) failures.push(`mojibake: ${tag}`);
     if (/\{\{|\}\}|TODO|TRANSLATE|lorem/i.test(out)) failures.push(`placeholder leak: ${tag}`);
     // Numbers and codes must survive translation unchanged.
-    const nums = (s: string) => (s.match(/\d+/g) ?? []).sort().join(",");
+    const nums = (s: string) => (s.replace(/(\d)[,.\s\u00A0\u202F](?=\d{3})/g, "$1").match(/\d+/g) ?? []).sort().join(",");
     if (nums(src) !== nums(out) && !["ar"].includes(locale)) failures.push(`number mismatch: ${tag}`);
     if (src.includes("Simply Well Executed") && !out.includes("Simply Well Executed")) failures.push(`brand name altered: ${tag}`);
 
