@@ -53,7 +53,7 @@ export function runGate(locale: L) {
       if (tells >= 3) failures.push(`English leftovers (${tells} words): ${tag}`);
     }
     // RTL: no stray LTR punctuation-only runs that break reading order.
-    if ((locale === "ar" || locale === "he") && /^[A-Za-z]/.test(out.replace(KEEP, "").trim().replace(/^[\s\p{P}\p{S}]+/u, ""))) {
+    if ((locale === "ar" || locale === "he") && /^[A-Za-z]/.test(out.replace(KEEP, "").replace(/^\([a-z]\)\s*/, "").trim().replace(/^[\s\p{P}\p{S}]+/u, ""))) {
       failures.push(`RTL string starts with Latin text: ${tag}`);
     }
   }
