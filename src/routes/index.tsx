@@ -14,11 +14,13 @@ export const Route = createFileRoute("/")({
   head: () => ({ meta: [
     { title: "Simply Well Executed | B2B AI Standards" },
     { name: "description", content: "The public brand, design, and AI operating standards for Simply Well Executed." },
-    { property: "og:title", content: "Simply Well Executed" },
+    { property: "og:title", content: "Simply Well Executed | B2B AI Standards" },
     { property: "og:description", content: "AI work, made operational. Explore our public standards and brand system." },
     { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://simpwellx.com/" },
     { name: "twitter:card", content: "summary_large_image" },
-  ]}),
+  ],
+  links: [{ rel: "canonical", href: "https://simpwellx.com/" }]}),
   component: EnglishPage,
 });
 
