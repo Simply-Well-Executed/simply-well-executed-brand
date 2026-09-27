@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { generateSalesSequence } from "@/lib/sequence.functions";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -124,6 +126,54 @@ function DemoRequestForm() {
       </div>
       {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
       <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Request a demo"}</Button>
+    </form>
+  );
+}
+
+function SequenceGenerator({ defaultLang }: { defaultLang: "en" | "ar" | "he" }) {
+  const run = useServerFn(generateSalesSequence);
+  const [product, setProduct] = useState("");
+  const [audience, setAudience] = useState("");
+  const [language, setLanguage] = useState(defaultLang);
+  useEffect(() => setLanguage(defaultLang), [defaultLang]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<{ text: string; lang: string } | null>(null);
+  const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-violet";
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (product.trim().length < 2) return setError("Describe your product in a few words.");
+    if (audience.trim().length < 2) return setError("Say who you're selling to.");
+    setError(null); setBusy(true); setResult(null);
+    try {
+      const r = await run({ data: { product, audience, language } });
+      if (r.ok) setResult({ text: r.text, lang: language }); else setError(r.error);
+    } catch { setError("Something went wrong generating your sequence. Please try again."); }
+    finally { setBusy(false); }
+  };
+  return (
+    <form onSubmit={submit} className="rounded-3xl bg-background p-8 ring-1 ring-border" noValidate aria-label="Sample sales sequence generator">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block text-sm font-medium sm:col-span-2">Product
+          <input value={product} onChange={(e) => setProduct(e.target.value)} className={field} maxLength={300} placeholder="What you sell, in a sentence" />
+        </label>
+        <label className="block text-sm font-medium">Audience
+          <input value={audience} onChange={(e) => setAudience(e.target.value)} className={field} maxLength={300} placeholder="Who you sell to" />
+        </label>
+        <label className="block text-sm font-medium">Language
+          <select value={language} onChange={(e) => setLanguage(e.target.value as typeof language)} className={field}>
+            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option>
+          </select>
+        </label>
+      </div>
+      {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
+      <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={busy}>{busy ? "Writing your sequence…" : "Generate sample sequence"}</Button>
+      {result && (
+        <div className="mt-6 rounded-2xl bg-paper p-6 ring-1 ring-border">
+          <div className="font-mono text-[11px] uppercase text-violet">AI draft · review before use</div>
+          <div lang={result.lang} dir={result.lang === "en" ? "ltr" : "rtl"} className="mt-3 whitespace-pre-wrap text-start text-sm leading-relaxed" data-testid="sequence-output">{result.text}</div>
+        </div>
+      )}
     </form>
   );
 }
