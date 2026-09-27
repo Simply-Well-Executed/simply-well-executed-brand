@@ -282,6 +282,17 @@ function Index() {
           <div className="lg:col-span-7"><DemoRequestForm /></div>
         </div>
       </section>
+
+      <section id="sequence" className="border-t border-border bg-paper">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <SectionLabel>(i) Sample sequence</SectionLabel>
+            <h2 className="font-display text-5xl font-black leading-[.95]">Your pitch,<br/>in <span className="text-violet">their language.</span></h2>
+            <p className="mt-5 max-w-[46ch] text-muted-foreground">Describe your product and audience, pick a language, and get an AI-written three-email sample sequence to review — a draft, not a send.</p>
+          </div>
+          <div className="lg:col-span-7"><SequenceGenerator defaultLang={locale} /></div>
+        </div>
+      </section>
     </main>
 
     <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">Request a demo</button></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
