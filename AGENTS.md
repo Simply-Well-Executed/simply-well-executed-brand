@@ -14,3 +14,4 @@
 
 - English `/`, Arabic `/ar`, Hebrew `/he`, and Russian `/ru` share one standards-page component and locale dictionary; dedicated URLs keep localization crawlable while logical CSS and isolated mixed-direction fragments preserve natural RTL.
 - Russian uses a FreeSerif-led editorial reading treatment within the shared brand system; this creates a formal typographic cadence without copying another site's identity.
+- Release gate: `bun run gate:release` runs one wording gate per language in parallel (`tests/i18n/wording-gate.ts <locale>`) and must pass before any publish; per-language gates keep runtime short and failures isolated.
