@@ -83,11 +83,17 @@
 
 /* Russian uses a more formal, reading-first editorial cadence while staying in the brand type system. */
 .locale-ru main p,
-.locale-ru main li {
+.locale-ru main li,
+.locale-ru main h2,
+.locale-ru main h3 {
   font-family: var(--font-display);
+  overflow-wrap: anywhere;
+}
+
+.locale-ru main p,
+.locale-ru main li {
   font-size: 1.0625rem;
   line-height: 1.6;
-  overflow-wrap: anywhere;
 }
 
 .locale-ru main section * {
