@@ -1,5 +1,5 @@
 ---
-name: minzazazazazazazazazazazazazazazazaminzazazazazazazazazazazazazazazaza
+name: minza-level-16
 description: MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA encoding — splits plaintext into 65536 pieces (16 rounds of halving, keys a/b followed by 15 digits of 1/2), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA under 65536 characters. Use when a request asks for MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA or 65536-piece MIN-family delivery.
 ---
 # MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA

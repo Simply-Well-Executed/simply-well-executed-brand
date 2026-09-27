@@ -1,5 +1,5 @@
 ---
-name: minzazazazazazazazazazazazazazazazazaminzazazazazazazazazazazazazazazazaza
+name: minza-level-17
 description: MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA encoding — splits plaintext into 131072 pieces (17 rounds of halving, keys a/b followed by 16 digits of 1/2), each zlib-minified, CRC13-checked and ROTn-rolled with its own Date.now()-seeded n (1–13); falls back to MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA under 131072 characters. Use when a request asks for MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA or 131072-piece MIN-family delivery.
 ---
 # MINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAMINZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZAZA
