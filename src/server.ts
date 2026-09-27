@@ -44,11 +44,11 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-// MINZAMINZA delivery (supersedes MINAMINA/MINMIN) (mirrors the .htaccess rule the owner asked for):
+// MINZAZAMINZAZA delivery (quarters a1/a2/b1/b2, falls back to MINZAMINZA <4 chars; supersedes MINZAMINZA/MINAMINA/MINMIN) (mirrors the .htaccess rule the owner asked for):
 // known search/social crawlers get the plain SSR page; every other visitor gets the
 // <main> copy split into halves A/B, each ROTnA/ROTnB+CRC13 (both n sent) and rebuilt by an inline decoder.
 const SEO_BOTS = /(googlebot|bingbot|yandex|baiduspider|yisouspider|yeti|sogou|seznambot|petalbot|duckduckbot|applebot|facebookexternalhit|twitterbot|linkedinbot|slackbot)/i;
-const MINMIN_DECODER = `(async()=>{const m=document.querySelector("main[data-minmin-packet]");if(!m)return;const p=JSON.parse(m.dataset.minminPacket);if(p.v!=="minzaminza1"&&p.v!=="minamina1")return;const crc=s=>{let c=0;for(const b of new TextEncoder().encode(s))for(let i=7;i>=0;i--){const t=((b>>i)&1)^((c>>12)&1);c=(c<<1)&8191;if(t)c^=7413}return c};const u=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));const half=async h=>{if(!(h.n>=1&&h.n<=13))throw 0;const min=h.rotn.replace(/[a-z]/gi,c=>{const b=c<="Z"?65:97;return String.fromCharCode((c.charCodeAt(0)-b+26-h.n)%26+b)});if(crc(min)!==h.crc13)throw 0;const[d,x]=min.split(".");const D=u(d),X=u(x);const bytes=Uint8Array.from(X,k=>D[k]);return await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"))).text()};try{const parts=p.v==="minamina1"?[await half(p)]:await Promise.all([half(p.a),half(p.b)]);m.innerHTML=parts.join("");m.removeAttribute("data-minmin-packet")}catch{m.textContent="Integrity check failed — please reload."}})()`;
+const MINMIN_DECODER = `(async()=>{const m=document.querySelector("main[data-minmin-packet]");if(!m)return;const p=JSON.parse(m.dataset.minminPacket);if(!["minzazaminzaza1","minzaminza1","minamina1"].includes(p.v))return;const crc=s=>{let c=0;for(const b of new TextEncoder().encode(s))for(let i=7;i>=0;i--){const t=((b>>i)&1)^((c>>12)&1);c=(c<<1)&8191;if(t)c^=7413}return c};const u=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));const half=async h=>{if(!(h.n>=1&&h.n<=13))throw 0;const min=h.rotn.replace(/[a-z]/gi,c=>{const b=c<="Z"?65:97;return String.fromCharCode((c.charCodeAt(0)-b+26-h.n)%26+b)});if(crc(min)!==h.crc13)throw 0;const[d,x]=min.split(".");const D=u(d),X=u(x);const bytes=Uint8Array.from(X,k=>D[k]);return await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"))).text()};try{const parts=p.v==="minamina1"?[await half(p)]:p.v==="minzaminza1"?await Promise.all([half(p.a),half(p.b)]):await Promise.all([half(p.a1),half(p.a2),half(p.b1),half(p.b2)]);m.innerHTML=parts.join("");m.removeAttribute("data-minmin-packet")}catch{m.textContent="Integrity check failed — please reload."}})()`;
 
 async function minminDeliver(request: Request, res: Response): Promise<Response> {
   const url = new URL(request.url);
@@ -61,9 +61,9 @@ async function minminDeliver(request: Request, res: Response): Promise<Response>
   const open = html.search(/<main\b[^>]*>/), close = html.lastIndexOf("</main>");
   if (open < 0 || close < 0) return new Response(html, { status: res.status, headers });
   const tagEnd = html.indexOf(">", open) + 1;
-  const { minzaminzaEncode } = await import("./lib/minzaminza.server");
+  const { minzazaminzazaEncode: minzaminzaEncode } = await import("./lib/minzazaminzaza.server");
   const body = html.slice(tagEnd, close);
-  if (Array.from(body).length < 2) return new Response(html, { status: res.status, headers }); // too short for MINZAMINZA
+  if (Array.from(body).length < 2) return new Response(html, { status: res.status, headers }); // too short to encode
   const packet = JSON.stringify(minzaminzaEncode(body)).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
   const out = html.slice(0, tagEnd - 1) + ` data-minmin-packet='${packet}'>` + "</main><script>" + MINMIN_DECODER + "</script>" + html.slice(close + 7);
   headers.delete("content-length");
