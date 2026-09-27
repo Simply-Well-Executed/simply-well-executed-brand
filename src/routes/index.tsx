@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
@@ -8,6 +8,7 @@ import { getPagePacket } from "@/lib/minmin.functions";
 import { minzaDepthDecode as minzaminzaDecode } from "@/lib/minza-depth-decode";
 import { ArrowDown, ArrowRight, Check, ChevronDown, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { localeInfo, translate, alternateLinks, pageWording, type Locale } from "@/lib/locales";
 import { brandAssets, library, principles, topics } from "@/lib/standards";
 
@@ -162,41 +163,22 @@ const russianScripts: { id: RussianScript; label: string; note: string }[] = [
 
 function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChange: (value: RussianScript) => void }) {
   const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
   const selectedLabel = russianScripts.find((script) => script.id === value)?.label ?? "Современный";
 
-  useEffect(() => {
-    if (!open) return;
-    const close = (event: PointerEvent) => {
-      if (!root.current?.contains(event.target as Node)) setOpen(false);
-    };
-    const escape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("pointerdown", close);
-    document.addEventListener("keydown", escape);
-    return () => {
-      document.removeEventListener("pointerdown", close);
-      document.removeEventListener("keydown", escape);
-    };
-  }, [open]);
-
   return (
-    <div ref={root} className="relative -ms-2 me-1 shrink-0 self-start">
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="size-5 rounded-full p-0 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
-        aria-label={`Выбрать начертание: ${selectedLabel}`}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        onClick={() => setOpen((current) => !current)}
-      >
-        <ChevronDown className={`size-3 transition-transform ${open ? "rotate-180" : ""}`} />
-      </Button>
-      {open && (
-        <div role="menu" aria-label="Начертание русского текста" className="absolute end-0 mt-2 w-56 overflow-hidden rounded-lg border border-border bg-paper p-1 shadow-lg">
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="-ms-2 me-1 size-5 shrink-0 self-start rounded-full p-0 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+          aria-label={`Выбрать начертание: ${selectedLabel}`}
+        >
+          <ChevronDown className={`size-3 transition-transform ${open ? "rotate-180" : ""}`} />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="end" sideOffset={8} role="menu" aria-label="Начертание русского текста" className="w-56 overflow-hidden rounded-lg border-border bg-paper p-1">
           {russianScripts.map((script) => (
             <Button
               key={script.id}
@@ -214,9 +196,8 @@ function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChan
               {value === script.id && <Check className="size-4 text-coral" />}
             </Button>
           ))}
-        </div>
-      )}
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
