@@ -52,7 +52,7 @@ const library = [
   { cat: "accessibility", title: "Motion and recovery", note: "Motion respects user preferences; errors explain the next action." },
   { cat: "identity", title: "Logo and clear space", note: "Clear space equals one node. Never stretch or rotate the mark." },
   { cat: "identity", title: "State color", note: "Coral for action, amber for attention, teal for resolved, violet for inquiry." },
-  { cat: "identity", title: "Type system", note: "Archivo for display, Space Grotesk for text, JetBrains Mono for data." },
+  { cat: "identity", title: "Type system", note: "FreeSerif for display, FreeSans for text, FreeMono for data." },
   { cat: "resources", title: "Brand guide", note: "The three-page PDF covering logo, color, type, and usage rules." },
   { cat: "resources", title: "Logo and social assets", note: "SVG logos, social artwork, avatar, and poster — ready to download." },
 ];
@@ -310,7 +310,7 @@ function Index() {
       <section id="identity" className="border-y border-border bg-paper"><div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(f) Identity system</SectionLabel><div className="grid gap-4 lg:grid-cols-12">
         <div className="flex min-h-80 flex-col rounded-3xl bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">Primary logo</div><div className="my-auto font-display text-5xl font-black leading-[.9]">Simply<br/>Well<br/>Executed</div><div className="font-mono text-[11px] text-background/60">Clear space = 1 node. Never stretch or rotate.</div></div>
         <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-4"><div className="font-mono text-[11px] uppercase text-muted-foreground">State color</div><div className="mt-6 grid grid-cols-2 gap-3">{[['bg-coral','Action'],['bg-amber','Attention'],['bg-teal','Resolved'],['bg-violet','Inquiry']].map(([c,n])=><div key={n} className="overflow-hidden rounded-xl bg-paper ring-1 ring-border"><div className={`h-20 ${c}`}/><div className="p-2 font-mono text-[10px]">{n}</div></div>)}</div></div>
-        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">Type</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">Archivo / Display</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">Space Grotesk / Text</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">JetBrains Mono / Data</p></div>
+        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">Type</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">FreeSerif / Display</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">FreeSans / Text</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">FreeMono / Data</p></div>
       </div></div></section>
 
       <section id="resources" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(g) Resource access</SectionLabel><div className="grid gap-4 md:grid-cols-3">

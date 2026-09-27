@@ -9,4 +9,4 @@
 - [ ] Review and accept the "Operating standards" draft — waiting on the user. If accepted, re-apply the demo request form to the expanded manual.
 - [x] True RTL: dir=rtl for ar/he, verified via Playwright (he-rtl.png)
 - [x] Locale switch verified — earlier miss was a test artifact (localStorage before hydration)
-- [ ] Swap fonts: display FreeSerif, text FreeSans, data FreeMono
+- [x] Swap fonts: display FreeSerif, text FreeSans, data FreeMono
