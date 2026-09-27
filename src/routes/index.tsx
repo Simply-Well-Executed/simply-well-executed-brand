@@ -126,7 +126,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
         </label>
         <label className="block text-sm font-medium">{tr("Language")}
           <select value={language} onChange={(e) => setLanguage(e.target.value as typeof language)} className={field}>
-            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option><option value="ru">Русский</option><option value="zh">中文</option><option value="ko">한국어</option><option value="cs">Čeština</option><option value="ja">日本語</option><option value="el">Ελληνικά</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="fr">Français</option><option value="sv">Svenska</option><option value="sw">Kiswahili</option>
+            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option><option value="ru">Русский</option><option value="zh">台北</option><option value="zh-hans">中文</option><option value="ko">한국어</option><option value="cs">Čeština</option><option value="ja">日本語</option><option value="el">Ελληνικά</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="fr">Français</option><option value="sv">Svenska</option><option value="sw">Kiswahili</option>
           </select>
         </label>
       </div>
