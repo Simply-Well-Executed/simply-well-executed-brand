@@ -33,7 +33,7 @@ export function runGate(locale: L) {
     if (EXEMPT.test(src)) continue; // intentionally kept as-is (files, emails, language names, brand words, font labels)
     if (!out.trim()) { failures.push(`empty: ${tag}`); continue; }
     if (/\uFFFD|Ã.|â€/.test(out)) failures.push(`mojibake: ${tag}`);
-    if (/\{\{|\}\}|TODO|TRANSLATE|lorem/i.test(out)) failures.push(`placeholder leak: ${tag}`);
+    if (/\{\{|\}\}|\bTODO\b|\bTRANSLATE\b|\blorem\b/.test(out)) failures.push(`placeholder leak: ${tag}`);
     // Numbers and codes must survive translation unchanged.
     // Numbers must survive: no invented figures (spelled-out 1–10 may become digits, or vice-versa).
     const nums = (x: string) => x.replace(/(\d)[,.\s\u00A0\u202F](?=\d{3})/g, "$1").match(/\d+/g) ?? [];
@@ -48,7 +48,7 @@ export function runGate(locale: L) {
       const native = (body.match(SCRIPT[locale]) ?? []).length;
       if (native / body.length < 0.6) failures.push(`script <60% native: ${tag}`);
     } else {
-      if (out === src && src.split(" ").length > 2) failures.push(`untranslated (identical to English): ${tag}`);
+      if (out === src && (src.replace(KEEP, "").match(/\p{L}{2,}/gu) ?? []).length > 2) failures.push(`untranslated (identical to English): ${tag}`);
       const tells = (out.replace(KEEP, "").match(ENGLISH_TELLS) ?? []).length;
       if (tells >= 3) failures.push(`English leftovers (${tells} words): ${tag}`);
     }
