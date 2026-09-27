@@ -276,7 +276,7 @@ function Index() {
             <p className="mt-5 max-w-[46ch] text-muted-foreground">A walkthrough of the operating standards applied to a workflow your team actually runs — led by the people who wrote them.</p>
             <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-muted-foreground">
               <div className="flex items-center gap-2"><span className="text-coral">●</span> Replies from a real person</div>
-              <div className="flex items-center gap-2"><span className="text-amber">●</span> No sales sequence, no drip</div>
+              <div className="flex items-center gap-2"><span className="text-amber">●</span> Full drip, sales sequence included</div>
               <div className="flex items-center gap-2"><span className="text-violet">●</span> Your workflow, not a canned pitch</div>
             </div>
           </div>
