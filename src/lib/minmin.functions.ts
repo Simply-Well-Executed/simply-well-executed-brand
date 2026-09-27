@@ -7,7 +7,7 @@ const LOCALES = ["en", "ar", "he", "ru", "zh", "zh-hans", "ko", "cs", "ja", "el"
 export const getPagePacket = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ locale: z.enum(LOCALES) }).parse(d))
   .handler(async ({ data }) => {
-    const { minzaminzaEncode } = await import("./minzaminza.server");
+    const { minzazaminzazaEncode: minzaminzaEncode } = await import("./minzazaminzaza.server");
     const { pageWording } = await import("./locales");
     return minzaminzaEncode(JSON.stringify(pageWording(data.locale)));
   });
