@@ -137,8 +137,8 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 type Locale = "en" | "ar" | "he";
-const LOCALES: { id: Locale; label: string }[] = [
-  { id: "en", label: "EN" }, { id: "ar", label: "العربية" }, { id: "he", label: "עברית" },
+const LOCALES: { id: Locale; label: string; dir: "ltr" | "rtl" }[] = [
+  { id: "en", label: "EN", dir: "ltr" }, { id: "ar", label: "العربية", dir: "rtl" }, { id: "he", label: "עברית", dir: "rtl" },
 ];
 const STRINGS: Record<Locale, Record<string, string>> = {
   en: { eyebrow: "Public operating standards", lede: "AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.", explore: "Explore standards", resources: "Brand resources", demo: "Request a demo", kit: "Get the kit", foundations: "Foundations", intelligence: "Intelligence", patterns: "Patterns", content: "Content", accessibility: "Accessibility", identity: "Identity", Resources: "Resources", DOMAINS: "DOMAINS", PRINCIPLES: "PRINCIPLES", ASSETS: "ASSETS" },
@@ -152,7 +152,7 @@ function Index() {
   useEffect(() => {
     const l = LOCALES.find((x) => x.id === locale)!;
     document.documentElement.lang = l.id;
-    document.documentElement.dir = "ltr"; // never mirror or re-anchor the layout; only the words change
+    document.documentElement.dir = l.dir; // genuine bidi: Arabic and Hebrew render right-to-left natively
     localStorage.setItem("swe-locale", l.id);
   }, [locale]);
   const tr = (k: string) => STRINGS[locale][k] ?? STRINGS.en[k] ?? k;
