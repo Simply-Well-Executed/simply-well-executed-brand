@@ -7,5 +7,5 @@
 - [x] Verify the site across desktop and mobile.
 - [x] Add a demo request form (submissions saved in Lovable Cloud).
 - [ ] Review and accept the "Operating standards" draft — waiting on the user. If accepted, re-apply the demo request form to the expanded manual.
-- [ ] True RTL: set dir=rtl for ar/he, logical Tailwind classes, verify bidi rendering (user: site preaches bidi, must practice it)
-- [ ] Verify locale switch actually applies on reload (he.png showed EN after localStorage restore)
+- [x] True RTL: dir=rtl for ar/he, verified via Playwright (he-rtl.png)
+- [x] Locale switch verified — earlier miss was a test artifact (localStorage before hydration)
