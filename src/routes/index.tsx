@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { generateSalesSequence } from "@/lib/sequence.functions";
 import { getPagePacket } from "@/lib/minmin.functions";
-import { minzazaminzazaDecode as minzaminzaDecode } from "@/lib/minzazaminzaza-decode";
+import { minzazazaminzazazaDecode as minzaminzaDecode } from "@/lib/minzazazaminzazaza-decode";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { localeInfo, translate, alternateLinks, pageWording, type Locale } from "@/lib/locales";
