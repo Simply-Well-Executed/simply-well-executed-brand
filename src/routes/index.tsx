@@ -272,11 +272,11 @@ function Index() {
         <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
           <div className="lg:col-span-5">
             <SectionLabel>(h) Request a demo</SectionLabel>
-            <h2 className="font-display text-5xl font-black leading-[.95]">See it applied<br/>to your work.</h2>
+            <h2 className="font-display text-5xl font-black leading-[.95]">See it applied<br/>to <span className="text-teal">your work.</span></h2>
             <p className="mt-5 max-w-[46ch] text-muted-foreground">A walkthrough of the operating standards applied to a workflow your team actually runs — led by the people who wrote them.</p>
             <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-muted-foreground">
               <div className="flex items-center gap-2"><span className="text-coral">●</span> Replies from a real person</div>
-              <div className="flex items-center gap-2"><span className="text-teal">●</span> No sales sequence, no drip</div>
+              <div className="flex items-center gap-2"><span className="text-amber">●</span> No sales sequence, no drip</div>
               <div className="flex items-center gap-2"><span className="text-violet">●</span> Your workflow, not a canned pitch</div>
             </div>
           </div>
