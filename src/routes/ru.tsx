@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StandardsPage } from "./index";
 
 export const Route = createFileRoute("/ru")({
+  staticData: { sitemap: true },
   head: () => ({ meta: [
     { title: "Simply Well Executed | Стандарты работы с ИИ" },
     { name: "description", content: "Открытая библиотека стандартов Simply Well Executed для бренда, дизайна и работы с ИИ." },
