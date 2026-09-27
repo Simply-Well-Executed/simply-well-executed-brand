@@ -5,7 +5,7 @@ const LANG_NAMES = { en: "English", ar: "Modern Standard Arabic", he: "Hebrew" }
 export type SeqLang = keyof typeof LANG_NAMES;
 
 export async function generateSequence(input: { product: string; audience: string; language: SeqLang }) {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env['LOVABLE_API_KEY'];
   if (!apiKey) throw new Error("AI is not configured.");
   let runId: string | undefined;
   const provider = createOpenAI({
