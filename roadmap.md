@@ -6,4 +6,4 @@
 
 - [x] Crawlers see static SEO copy, other visitors get MINMIN (done in server entry + robots.txt note)
 - [x] MINZAMINZA refuses PLAINTEXT under 2 characters
-- [ ] MINZA levels 19–256: extend encoder, validate each level, save skill, publish
+- [x] MINZA levels 19–256: extend encoder, validate each level, save skill, publish
