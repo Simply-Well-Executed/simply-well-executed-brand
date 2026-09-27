@@ -1359,15 +1359,15 @@ export const localeInfo = {
   ru: { label: "Русский", dir: "ltr", path: "/ru" },
   zh: { label: "台北", dir: "ltr", path: "/zh" },
   ko: { label: "한국어", dir: "ltr", path: "/ko" },
-  cs: { label: "Čeština", dir: "ltr", path: "/cs" },
+  cs: { label: "CS", dir: "ltr", path: "/cs" },
   ja: { label: "日本語", dir: "ltr", path: "/ja" },
   el: { label: "Ελληνικά", dir: "ltr", path: "/el" },
-  it: { label: "Italiano", dir: "ltr", path: "/it" },
-  es: { label: "Español", dir: "ltr", path: "/es" },
-  pt: { label: "Português", dir: "ltr", path: "/pt" },
-  fr: { label: "Français", dir: "ltr", path: "/fr" },
-  sv: { label: "Svenska", dir: "ltr", path: "/sv" },
-  sw: { label: "Kiswahili", dir: "ltr", path: "/sw" },
+  it: { label: "IT", dir: "ltr", path: "/it" },
+  es: { label: "ES", dir: "ltr", path: "/es" },
+  pt: { label: "PT", dir: "ltr", path: "/pt" },
+  fr: { label: "FR", dir: "ltr", path: "/fr" },
+  sv: { label: "SV", dir: "ltr", path: "/sv" },
+  sw: { label: "SW", dir: "ltr", path: "/sw" },
 } as const;
 
 export function translate(locale: Locale, source: string | undefined): string {
