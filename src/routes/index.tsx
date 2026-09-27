@@ -240,8 +240,24 @@ function Index() {
       <section id="resources" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(g) Resource access</SectionLabel><div className="grid gap-4 md:grid-cols-3">
         {[['Brand guide','PDF · 3 pages','/downloads/Simply-Well-Executed-brand-guide.pdf'],['Logo package','SVG · primary + compact','/downloads/logo-primary.svg'],['Social artwork','PNG · landscape','/downloads/social-landscape.png']].map(([h,m,u])=><article key={h} className="flex min-h-64 flex-col rounded-3xl bg-paper p-6 ring-1 ring-border"><div className="font-mono text-[11px] text-muted-foreground">{m}</div><h3 className="mt-5 font-display text-2xl font-bold">{h}</h3><p className="mt-2 text-sm text-muted-foreground">Ready-to-use files from the current identity system.</p><Button variant="ink" className="mt-auto" asChild><a href={u} download>Download <Download/></a></Button></article>)}
       </div><div className="mt-4 flex flex-wrap gap-3 text-sm"><a className="underline underline-offset-4" href="/downloads/social-square.png" download>Square social post</a><a className="underline underline-offset-4" href="/downloads/social-avatar.png" download>Social avatar</a><a className="underline underline-offset-4" href="/downloads/brand-art-poster.png" download>Brand art poster</a><a className="underline underline-offset-4" href="/downloads/design-philosophy.md" download>Design philosophy</a><a className="underline underline-offset-4" href="/downloads/logo-compact.svg" download>Compact logo</a></div></section>
+
+      <section id="demo" className="border-t border-border">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <SectionLabel>(h) Request a demo</SectionLabel>
+            <h2 className="font-display text-5xl font-black leading-[.95]">See it applied<br/>to your work.</h2>
+            <p className="mt-5 max-w-[46ch] text-muted-foreground">A walkthrough of the operating standards applied to a workflow your team actually runs — led by the people who wrote them.</p>
+            <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-muted-foreground">
+              <div className="flex items-center gap-2"><span className="text-coral">●</span> Replies from a real person</div>
+              <div className="flex items-center gap-2"><span className="text-teal">●</span> No sales sequence, no drip</div>
+              <div className="flex items-center gap-2"><span className="text-violet">●</span> Your workflow, not a canned pitch</div>
+            </div>
+          </div>
+          <div className="lg:col-span-7"><DemoRequestForm /></div>
+        </div>
+      </section>
     </main>
 
-    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed</div></div></footer>
+    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">AI work, made operational.</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">Request a demo</button></div><div className="font-mono text-[11px] text-muted-foreground">© 2026 · Standards Rev 1.0 · Built to be reviewed</div></div></footer>
   </div>;
 }
