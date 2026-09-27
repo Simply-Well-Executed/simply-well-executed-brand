@@ -66,7 +66,7 @@ const principles = [
 ];
 
 function DemoRequestForm({ locale }: { locale: Locale }) {
-  const tr = (source: string) => translate(locale, source);
+  const tr = (source: string | undefined) => translate(locale, source);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -133,7 +133,7 @@ function DemoRequestForm({ locale }: { locale: Locale }) {
 }
 
 function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
-  const tr = (source: string) => translate(defaultLang, source);
+  const tr = (source: string | undefined) => translate(defaultLang, source);
   const run = useServerFn(generateSalesSequence);
   const [product, setProduct] = useState("");
   const [audience, setAudience] = useState("");
@@ -198,7 +198,7 @@ export function StandardsPage({ locale }: { locale: Locale }) {
     document.documentElement.dir = info.dir;
     localStorage.setItem("swe-locale", locale);
   }, [info.dir, locale]);
-  const tr = (source: string) => translate(locale, source);
+  const tr = (source: string | undefined) => translate(locale, source);
   const topicTitle = (t: { title: string }) => tr(t.title);
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
