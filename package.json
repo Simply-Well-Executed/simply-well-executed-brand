@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "gate:lang": "bun tests/i18n/wording-gate.ts",
+    "gate:release": "bun tests/i18n/release-gate.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"
