@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { generateSalesSequence } from "@/lib/sequence.functions";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -50,7 +52,7 @@ const library = [
   { cat: "accessibility", title: "Motion and recovery", note: "Motion respects user preferences; errors explain the next action." },
   { cat: "identity", title: "Logo and clear space", note: "Clear space equals one node. Never stretch or rotate the mark." },
   { cat: "identity", title: "State color", note: "Coral for action, amber for attention, teal for resolved, violet for inquiry." },
-  { cat: "identity", title: "Type system", note: "Archivo for display, Space Grotesk for text, JetBrains Mono for data." },
+  { cat: "identity", title: "Type system", note: "FreeSerif for display, FreeSans for text, FreeMono for data." },
   { cat: "resources", title: "Brand guide", note: "The three-page PDF covering logo, color, type, and usage rules." },
   { cat: "resources", title: "Logo and social assets", note: "SVG logos, social artwork, avatar, and poster — ready to download." },
 ];
@@ -124,6 +126,54 @@ function DemoRequestForm() {
       </div>
       {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
       <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Request a demo"}</Button>
+    </form>
+  );
+}
+
+function SequenceGenerator({ defaultLang }: { defaultLang: "en" | "ar" | "he" }) {
+  const run = useServerFn(generateSalesSequence);
+  const [product, setProduct] = useState("");
+  const [audience, setAudience] = useState("");
+  const [language, setLanguage] = useState(defaultLang);
+  useEffect(() => setLanguage(defaultLang), [defaultLang]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<{ text: string; lang: string } | null>(null);
+  const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-violet";
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (product.trim().length < 2) return setError("Describe your product in a few words.");
+    if (audience.trim().length < 2) return setError("Say who you're selling to.");
+    setError(null); setBusy(true); setResult(null);
+    try {
+      const r = await run({ data: { product, audience, language } });
+      if (r.ok) setResult({ text: r.text, lang: language }); else setError(r.error);
+    } catch { setError("Something went wrong generating your sequence. Please try again."); }
+    finally { setBusy(false); }
+  };
+  return (
+    <form onSubmit={submit} className="rounded-3xl bg-background p-8 ring-1 ring-border" noValidate aria-label="Sample sales sequence generator">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block text-sm font-medium sm:col-span-2">Product
+          <input value={product} onChange={(e) => setProduct(e.target.value)} className={field} maxLength={300} placeholder="What you sell, in a sentence" />
+        </label>
+        <label className="block text-sm font-medium">Audience
+          <input value={audience} onChange={(e) => setAudience(e.target.value)} className={field} maxLength={300} placeholder="Who you sell to" />
+        </label>
+        <label className="block text-sm font-medium">Language
+          <select value={language} onChange={(e) => setLanguage(e.target.value as typeof language)} className={field}>
+            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option>
+          </select>
+        </label>
+      </div>
+      {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
+      <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={busy}>{busy ? "Writing your sequence…" : "Generate sample sequence"}</Button>
+      {result && (
+        <div className="mt-6 rounded-2xl bg-paper p-6 ring-1 ring-border">
+          <div className="font-mono text-[11px] uppercase text-violet">AI draft · review before use</div>
+          <div lang={result.lang} dir={result.lang === "en" ? "ltr" : "rtl"} className="mt-3 whitespace-pre-wrap text-start text-sm leading-relaxed" data-testid="sequence-output">{result.text}</div>
+        </div>
+      )}
     </form>
   );
 }
@@ -260,7 +310,7 @@ function Index() {
       <section id="identity" className="border-y border-border bg-paper"><div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(f) Identity system</SectionLabel><div className="grid gap-4 lg:grid-cols-12">
         <div className="flex min-h-80 flex-col rounded-3xl bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">Primary logo</div><div className="my-auto font-display text-5xl font-black leading-[.9]">Simply<br/>Well<br/>Executed</div><div className="font-mono text-[11px] text-background/60">Clear space = 1 node. Never stretch or rotate.</div></div>
         <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-4"><div className="font-mono text-[11px] uppercase text-muted-foreground">State color</div><div className="mt-6 grid grid-cols-2 gap-3">{[['bg-coral','Action'],['bg-amber','Attention'],['bg-teal','Resolved'],['bg-violet','Inquiry']].map(([c,n])=><div key={n} className="overflow-hidden rounded-xl bg-paper ring-1 ring-border"><div className={`h-20 ${c}`}/><div className="p-2 font-mono text-[10px]">{n}</div></div>)}</div></div>
-        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">Type</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">Archivo / Display</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">Space Grotesk / Text</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">JetBrains Mono / Data</p></div>
+        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">Type</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">FreeSerif / Display</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">FreeSans / Text</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">FreeMono / Data</p></div>
       </div></div></section>
 
       <section id="resources" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>(g) Resource access</SectionLabel><div className="grid gap-4 md:grid-cols-3">
@@ -280,6 +330,17 @@ function Index() {
             </div>
           </div>
           <div className="lg:col-span-7"><DemoRequestForm /></div>
+        </div>
+      </section>
+
+      <section id="sequence" className="border-t border-border bg-paper">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <SectionLabel>(i) Sample sequence</SectionLabel>
+            <h2 className="font-display text-5xl font-black leading-[.95]">Your pitch,<br/>in <span className="text-violet">their language.</span></h2>
+            <p className="mt-5 max-w-[46ch] text-muted-foreground">Describe your product and audience, pick a language, and get an AI-written three-email sample sequence to review — a draft, not a send.</p>
+          </div>
+          <div className="lg:col-span-7"><SequenceGenerator defaultLang={locale} /></div>
         </div>
       </section>
     </main>
