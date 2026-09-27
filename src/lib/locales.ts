@@ -1254,7 +1254,15 @@ const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
     "/": "/",
     ".": ".",
     "𓂐": "𓂐"
-  }
+  },
+  ja: {},
+  el: {},
+  it: {},
+  es: {},
+  pt: {},
+  fr: {},
+  sv: {},
+  sw: {}
 } as const;
 
 const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
