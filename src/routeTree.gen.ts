@@ -12,10 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiGovernanceFrameworkRouteImport } from './routes/ai-governance-framework'
 import { Route as ArRouteImport } from './routes/ar'
+import { Route as CsRouteImport } from './routes/cs'
 import { Route as HeRouteImport } from './routes/he'
+import { Route as KoRouteImport } from './routes/ko'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as RuRouteImport } from './routes/ru'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ZhRouteImport } from './routes/zh'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -36,9 +39,19 @@ const ArRoute = ArRouteImport.update({
   path: '/ar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CsRoute = CsRouteImport.update({
+  id: '/cs',
+  path: '/cs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HeRoute = HeRouteImport.update({
   id: '/he',
   path: '/he',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KoRoute = KoRouteImport.update({
+  id: '/ko',
+  path: '/ko',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -54,6 +67,11 @@ const RuRoute = RuRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhRoute = ZhRouteImport.update({
+  id: '/zh',
+  path: '/zh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -83,10 +101,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
+  '/cs': typeof CsRoute
   '/he': typeof HeRoute
+  '/ko': typeof KoRoute
   '/mcp': typeof McpRoute
   '/ru': typeof RuRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/zh': typeof ZhRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -96,10 +117,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
+  '/cs': typeof CsRoute
   '/he': typeof HeRoute
+  '/ko': typeof KoRoute
   '/mcp': typeof McpRoute
   '/ru': typeof RuRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/zh': typeof ZhRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -110,10 +134,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
+  '/cs': typeof CsRoute
   '/he': typeof HeRoute
+  '/ko': typeof KoRoute
   '/mcp': typeof McpRoute
   '/ru': typeof RuRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/zh': typeof ZhRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -125,10 +152,13 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-governance-framework'
     | '/ar'
+    | '/cs'
     | '/he'
+    | '/ko'
     | '/mcp'
     | '/ru'
     | '/sitemap.xml'
+    | '/zh'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -138,10 +168,13 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-governance-framework'
     | '/ar'
+    | '/cs'
     | '/he'
+    | '/ko'
     | '/mcp'
     | '/ru'
     | '/sitemap.xml'
+    | '/zh'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -151,10 +184,13 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-governance-framework'
     | '/ar'
+    | '/cs'
     | '/he'
+    | '/ko'
     | '/mcp'
     | '/ru'
     | '/sitemap.xml'
+    | '/zh'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -165,10 +201,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiGovernanceFrameworkRoute: typeof AiGovernanceFrameworkRoute
   ArRoute: typeof ArRoute
+  CsRoute: typeof CsRoute
   HeRoute: typeof HeRoute
+  KoRoute: typeof KoRoute
   McpRoute: typeof McpRoute
   RuRoute: typeof RuRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ZhRoute: typeof ZhRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -198,11 +237,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cs': {
+      id: '/cs'
+      path: '/cs'
+      fullPath: '/cs'
+      preLoaderRoute: typeof CsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/he': {
       id: '/he'
       path: '/he'
       fullPath: '/he'
       preLoaderRoute: typeof HeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ko': {
+      id: '/ko'
+      path: '/ko'
+      fullPath: '/ko'
+      preLoaderRoute: typeof KoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -224,6 +277,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh': {
+      id: '/zh'
+      path: '/zh'
+      fullPath: '/zh'
+      preLoaderRoute: typeof ZhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/oauth-protected-resource': {
@@ -261,10 +321,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiGovernanceFrameworkRoute: AiGovernanceFrameworkRoute,
   ArRoute: ArRoute,
+  CsRoute: CsRoute,
   HeRoute: HeRoute,
+  KoRoute: KoRoute,
   McpRoute: McpRoute,
   RuRoute: RuRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ZhRoute: ZhRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,

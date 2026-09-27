@@ -6,7 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { generateSalesSequence } from "@/lib/sequence.functions";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { localeInfo, translate, type Locale } from "@/lib/locales";
+import { localeInfo, translate, alternateLinks, type Locale } from "@/lib/locales";
 import { brandAssets, library, principles, topics } from "@/lib/standards";
 
 export const Route = createFileRoute("/")({
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
     { property: "og:url", content: "https://simpwellx.com/" },
     { name: "twitter:card", content: "summary_large_image" },
   ],
-  links: [{ rel: "canonical", href: "https://simpwellx.com/" }]}),
+  links: [{ rel: "canonical", href: "https://simpwellx.com/" }, ...alternateLinks()]}),
   component: EnglishPage,
 });
 
@@ -126,7 +126,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
         </label>
         <label className="block text-sm font-medium">{tr("Language")}
           <select value={language} onChange={(e) => setLanguage(e.target.value as typeof language)} className={field}>
-            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option><option value="ru">Русский</option>
+            <option value="en">English</option><option value="ar">العربية</option><option value="he">עברית</option><option value="ru">Русский</option><option value="zh">中文</option><option value="ko">한국어</option><option value="cs">Čeština</option>
           </select>
         </label>
       </div>
@@ -180,12 +180,8 @@ export function StandardsPage({ locale }: { locale: Locale }) {
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>
-        <nav className="hidden items-center gap-1 text-[13px] font-medium lg:flex" aria-label={tr("Main navigation")}>
-          {topics.slice(0, 5).map((t) => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">{topicTitle(t)}</button>)}
-          <button onClick={() => go("resources")} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">{tr("Resources")}</button>
-        </nav>
-        <div className="flex items-center gap-2">
-          <div className="flex rounded-full border border-border p-0.5" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <Link key={id} to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`rounded-full px-2.5 py-1 text-[12px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>)}</div>
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex min-w-0 gap-1 overflow-x-auto rounded-full border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <Link key={id} to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>)}</div>
           <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">{tr("Request a demo")}</Button>
           <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>{tr("Get the kit")} <ArrowDown /></a></Button>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>

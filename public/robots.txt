@@ -10,6 +10,27 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: Yandex
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YisouSpider
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: Sogou web spider
+Allow: /
+
+User-agent: SeznamBot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
 User-agent: *
 Allow: /
 

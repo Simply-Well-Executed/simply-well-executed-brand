@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StandardsPage } from "./index";
+import { alternateLinks } from "@/lib/locales";
 
 export const Route = createFileRoute("/ru")({
   staticData: { sitemap: true },
@@ -12,6 +13,6 @@ export const Route = createFileRoute("/ru")({
     { property: "og:url", content: "https://simpwellx.com/ru" },
     { name: "twitter:card", content: "summary_large_image" },
   ],
-  links: [{ rel: "canonical", href: "https://simpwellx.com/ru" }]}),
+  links: [{ rel: "canonical", href: "https://simpwellx.com/ru" }, ...alternateLinks()]}),
   component: () => <StandardsPage locale="ru" />,
 });
