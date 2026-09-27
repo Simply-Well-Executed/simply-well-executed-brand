@@ -1301,7 +1301,7 @@ export const localeInfo = {
   ar: { label: "العربية", dir: "rtl", path: "/ar" },
   he: { label: "עברית", dir: "rtl", path: "/he" },
   ru: { label: "Русский", dir: "ltr", path: "/ru" },
-  zh: { label: "中文", dir: "ltr", path: "/zh" },
+  zh: { label: "Taipei", dir: "ltr", path: "/zh" },
   ko: { label: "한국어", dir: "ltr", path: "/ko" },
   cs: { label: "Čeština", dir: "ltr", path: "/cs" },
 } as const;
@@ -1312,7 +1312,7 @@ export function translate(locale: Locale, source: string | undefined): string {
   return overrides[locale][source] ?? translations[locale][source] ?? source;
 }
 
-export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-Hans", ko: "ko", cs: "cs" };
+export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", ko: "ko", cs: "cs" };
 export const SITE = "https://simpwellx.com";
 export function alternateLinks() {
   const links = (Object.keys(localeInfo) as Locale[]).map((l) => ({ rel: "alternate", hrefLang: hreflang[l], href: SITE + (localeInfo[l].path === "/" ? "/" : localeInfo[l].path) }));
