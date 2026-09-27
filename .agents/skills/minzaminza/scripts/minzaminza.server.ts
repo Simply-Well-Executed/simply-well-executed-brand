@@ -2,6 +2,8 @@ import { deflateSync, inflateSync } from "node:zlib";
 
 export type MinzaHalf = { n: number; crc13: number; rotn: string };
 export type MinzaminzaPacket = { v: "minzaminza1"; a: MinzaHalf; b: MinzaHalf };
+export type MinaminaPacket = { v: "minamina1"; n: number; crc13: number; rotn: string };
+export type MinzaminzaOrMinaminaPacket = MinzaminzaPacket | MinaminaPacket;
 
 export function crc13(s: string): number {
   let crc = 0;
@@ -54,8 +56,18 @@ export function split(text: string): [string, string] {
   return [cp.slice(0, mid).join(""), cp.slice(mid).join("")];
 }
 
-export function minzaminzaEncode(text: string, now: number = Date.now()): MinzaminzaPacket {
-  if (Array.from(text).length < 2) throw new Error("MINZAMINZA: PLAINTEXT must be at least 2 characters to split");
+// MINAMINA fallback for text too short to split (single whole-text packet).
+function minaminaEncode(text: string, now: number): MinaminaPacket {
+  const m = minify(text);
+  const n = 1 + Math.floor(mulberry32(now)() * 13);
+  return { v: "minamina1", n, crc13: crc13(m), rotn: rotn(m, n) };
+}
+
+export function minzaminzaEncode(text: string, now: number = Date.now()): MinzaminzaOrMinaminaPacket {
+  const len = Array.from(text).length;
+  if (len < 1) throw new Error("MINZAMINZA: PLAINTEXT must be at least 1 character");
+  // Fallback: fewer than 2 code points can't be split — hand off to MINAMINA.
+  if (len < 2) return minaminaEncode(text, now);
   const [pa, pb] = split(text);
   if (pa + pb !== text) throw new Error("MINZAMINZA split gate failed");
   const rand = mulberry32(now);

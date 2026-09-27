@@ -32,6 +32,8 @@ async function decodeHalf(h, label) {
 }
 
 export async function minzaminzaDecode(packet) {
+  // MINZAMINZA falls back to MINAMINA for text too short to split; accept both.
+  if (packet?.v === "minamina1") return await decodeHalf(packet, "");
   if (packet?.v !== "minzaminza1") throw new Error("MINZAMINZA: unknown packet");
   const [a, b] = await Promise.all([decodeHalf(packet.a, "A"), decodeHalf(packet.b, "B")]);
   return a + b;
