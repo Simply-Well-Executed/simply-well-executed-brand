@@ -1,6 +1,6 @@
 import { minzazaminzazaEncode } from "./minzazaminzaza.server";
 import { minzazaminzazaDecode } from "./minzazaminzaza.client";
-const samples = ["Simply Well Executed — AI work, made operational.","مرحبا بالعالم","שלום עולם","Привет, мир","台北 繁體中文","简体中文","안녕하세요","Dobrý den","こんにちは","Γειά σου","Ciao","Hola","Olá","Bonjour","Habari","𓂐𓂐𓂐𓂐","abcd"];
+const samples = ["Simply Well Executed — AI work, made operational.","مرحبا بالعالم","שלום עולם","Привет, мир","台北 繁體中文","简体中文","안녕하세요","Dobrý den","こんにちは","Γειά σου","Ciao","Hola","Olá!","Bonjour","Habari","𓂐𓂐𓂐𓂐","abcd"];
 let fail = 0;
 for (let k = 0; k < samples.length; k++) {
   const p: any = minzazaminzazaEncode(samples[k]!, Date.now() + k * 7919);
