@@ -7,6 +7,8 @@ description: MINAMINA text transport — MINMIN variant that swaps fixed ROT13/E
 
 Same as MINMIN, but the rotation changes every time you encode.
 
+MINAMINA is also the **fallback for MINZAMINZA**: when a plaintext has fewer than 2 code points and can't be split into halves, MINZAMINZA hands the whole text to `minaminaEncode` and sends its `minamina1` packet. MINZAMINZA decoders therefore accept both packet versions.
+
 ## Phase 1: minify (must round-trip)
 1. **zlib**: `deflateSync(utf8(text))`.
 2. **Dictionary table**: list each unique byte in the order it first appears → `dict`. Each byte becomes its position in `dict` → `idx[]`.

@@ -8,7 +8,7 @@ description: MINZAMINZA text transport — MINAMINA variant that splits the plai
 Same as MINAMINA, but the plaintext is split in two and each half gets its own rotation.
 
 ## Split
-0. **Safety check**: if PLAINTEXT has fewer than 2 characters (code points), MINZAMINZA can't run — throw and send nothing. Callers fall back to their plain path.
+0. **Fallback**: if PLAINTEXT has fewer than 2 characters (code points), MINZAMINZA can't split it — hand the whole text to **MINAMINA** (`minaminaEncode`) and send its `minamina1` packet instead. Empty text (0 code points) still throws; send nothing.
 1. Split PLAINTEXT by code points (never mid-character) into PLAINTEXTa (first ceil(len/2)) and PLAINTEXTb (the rest). Gate: `a + b === PLAINTEXT`.
 
 ## Per half (A and B independently)
@@ -22,8 +22,8 @@ Same as MINAMINA, but the plaintext is split in two and each half gets its own r
 7. Server sends `{ v: "minzaminza1", a: { n: nA, crc13, rotn: CIPHERTEXTa }, b: { n: nB, crc13, rotn: CIPHERTEXTb } }`.
 
 ## Client
-8. For each half: EBCn = ROT(26 − n), verify its CRC13 (refuse to render on mismatch), draw bytes, inflate with `DecompressionStream("deflate")`.
-9. Join `a + b` and render with `textContent`.
+8. Accept both `minzaminza1` and `minamina1` packets (the fallback sends the latter). For each half — or the single MINAMINA body: EBCn = ROT(26 − n), verify its CRC13 (refuse to render on mismatch), draw bytes, inflate with `DecompressionStream("deflate")`.
+9. Join `a + b` (or use the single MINAMINA result) and render with `textContent`.
 
 ## Files
 - `scripts/minzaminza.server.ts`: `minzaminzaEncode(text, now = Date.now())`
