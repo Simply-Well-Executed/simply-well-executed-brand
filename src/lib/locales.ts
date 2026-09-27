@@ -3092,3 +3092,8 @@ export function alternateLinks() {
 export function localeDictionary(locale: Exclude<Locale, "en">): Record<string, string> {
   return { ...translations[locale], ...overrides[locale] };
 }
+
+/** Every source string of the page rendered in the given locale — what MINMIN encodes and the browser verifies. */
+export function pageWording(locale: Locale): string[] {
+  return Object.keys(localeDictionary("ar")).map((s) => translate(locale, s));
+}

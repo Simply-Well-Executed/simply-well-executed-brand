@@ -14,7 +14,8 @@ export const generateSalesSequence = createServerFn({ method: "POST" })
     try {
       const text = await generateSequence(data);
       if (!text) return { ok: false as const, error: "The AI returned nothing for this request. Try describing your product differently." };
-      return { ok: true as const, text };
+      const { minminEncode } = await import("./minmin.server");
+      return { ok: true as const, packet: minminEncode(text) };
     } catch (e) {
       const status = (e as { statusCode?: number }).statusCode;
       const error =

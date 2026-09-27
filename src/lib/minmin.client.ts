@@ -1,3 +1,4 @@
+// @ts-nocheck -- shared verbatim with the MINMIN skill script
 // Browser side of MINMIN: EBC13 (ROT13 reversal) → CRC13 check → dictionary draw → inflate.
 export function crc13(s) {
   let crc = 0;

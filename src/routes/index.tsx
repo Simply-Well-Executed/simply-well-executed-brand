@@ -4,9 +4,11 @@ import type { ChangeEvent, FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { generateSalesSequence } from "@/lib/sequence.functions";
+import { getPagePacket } from "@/lib/minmin.functions";
+import { minminDecode } from "@/lib/minmin.client";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { localeInfo, translate, alternateLinks, type Locale } from "@/lib/locales";
+import { localeInfo, translate, alternateLinks, pageWording, type Locale } from "@/lib/locales";
 import { brandAssets, library, principles, topics } from "@/lib/standards";
 
 export const Route = createFileRoute("/")({
@@ -111,7 +113,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
     setError(null); setBusy(true); setResult(null);
     try {
       const r = await run({ data: { product, audience, language } });
-      if (r.ok) setResult({ text: r.text, lang: language }); else setError(r.error);
+      if (r.ok) setResult({ text: await minminDecode(r.packet), lang: language }); else setError(r.error);
     } catch { setError(tr("Something went wrong generating your sequence. Please try again.")); }
     finally { setBusy(false); }
   };
@@ -152,7 +154,23 @@ function SectionLabel({ children }: { children: string }) {
 
 export function EnglishPage() { return <StandardsPage locale="en" />; }
 
+// MINMIN: fetch the ROT13+CRC13 copy of this page's wording, reverse it in the browser, and confirm it matches what's shown.
+function useMinminCheck(locale: Locale) {
+  const fetchPacket = useServerFn(getPagePacket);
+  const [state, setState] = useState<"pending" | "verified" | "failed">("pending");
+  useEffect(() => {
+    let live = true;
+    fetchPacket({ data: { locale } })
+      .then(minminDecode)
+      .then((text: string) => { if (live) setState(text === JSON.stringify(pageWording(locale)) ? "verified" : "failed"); })
+      .catch(() => live && setState("failed"));
+    return () => { live = false; };
+  }, [locale, fetchPacket]);
+  return state;
+}
+
 export function StandardsPage({ locale }: { locale: Locale }) {
+  const minmin = useMinminCheck(locale);
   const info = localeInfo[locale];
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -188,7 +206,7 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       {menuOpen && <nav className="grid border-t border-border bg-background p-4 lg:hidden">{topics.map(t => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer border-b border-border px-2 py-3 text-start font-display font-bold">{t.n} / {topicTitle(t)}</button>)}</nav>}
     </header>
 
-    <main>
+    <main data-minmin={minmin}>
       <section id="overview" className="relative overflow-hidden border-b border-border">
         <div className="dot-grid absolute inset-0 opacity-60" />
         <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
