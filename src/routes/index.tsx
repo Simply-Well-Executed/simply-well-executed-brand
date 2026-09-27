@@ -66,8 +66,16 @@ function SectionLabel({ children }: { children: string }) {
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("all");
   const [activePattern, setActivePattern] = useState(0);
-  const filtered = useMemo(() => topics.filter((t) => `${t.title} ${t.note}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return library.filter((e) =>
+      (category === "all" || e.cat === category) &&
+      (!q || `${e.title} ${e.note} ${e.cat}`.toLowerCase().includes(q))
+    );
+  }, [query, category]);
+  const catTitle = (id: string) => topics.find((t) => t.id === id)?.title ?? id;
 
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
 
