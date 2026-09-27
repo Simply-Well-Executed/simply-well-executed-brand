@@ -26,7 +26,7 @@ export async function generateSequence(input: { product: string; audience: strin
     system:
       "You write sample B2B outreach sequences for Simply Well Executed's prospects. Voice: direct, grounded, human — outcome first, no hype, no invented metrics, customer names or testimonials. " +
       "Write natively in the requested language (not a literal translation), using culturally appropriate business register. " +
-      "Output exactly 3 emails as plain text. For each: a line 'Email N — Day D', a 'Subject:' line, then a body under 90 words. Each email must offer an easy way to say no. No markdown.",
+      "Output exactly 3 emails as plain text. For each: a heading line with the email number and send day, then a subject line — write these labels in the requested language too, then a body under 90 words. Each email must offer an easy way to say no. No markdown.",
     prompt: `Language: ${LANG_NAMES[input.language]}\nProduct: ${input.product}\nAudience: ${input.audience}`,
     providerOptions: {
       openai: {
