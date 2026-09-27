@@ -5,3 +5,4 @@
 - [x] Remove top nav topic links (Foundations–Resources); give language bar more room
 
 - [x] Crawlers see static SEO copy, other visitors get MINMIN (done in server entry + robots.txt note)
+- [x] MINZAMINZA refuses PLAINTEXT under 2 characters

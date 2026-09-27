@@ -8,6 +8,7 @@ description: MINZAMINZA text transport — MINAMINA variant that splits the plai
 Same as MINAMINA, but the plaintext is split in two and each half gets its own rotation.
 
 ## Split
+0. **Safety check**: if PLAINTEXT has fewer than 2 characters (code points), MINZAMINZA can't run — throw and send nothing. Callers fall back to their plain path.
 1. Split PLAINTEXT by code points (never mid-character) into PLAINTEXTa (first ceil(len/2)) and PLAINTEXTb (the rest). Gate: `a + b === PLAINTEXT`.
 
 ## Per half (A and B independently)
