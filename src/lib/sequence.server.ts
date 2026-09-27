@@ -1,7 +1,7 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
-const LANG_NAMES = { en: "English", ar: "Modern Standard Arabic", he: "Hebrew", ru: "Russian" } as const;
+const LANG_NAMES = { en: "English", ar: "Modern Standard Arabic", he: "Hebrew", ru: "Russian", zh: "Simplified Chinese", ko: "Korean", cs: "Czech" } as const;
 export type SeqLang = keyof typeof LANG_NAMES;
 
 export async function generateSequence(input: { product: string; audience: string; language: SeqLang }) {
