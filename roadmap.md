@@ -11,12 +11,12 @@
 - [x] Locale switch verified — earlier miss was a test artifact (localStorage before hydration)
 - [x] Swap fonts: display FreeSerif, text FreeSans, data FreeMono
 
-- [ ] Fix remaining bidirectional/mirroring defects using Unicode isolation
-- [ ] Build separate Arabic and Hebrew pages from English content
-- [ ] Translate library, standards, demo, and sequence sections naturally
+- [x] Fix remaining bidirectional/mirroring defects using Unicode isolation
+- [x] Build separate Arabic and Hebrew pages from English content
+- [x] Translate library, standards, demo, and sequence sections naturally
 - [ ] Add prospect email delivery for generated sample sequences
 - [x] Regenerate downloadable brand guide with FreeSerif, FreeSans, and FreeMono
-- [ ] Verify all locales and downloadable guide
+- [x] Verify all locales and downloadable guide
 
 ## 2026-09-27 — Dedicated localized pages and FreeFont guide
 - [x] Ship dedicated `/`, `/ar`, and `/he` pages from one shared standards-page system.
