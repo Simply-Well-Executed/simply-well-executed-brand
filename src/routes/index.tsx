@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowDown, ArrowRight, Check, Download, Menu, Search, X } from "lucide-react";
@@ -136,7 +136,26 @@ function SectionLabel({ children }: { children: string }) {
   return <div className="mb-8 font-mono text-[11px] uppercase text-coral">{children}</div>;
 }
 
+type Locale = "en" | "ar" | "he";
+const LOCALES: { id: Locale; label: string; dir: "ltr" | "rtl" }[] = [
+  { id: "en", label: "EN", dir: "ltr" }, { id: "ar", label: "العربية", dir: "rtl" }, { id: "he", label: "עברית", dir: "rtl" },
+];
+const STRINGS: Record<Locale, Record<string, string>> = {
+  en: { eyebrow: "Public operating standards", lede: "AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.", explore: "Explore standards", resources: "Brand resources", demo: "Request a demo", kit: "Get the kit", foundations: "Foundations", intelligence: "Intelligence", patterns: "Patterns", content: "Content", accessibility: "Accessibility", identity: "Identity", Resources: "Resources", DOMAINS: "DOMAINS", PRINCIPLES: "PRINCIPLES", ASSETS: "ASSETS" },
+  ar: { eyebrow: "معايير تشغيل عامة", lede: "عمل الذكاء الاصطناعي، جاهز للتشغيل. نساعد فرق الأعمال على تحويل الغموض إلى إجراءات واضحة قابلة للمراجعة.", explore: "استكشف المعايير", resources: "موارد العلامة", demo: "اطلب عرضًا توضيحيًا", kit: "حمّل الحزمة", foundations: "الأسس", intelligence: "الذكاء", patterns: "الأنماط", content: "المحتوى", accessibility: "إمكانية الوصول", identity: "الهوية", Resources: "الموارد", DOMAINS: "المجالات", PRINCIPLES: "المبادئ", ASSETS: "الأصول" },
+  he: { eyebrow: "תקני תפעול ציבוריים", lede: "עבודת בינה מלאכותית, מוכנה לתפעול. אנו עוזרים לצוותים עסקיים להפוך עמימות לפעולה ברורה שניתן לבדוק.", explore: "גלו את התקנים", resources: "משאבי המותג", demo: "בקשו הדגמה", kit: "הורידו את הערכה", foundations: "יסודות", intelligence: "בינה", patterns: "דפוסים", content: "תוכן", accessibility: "נגישות", identity: "זהות", Resources: "משאבים", DOMAINS: "תחומים", PRINCIPLES: "עקרונות", ASSETS: "נכסים" },
+};
+
 function Index() {
+  const [locale, setLocale] = useState<Locale>("en");
+  useEffect(() => { const saved = localStorage.getItem("swe-locale") as Locale | null; if (saved && STRINGS[saved]) setLocale(saved); }, []);
+  useEffect(() => {
+    const l = LOCALES.find((x) => x.id === locale)!;
+    document.documentElement.lang = l.id; document.documentElement.dir = l.dir;
+    localStorage.setItem("swe-locale", l.id);
+  }, [locale]);
+  const tr = (k: string) => STRINGS[locale][k] ?? STRINGS.en[k] ?? k;
+  const topicTitle = (t: { id: string; title: string }) => STRINGS[locale][t.id] ?? t.title;
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
@@ -157,31 +176,32 @@ function Index() {
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label="Simply Well Executed home"><Logo /></button>
         <nav className="hidden items-center gap-1 text-[13px] font-medium lg:flex" aria-label="Main navigation">
-          {topics.slice(0, 5).map((t) => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">{t.title}</button>)}
-          <button onClick={() => go("resources")} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">Resources</button>
+          {topics.slice(0, 5).map((t) => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">{topicTitle(t)}</button>)}
+          <button onClick={() => go("resources")} className="cursor-pointer rounded-full px-3 py-2 transition-colors hover:bg-foreground/5">{tr("Resources")}</button>
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">Request a demo</Button>
-          <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>Get the kit <ArrowDown /></a></Button>
+          <div className="flex rounded-full border border-border p-0.5" role="group" aria-label="Language">{LOCALES.map((l) => <button key={l.id} lang={l.id} onClick={() => setLocale(l.id)} aria-pressed={locale === l.id} className={`cursor-pointer rounded-full px-2.5 py-1 text-[12px] font-medium transition-colors ${locale === l.id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</button>)}</div>
+          <Button variant="outline" size="sm" onClick={() => go("demo")} className="hidden rounded-full md:inline-flex">{tr("demo")}</Button>
+          <Button variant="brand" size="sm" asChild className="hidden sm:inline-flex"><a href="/downloads/Simply-Well-Executed-brand-guide.pdf" download>{tr("kit")} <ArrowDown /></a></Button>
           <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
-      {menuOpen && <nav className="grid border-t border-border bg-background p-4 lg:hidden">{topics.map(t => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer border-b border-border px-2 py-3 text-left font-display font-bold">{t.n} / {t.title}</button>)}</nav>}
+      {menuOpen && <nav className="grid border-t border-border bg-background p-4 lg:hidden">{topics.map(t => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer border-b border-border px-2 py-3 text-start font-display font-bold">{t.n} / {topicTitle(t)}</button>)}</nav>}
     </header>
 
     <main>
       <section id="overview" className="relative overflow-hidden border-b border-border">
         <div className="dot-grid absolute inset-0 opacity-60" />
         <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
-          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> Public operating standards <span className="h-px w-8 bg-border" /> Rev 1.0 · 2026</div>
-          <h1 className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
+          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> {tr("eyebrow")} <span className="h-px w-8 bg-border" /> Rev 1.0 · 2026</div>
+          <h1 dir="ltr" className="rise-in rtl:ms-auto rtl:text-end mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
           <div className="mt-12 grid items-end gap-8 lg:grid-cols-12">
             <div className="rise-in lg:col-span-6 [animation-delay:160ms]">
-              <p className="max-w-[48ch] text-xl leading-relaxed">AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.</p>
-              <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>Explore standards <ArrowRight /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">Brand resources <Download /></Button></div>
+              <p className="max-w-[48ch] text-xl leading-relaxed">{tr("lede")}</p>
+              <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>{tr("explore")} <ArrowRight className="rtl:-scale-x-100" /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">{tr("resources")} <Download /></Button></div>
             </div>
             <div className="rise-in grid grid-cols-3 overflow-hidden rounded-2xl bg-border ring-1 ring-border lg:col-span-6 [animation-delay:240ms]">
-              {[[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']].map(([v,l]) => <div key={l} className="bg-paper p-4 sm:p-6"><div className="font-mono text-[10px] text-muted-foreground">{l}</div><div className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">{v}</div></div>)}
+              {[[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']].map(([v,l]) => <div key={l} className="bg-paper p-4 sm:p-6"><div className="font-mono text-[10px] text-muted-foreground">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">{v}</div></div>)}
             </div>
           </div>
         </div>
@@ -199,7 +219,7 @@ function Index() {
         </div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((e) => (
-            <button key={e.title} onClick={() => go(e.cat)} className="group cursor-pointer rounded-2xl bg-paper p-5 text-left ring-1 ring-border transition-transform hover:-translate-y-1">
+            <button key={e.title} onClick={() => go(e.cat)} className="group cursor-pointer rounded-2xl bg-paper p-5 text-start ring-1 ring-border transition-transform hover:-translate-y-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="rounded-full bg-coral/10 px-2.5 py-1 font-mono text-[10px] uppercase text-coral">{catTitle(e.cat)}</span>
                 <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
