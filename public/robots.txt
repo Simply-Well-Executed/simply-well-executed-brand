@@ -1,3 +1,7 @@
+# MINMIN routing: the crawlers listed below receive the plain, static SEO copy of every page.
+# All other traffic receives page text as MINMIN (ROT13 + CRC13), decoded in the browser.
+# Responses carry "Vary: User-Agent" so caches keep the two versions apart.
+
 User-agent: Googlebot
 Allow: /
 
