@@ -1,4 +1,4 @@
-export type Locale = "en" | "ar" | "he" | "ru" | "zh" | "ko" | "cs" | "ja" | "el" | "it" | "es" | "pt" | "fr" | "sv" | "sw";
+export type Locale = "en" | "ar" | "he" | "ru" | "zh" | "zh-hans" | "ko" | "cs" | "ja" | "el" | "it" | "es" | "pt" | "fr" | "sv" | "sw";
 
 const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
   "ar": {
@@ -837,6 +837,7 @@ const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
     ".": ".",
     "𓂐": "𓂐"
   },
+  "zh-hans": {},
   "ko": {
     "Simply Well Executed | B2B AI Standards": "Simply Well Executed | B2B AI 표준",
     "The public brand, design, and AI operating standards for Simply Well Executed.": "Simply Well Executed의 공개 브랜드, 디자인 및 AI 운영 표준입니다.",
@@ -1262,8 +1263,12 @@ const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
   pt: {},
   fr: {},
   sv: {},
-  sw: {}
+  sw: {},
+  "zh-hans": {}
 } as const;
+
+// zh-hans shares the Simplified Chinese strings already written for zh.
+translations["zh-hans"] = translations.zh;
 
 const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
   ar: {
@@ -1290,6 +1295,7 @@ const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
     "Your pitch, in their language.": "用目标受众的语言，呈现您的宣讲。",
     "Standards Rev 1.0 · Built to be reviewed": "标准 Rev 1.0 · 为审阅而构建"
   },
+  "zh-hans": {},
   ko: {
     "Built for review, not awe.": "감탄이 아닌, 검토를 위해 만들어졌습니다.",
     "See it applied to your work.": "귀사의 업무에 적용되는 모습을 확인하세요.",
@@ -1349,8 +1355,12 @@ const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
     "See it applied to your work.": "Uone ikitekelezwa katika kazi yako.",
     "Your pitch, in their language.": "Uwasilishaji wako, kwa lugha yao.",
     "Standards Rev 1.0 · Built to be reviewed": "Viwango Rev 1.0 · Vimejengwa kwa ukaguzi"
-  }
+  },
+  "zh-hans": {}
 };
+
+// zh-hans shares the Simplified Chinese overrides with zh.
+overrides["zh-hans"] = overrides.zh;
 
 export const localeInfo = {
   en: { label: "EN", dir: "ltr", path: "/" },
@@ -1358,6 +1368,7 @@ export const localeInfo = {
   he: { label: "עברית", dir: "rtl", path: "/he" },
   ru: { label: "Русский", dir: "ltr", path: "/ru" },
   zh: { label: "台北", dir: "ltr", path: "/zh" },
+  "zh-hans": { label: "中文", dir: "ltr", path: "/zh-hans" },
   ko: { label: "한국어", dir: "ltr", path: "/ko" },
   cs: { label: "CS", dir: "ltr", path: "/cs" },
   ja: { label: "日本語", dir: "ltr", path: "/ja" },
@@ -1376,7 +1387,7 @@ export function translate(locale: Locale, source: string | undefined): string {
   return overrides[locale][source] ?? translations[locale][source] ?? source;
 }
 
-export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", ko: "ko", cs: "cs", ja: "ja", el: "el", it: "it", es: "es", pt: "pt", fr: "fr", sv: "sv", sw: "sw" };
+export const hreflang: Record<Locale, string> = { en: "en", ar: "ar", he: "he", ru: "ru", zh: "zh-TW", "zh-hans": "zh-Hans", ko: "ko", cs: "cs", ja: "ja", el: "el", it: "it", es: "es", pt: "pt", fr: "fr", sv: "sv", sw: "sw" };
 export const SITE = "https://simpwellx.com";
 export function alternateLinks() {
   const links = (Object.keys(localeInfo) as Locale[]).map((l) => ({ rel: "alternate", hrefLang: hreflang[l], href: SITE + (localeInfo[l].path === "/" ? "/" : localeInfo[l].path) }));
