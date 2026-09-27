@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { localeInfo, translate, type Locale } from "@/lib/locales";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({ meta: [
     { title: "Simply Well Executed | B2B AI Standards" },
     { name: "description", content: "The public brand, design, and AI operating standards for Simply Well Executed." },
