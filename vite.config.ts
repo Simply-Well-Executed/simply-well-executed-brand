@@ -12,7 +12,7 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 // Load all env vars into process.env for server-side code only (server routes
 // need non-VITE_ vars such as SUPABASE_SERVICE_ROLE_KEY). Never expose these
 // through the client envDefine block.
-const serverEnv = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
+const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
 Object.assign(process.env, serverEnv);
 
 export default defineConfig({
