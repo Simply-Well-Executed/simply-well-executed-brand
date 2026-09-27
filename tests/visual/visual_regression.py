@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageChops
 from playwright.async_api import async_playwright
 
-URL = "http://localhost:8080/"
+URLS = {"en": "http://localhost:8080/", "ar": "http://localhost:8080/ar", "he": "http://localhost:8080/he"}
 HERE = Path(__file__).parent
 BASE = HERE / "baseline"
 OUT = HERE / "output"
@@ -44,9 +44,7 @@ PROBE = """() => {
 }"""
 
 async def capture(page, locale, vp):
-    await page.goto(URL, wait_until="networkidle")
-    await page.evaluate(f"localStorage.setItem('swe-locale','{locale}')")
-    await page.goto(URL, wait_until="networkidle")
+    await page.goto(URLS[locale], wait_until="networkidle")
     await page.wait_for_function(f"document.documentElement.lang === '{locale}'")
     await page.add_style_tag(content="*,*::before,*::after{animation:none!important;transition:none!important}")
     await page.evaluate("document.fonts.ready")

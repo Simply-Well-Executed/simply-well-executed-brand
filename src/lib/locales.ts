@@ -421,6 +421,21 @@ const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
   }
 } as const;
 
+const overrides: Record<Exclude<Locale, "en">, Record<string, string>> = {
+  ar: {
+    "Built for review, not awe.": "مصمم للمراجعة، لا للإبهار.",
+    "See it applied to your work.": "شاهده مطبّقًا على عملك.",
+    "Your pitch, in their language.": "رسالتك، بلغتهم.",
+    "Standards Rev 1.0 · Built to be reviewed": "مراجعة المعايير 1.0 · صُممت لتُراجع"
+  },
+  he: {
+    "Built for review, not awe.": "נבנה לבדיקה, לא כדי להרשים.",
+    "See it applied to your work.": "ראו איך זה מיושם בעבודה שלכם.",
+    "Your pitch, in their language.": "המסר שלכם, בשפה שלהם.",
+    "Standards Rev 1.0 · Built to be reviewed": "גרסת התקנים 1.0 · נבנה לבדיקה"
+  }
+};
+
 export const localeInfo = {
   en: { label: "EN", dir: "ltr", path: "/" },
   ar: { label: "العربية", dir: "rtl", path: "/ar" },
@@ -429,5 +444,5 @@ export const localeInfo = {
 
 export function translate(locale: Locale, source: string): string {
   if (locale === "en") return source;
-  return translations[locale][source] ?? source;
+  return overrides[locale][source] ?? translations[locale][source] ?? source;
 }
