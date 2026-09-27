@@ -8,6 +8,13 @@
       "when": 1790476830027,
       "tag": "0000_create_demo_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790485784493,
+      "tag": "0001_create_mcp_audit_log",
+      "breakpoints": true
     }
   ]
 }

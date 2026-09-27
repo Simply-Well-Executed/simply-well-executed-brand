@@ -41,6 +41,36 @@ export type Database = {
         }
         Relationships: []
       }
+      mcp_audit_log: {
+        Row: {
+          created_at: string
+          entry_hash: string
+          id: string
+          payload: Json
+          prev_hash: string
+          tool_name: string
+          wallet_id: string
+        }
+        Insert: {
+          created_at?: string
+          entry_hash: string
+          id?: string
+          payload?: Json
+          prev_hash: string
+          tool_name: string
+          wallet_id: string
+        }
+        Update: {
+          created_at?: string
+          entry_hash?: string
+          id?: string
+          payload?: Json
+          prev_hash?: string
+          tool_name?: string
+          wallet_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "sdk_version": "3.0.4",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "simply-well-executed-brand",
+      "version": "0.1.0",
+      "title": "Simply Well Executed Brand"
+    },
+    "tools": [
+      {
+        "name": "list_standards",
+        "title": "List standards",
+        "description": "List the public operating standards of Simply Well Executed, optionally filtered by category.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Filter standards to one category.",
+              "type": "string",
+              "enum": [
+                "foundations",
+                "intelligence",
+                "patterns",
+                "content",
+                "accessibility",
+                "identity",
+                "resources"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_brand_info",
+        "title": "Get brand info",
+        "description": "Get the Simply Well Executed brand system: colors, typography, locales, and downloadable brand assets.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "submit_demo_request",
+        "title": "Submit demo request",
+        "description": "Submit a demo request to Simply Well Executed. A real person reviews and replies — no automated funnel.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Your name."
+            },
+            "email": {
+              "type": "string",
+              "maxLength": 255,
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+              "description": "Work email for the reply."
+            },
+            "company": {
+              "description": "Company name.",
+              "type": "string",
+              "maxLength": 120
+            },
+            "message": {
+              "description": "What you want to see in the demo.",
+              "type": "string",
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "name",
+            "email"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_audit_trail",
+        "title": "Get audit trail",
+        "description": "Read the public, append-only audit trail of MCP tool calls. Each entry is hash-chained to the previous one and carries a wallet-style ID.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Max entries to return (default 25, newest first).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
