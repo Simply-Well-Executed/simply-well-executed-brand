@@ -19,3 +19,4 @@
 - App email sending is removed (owner request); project emails are disabled — do not re-scaffold email templates unless asked.
 
 - MIN-family levels 5–18 share one generic encoder/decoder (src/lib/minza-depth.server.ts, minza-depth-decode.ts); site default is level 18 cascading down by length — one module avoids 14 near-identical copies.
+- MIN-family rolls use dateRolls() in src/lib/minamina.server.ts (Date.now() seed, Park–Miller arithmetic); every level imports crc13/rotn/dateRolls/piece from minzaminza.server.ts — one source, no PRNG library (owner removed mulberry32).
