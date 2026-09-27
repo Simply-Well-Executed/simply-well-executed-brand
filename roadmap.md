@@ -10,3 +10,10 @@
 - [x] True RTL: dir=rtl for ar/he, verified via Playwright (he-rtl.png)
 - [x] Locale switch verified — earlier miss was a test artifact (localStorage before hydration)
 - [x] Swap fonts: display FreeSerif, text FreeSans, data FreeMono
+
+- [ ] Fix remaining bidirectional/mirroring defects using Unicode isolation
+- [ ] Build separate Arabic and Hebrew pages from English content
+- [ ] Translate library, standards, demo, and sequence sections naturally
+- [ ] Add prospect email delivery for generated sample sequences
+- [ ] Regenerate downloadable brand guide with FreeSerif, FreeSans, and FreeMono
+- [ ] Verify all locales and downloadable guide
