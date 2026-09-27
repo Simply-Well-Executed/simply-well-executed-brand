@@ -1391,3 +1391,8 @@ export function alternateLinks() {
   const links = (Object.keys(localeInfo) as Locale[]).map((l) => ({ rel: "alternate", hrefLang: hreflang[l], href: SITE + (localeInfo[l].path === "/" ? "/" : localeInfo[l].path) }));
   return [...links, { rel: "alternate", hrefLang: "x-default", href: SITE + "/" }];
 }
+
+/** Merged dictionary (overrides win) — used by the per-language wording quality gates. */
+export function localeDictionary(locale: Exclude<Locale, "en">): Record<string, string> {
+  return { ...translations[locale], ...overrides[locale] };
+}
