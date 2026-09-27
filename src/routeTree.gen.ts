@@ -27,6 +27,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SvRouteImport } from './routes/sv'
 import { Route as SwRouteImport } from './routes/sw'
 import { Route as ZhRouteImport } from './routes/zh'
+import { Route as ZhHansRouteImport } from './routes/zh-hans'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -122,6 +123,11 @@ const ZhRoute = ZhRouteImport.update({
   path: '/zh',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZhHansRoute = ZhHansRouteImport.update({
+  id: '/zh-hans',
+  path: '/zh-hans',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/sv': typeof SvRoute
   '/sw': typeof SwRoute
   '/zh': typeof ZhRoute
+  '/zh-hans': typeof ZhHansRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/sv': typeof SvRoute
   '/sw': typeof SwRoute
   '/zh': typeof ZhRoute
+  '/zh-hans': typeof ZhHansRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/sv': typeof SvRoute
   '/sw': typeof SwRoute
   '/zh': typeof ZhRoute
+  '/zh-hans': typeof ZhHansRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/sv'
     | '/sw'
     | '/zh'
+    | '/zh-hans'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/sv'
     | '/sw'
     | '/zh'
+    | '/zh-hans'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -287,6 +298,7 @@ export interface FileRouteTypes {
     | '/sv'
     | '/sw'
     | '/zh'
+    | '/zh-hans'
     | '/.well-known/oauth-protected-resource'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   SvRoute: typeof SvRoute
   SwRoute: typeof SwRoute
   ZhRoute: typeof ZhRoute
+  ZhHansRoute: typeof ZhHansRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -446,6 +459,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ZhRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zh-hans': {
+      id: '/zh-hans'
+      path: '/zh-hans'
+      fullPath: '/zh-hans'
+      preLoaderRoute: typeof ZhHansRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -496,6 +516,7 @@ const rootRouteChildren: RootRouteChildren = {
   SvRoute: SvRoute,
   SwRoute: SwRoute,
   ZhRoute: ZhRoute,
+  ZhHansRoute: ZhHansRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
