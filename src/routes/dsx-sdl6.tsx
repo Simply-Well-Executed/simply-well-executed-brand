@@ -40,10 +40,10 @@ function SimulationPage() {
           <Button asChild variant="outline" size="sm"><Link to="/"><ArrowLeft /> Standards library</Link></Button>
         </div>
       </header>
-      <main>
+      <section aria-label="DSX SDL6 simulation">
         <h1 className="sr-only">DSX SDL6 Truth-Fire CORE</h1>
         <iframe ref={frame} title="DSX SDL6 Truth-Fire CORE interactive coin simulation" srcDoc={simulation} sandbox="allow-scripts allow-downloads" height={height} className="block w-full border-0" />
-      </main>
+      </section>
     </div>
   );
 }
