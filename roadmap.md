@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Add uploaded DSX SDL6 simulation as a separate linked page and verify controls, mirror halt/recovery, and evidence export
 - [x] Add zh / ko / cs locales + pages, hreflang, sitemap
 - [ ] Search engine verification tags (Bing, Yandex, Baidu, Shenma, Naver, Sogou, Seznam, Petal) — needs codes from user
 - [ ] IndexNow key for Bing/Yandex/Seznam/Naver

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiGovernanceFrameworkRouteImport } from './routes/ai-governance-framework'
 import { Route as ArRouteImport } from './routes/ar'
 import { Route as CsRouteImport } from './routes/cs'
+import { Route as DsxSdl6RouteImport } from './routes/dsx-sdl6'
 import { Route as ElRouteImport } from './routes/el'
 import { Route as EsRouteImport } from './routes/es'
 import { Route as FrRouteImport } from './routes/fr'
@@ -48,6 +49,11 @@ const ArRoute = ArRouteImport.update({
 const CsRoute = CsRouteImport.update({
   id: '/cs',
   path: '/cs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DsxSdl6Route = DsxSdl6RouteImport.update({
+  id: '/dsx-sdl6',
+  path: '/dsx-sdl6',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ElRoute = ElRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
   '/cs': typeof CsRoute
+  '/dsx-sdl6': typeof DsxSdl6Route
   '/el': typeof ElRoute
   '/es': typeof EsRoute
   '/fr': typeof FrRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
   '/cs': typeof CsRoute
+  '/dsx-sdl6': typeof DsxSdl6Route
   '/el': typeof ElRoute
   '/es': typeof EsRoute
   '/fr': typeof FrRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/ai-governance-framework': typeof AiGovernanceFrameworkRoute
   '/ar': typeof ArRoute
   '/cs': typeof CsRoute
+  '/dsx-sdl6': typeof DsxSdl6Route
   '/el': typeof ElRoute
   '/es': typeof EsRoute
   '/fr': typeof FrRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/ai-governance-framework'
     | '/ar'
     | '/cs'
+    | '/dsx-sdl6'
     | '/el'
     | '/es'
     | '/fr'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/ai-governance-framework'
     | '/ar'
     | '/cs'
+    | '/dsx-sdl6'
     | '/el'
     | '/es'
     | '/fr'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/ai-governance-framework'
     | '/ar'
     | '/cs'
+    | '/dsx-sdl6'
     | '/el'
     | '/es'
     | '/fr'
@@ -273,6 +285,7 @@ export interface RootRouteChildren {
   AiGovernanceFrameworkRoute: typeof AiGovernanceFrameworkRoute
   ArRoute: typeof ArRoute
   CsRoute: typeof CsRoute
+  DsxSdl6Route: typeof DsxSdl6Route
   ElRoute: typeof ElRoute
   EsRoute: typeof EsRoute
   FrRoute: typeof FrRoute
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/cs'
       fullPath: '/cs'
       preLoaderRoute: typeof CsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dsx-sdl6': {
+      id: '/dsx-sdl6'
+      path: '/dsx-sdl6'
+      fullPath: '/dsx-sdl6'
+      preLoaderRoute: typeof DsxSdl6RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/el': {
@@ -441,6 +461,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiGovernanceFrameworkRoute: AiGovernanceFrameworkRoute,
   ArRoute: ArRoute,
   CsRoute: CsRoute,
+  DsxSdl6Route: DsxSdl6Route,
   ElRoute: ElRoute,
   EsRoute: EsRoute,
   FrRoute: FrRoute,
