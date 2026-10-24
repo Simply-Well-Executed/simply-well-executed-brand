@@ -370,6 +370,6 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       </section>
     </main>
 
-    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">{tr('AI work, made operational.')}</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">{tr('Request a demo')}</button></div><div className="font-mono text-[11px] text-muted-foreground"><bdi dir="ltr">© 2026</bdi> · {tr("Standards Rev 1.0 · Built to be reviewed")} <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
+    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">{tr('AI work, made operational.')}</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">{tr('Request a demo')}</button><Button asChild variant="link" className="mt-2 block w-fit px-0"><Link to="/dsx-sdl6" lang="en">DSX SDL6 Truth-Fire CORE</Link></Button></div><div className="font-mono text-[11px] text-muted-foreground"><bdi dir="ltr">© 2026</bdi> · {tr("Standards Rev 1.0 · Built to be reviewed")} <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
   </div>;
 }

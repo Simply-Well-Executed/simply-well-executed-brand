@@ -11,6 +11,7 @@
 
 - The brand website is a single-page, searchable standards library with anchored topic sections; this keeps marketing and operating guidance in one public reference surface.
 - Brand downloads are generated static files served from `public/downloads`; this keeps user-facing resources reliable without a backend.
+- The DSX SDL6 uploaded simulator runs in a script/download-only sandboxed iframe using source-controlled HTML; isolation preserves the supplied model without exposing the host page or session.
 
 - English `/`, Arabic `/ar`, Hebrew `/he`, and Russian `/ru` share one standards-page component and locale dictionary; dedicated URLs keep localization crawlable while logical CSS and isolated mixed-direction fragments preserve natural RTL.
 - Russian defaults to FreeSerif editorial type; `/ru` alone offers Устав and Вязь modes.
