@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Apply the poster-based presentation-only retheme; release gates and preview build passed; all 16 locale desktop/mobile layouts and controls checked on plain-HTML delivery; not published. Existing visitor packet decoding intermittently reports integrity failure before hydration, unchanged by this presentation-only work.
 - [x] Add uploaded DSX SDL6 simulation as a separate linked page and verify controls, mirror halt/recovery, and evidence export
 - [x] Add zh / ko / cs locales + pages, hreflang, sitemap
 - [ ] Search engine verification tags (Bing, Yandex, Baidu, Shenma, Naver, Sogou, Seznam, Petal) — needs codes from user

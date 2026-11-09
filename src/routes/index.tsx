@@ -65,17 +65,17 @@ function DemoRequestForm({ locale }: { locale: Locale }) {
   };
 
   if (status === "sent") return (
-    <div className="rounded-3xl bg-paper p-8 ring-1 ring-border">
-      <span className="grid size-12 place-items-center rounded-full bg-teal text-primary-foreground"><Check className="size-6" /></span>
+    <div className="rounded-lg bg-paper p-8 ring-1 ring-border">
+      <span className="grid size-12 place-items-center rounded-md bg-teal text-primary-foreground"><Check className="size-6" /></span>
       <h3 className="mt-6 font-display text-2xl font-bold">{tr("Request received.")}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tr("We'll review what you sent and reply from a real person — no automated funnel.")}</p>
-      <Button variant="outline" size="sm" className="mt-6 rounded-full" onClick={() => { setForm({ name: "", email: "", company: "", message: "" }); setStatus("idle"); }}>{tr("Send another request")}</Button>
+      <Button variant="outline" size="sm" className="mt-6 rounded-md" onClick={() => { setForm({ name: "", email: "", company: "", message: "" }); setStatus("idle"); }}>{tr("Send another request")}</Button>
     </div>
   );
 
-  const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-coral";
+  const field = "mt-1.5 w-full rounded-md border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-coral";
   return (
-    <form onSubmit={submit} className="rounded-3xl bg-paper p-8 ring-1 ring-border" noValidate>
+    <form onSubmit={submit} className="rounded-lg bg-paper p-8 ring-1 ring-border" noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium">{tr("Name")}
           <input required value={form.name} onChange={set("name")} className={field} placeholder={tr("Your name")} maxLength={100} autoComplete="name" />
@@ -90,7 +90,7 @@ function DemoRequestForm({ locale }: { locale: Locale }) {
           <textarea value={form.message} onChange={set("message")} className={`${field} min-h-28 resize-y`} placeholder={tr("The workflow, team, or decision you want to see handled.")} maxLength={2000} />
         </label>
       </div>
-      {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
+      {error && <p role="alert" className="mt-4 rounded-md bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
       <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={status === "sending"}>{status === "sending" ? tr("Sending…") : tr("Request a demo")}</Button>
     </form>
   );
@@ -106,7 +106,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ text: string; lang: string } | null>(null);
-  const field = "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-violet";
+  const field = "mt-1.5 w-full rounded-md border border-border bg-background px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-violet";
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (product.trim().length < 2) return setError(tr("Describe your product in a few words."));
@@ -119,7 +119,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
     finally { setBusy(false); }
   };
   return (
-    <form onSubmit={submit} className="rounded-3xl bg-background p-8 ring-1 ring-border" noValidate aria-label={tr("Sample sales sequence generator")}>
+    <form onSubmit={submit} className="rounded-lg bg-background p-8 ring-1 ring-border" noValidate aria-label={tr("Sample sales sequence generator")}>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium sm:col-span-2">{tr("Product")}
           <input value={product} onChange={(e) => setProduct(e.target.value)} className={field} maxLength={300} placeholder={tr("What you sell, in a sentence")} />
@@ -133,10 +133,10 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
           </select>
         </label>
       </div>
-      {error && <p role="alert" className="mt-4 rounded-xl bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
+      {error && <p role="alert" className="mt-4 rounded-md bg-coral/10 px-4 py-3 text-sm text-coral">{error}</p>}
       <Button type="submit" variant="ink" className="mt-6 w-full sm:w-auto" disabled={busy}>{busy ? tr("Writing your sequence…") : tr("Generate sample sequence")}</Button>
       {result && (
-        <div className="mt-6 rounded-2xl bg-paper p-6 ring-1 ring-border">
+        <div className="mt-6 rounded-lg bg-paper p-6 ring-1 ring-border">
           <div className="font-mono text-[11px] uppercase text-violet">{tr("AI draft · review before use")}</div>
           <div lang={result.lang} dir={localeInfo[result.lang as Locale]?.dir ?? "ltr"} className="mt-3 whitespace-pre-wrap text-start text-sm leading-relaxed" data-testid="sequence-output">{result.text}</div>
         </div>
@@ -145,12 +145,12 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
   );
 }
 
-function Logo({ compact = false }: { compact?: boolean }) {
-  return <span className="swe-wordmark inline-flex items-center gap-2.5"><img src="/downloads/pentagonal-xor-emblem/color.svg" alt="" aria-hidden="true" width="40" height="40" className="swe-wordmark-icon size-10 shrink-0" />{!compact && <span className="font-display text-[15px] font-extrabold leading-none">Simply Well Executed</span>}</span>;
+function Logo({ compact = false, reversed = false }: { compact?: boolean; reversed?: boolean }) {
+  return <span className="swe-wordmark inline-flex items-center gap-2.5"><img src={reversed ? "/downloads/pentagonal-xor-emblem/reversed.svg" : "/downloads/pentagonal-xor-emblem/color.svg"} alt="" aria-hidden="true" width="40" height="40" className="swe-wordmark-icon size-10 shrink-0" />{!compact && <span className="font-display text-[15px] font-extrabold leading-none">Simply Well Executed</span>}</span>;
 }
 
 function SectionLabel({ children }: { children: string }) {
-  return <div className="mb-8 font-mono text-[11px] uppercase text-coral">{children}</div>;
+  return <div className="swe-section-label mb-8 font-mono text-[11px] uppercase text-coral">{children}</div>;
 }
 
 type RussianScript = "default" | "ustav" | "vyaz";
@@ -172,7 +172,7 @@ function RussianScriptPicker({ value, onChange }: { value: RussianScript; onChan
           type="button"
           variant="ghost"
           size="icon"
-          className="-ms-2 me-1 size-5 shrink-0 self-start rounded-full p-0 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+          className="-ms-2 me-1 size-5 shrink-0 self-start rounded-md p-0 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
           aria-label={`Выбрать начертание: ${selectedLabel}`}
         >
           <ChevronDown className={`size-3 transition-transform ${open ? "rotate-180" : ""}`} />
@@ -256,35 +256,32 @@ export function StandardsPage({ locale }: { locale: Locale }) {
   return <div lang={locale} dir={info.dir} data-locale={locale} data-ru-script={locale === "ru" ? russianScript : undefined} className={`swe-site min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${locale === "ru" ? "locale-ru" : ""}`}>
     <header className="swe-site-header sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
-        <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>
+        <Button variant="ghost" onClick={() => go("overview")} className="h-auto shrink-0 p-0 hover:bg-transparent" aria-label={tr("Simply Well Executed home")}><Logo /></Button>
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex min-w-0 items-center gap-1 overflow-x-auto rounded-full border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <div key={id} className="flex shrink-0 items-center"><Link to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>{id === "ru" && <RussianScriptPicker value={russianScript} onChange={chooseRussianScript} />}</div>)}</div>
-          <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-full lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>
+          <div className="flex min-w-0 items-center gap-1 overflow-x-auto rounded-md border border-border p-1" role="group" aria-label={tr("Language")}>{(Object.entries(localeInfo) as [Locale, (typeof localeInfo)[Locale]][]).map(([id, l]) => <div key={id} className="flex shrink-0 items-center"><Link to={l.path} lang={id} aria-current={locale === id ? "page" : undefined} className={`shrink-0 whitespace-nowrap rounded-md px-3.5 py-1.5 text-[13px] font-medium transition-colors ${locale === id ? "bg-foreground text-background" : "hover:bg-foreground/5"}`}>{l.label}</Link>{id === "ru" && <RussianScriptPicker value={russianScript} onChange={chooseRussianScript} />}</div>)}</div>
+          <Button variant="outline" size="icon" onClick={() => setMenuOpen(!menuOpen)} className="rounded-md lg:hidden" aria-label={tr("Toggle menu")}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
-      {menuOpen && <nav className="grid border-t border-border bg-background p-4 lg:hidden">{topics.map(t => <button key={t.id} onClick={() => go(t.id)} className="cursor-pointer border-b border-border px-2 py-3 text-start font-display font-bold">{t.n} / {topicTitle(t)}</button>)}</nav>}
+      {menuOpen && <nav className="grid border-t border-border bg-background p-4 lg:hidden">{topics.map(t => <Button variant="ghost" key={t.id} onClick={() => go(t.id)} className="h-auto justify-start border-b border-border px-2 py-3 text-start font-display font-bold">{t.n} / {topicTitle(t)}</Button>)}</nav>}
     </header>
 
     <main data-minmin={minmin}>
       <section id="overview" className="swe-hero relative isolate overflow-hidden border-b border-border">
-         <div className="dot-grid pointer-events-none absolute inset-0 opacity-25" aria-hidden="true" />
-         <div className="swe-hero-halo pointer-events-none absolute inset-0" aria-hidden="true" />
-         <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-5 py-16 lg:min-h-[650px] lg:grid-cols-[minmax(0,1.3fr)_minmax(290px,.7fr)] lg:gap-14 lg:px-8 lg:py-24">
-           <div className="relative z-10">
-             <div className="rise-in swe-hero-kicker flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-[.2em]"><span className="swe-kicker-glyph" aria-hidden="true">⬟</span><span>{tr("Public operating standards")}</span><span className="h-px w-8 bg-white/30" aria-hidden="true" /><bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
-             <h1 className="rise-in swe-hero-heading mt-7 font-display text-[clamp(3.5rem,8.5vw,8.25rem)] font-black leading-[.88] tracking-[-.035em] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
+         <div className="swe-hero-layout mx-auto max-w-[1400px] px-5 lg:px-8">
+           <div className="swe-hero-copy">
+             <div className="rise-in swe-hero-kicker flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase"><span className="swe-kicker-glyph" aria-hidden="true">⬟</span><span>{tr("Public operating standards")}</span><span className="h-px w-8 bg-stage-line" aria-hidden="true" /><bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
+             <h1 className="rise-in swe-hero-heading mt-7 font-display font-black [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
              <p className="rise-in swe-hero-intro mt-8 max-w-[49ch] text-lg leading-relaxed sm:text-xl [animation-delay:160ms]">{tr("AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.")}</p>
              <div className="rise-in mt-8 flex flex-wrap gap-3 [animation-delay:210ms]">
                <Button variant="brand" size="lg" onClick={() => go("foundations")}>{tr("Explore standards")} <ArrowRight className="rtl:-scale-x-100" /></Button>
-               <Button variant="outline" size="lg" onClick={() => go("resources")} className="swe-hero-secondary rounded-full">{tr("Brand resources")} <Download /></Button>
+               <Button variant="outline" size="lg" onClick={() => go("resources")} className="swe-hero-secondary rounded-md">{tr("Brand resources")} <Download /></Button>
              </div>
-             <div className="rise-in swe-hero-stats mt-12 grid max-w-[650px] grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/20 bg-white/10 [animation-delay:240ms]">
-               {([[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']] as [string,string][]).map(([v,l]) => <div key={l} className="swe-stat px-4 py-4 sm:px-6 sm:py-5"><div className="font-mono text-[10px] uppercase tracking-wider text-white/70">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold text-white sm:text-4xl">{v}</div></div>)}
+             <div className="rise-in swe-hero-stats mt-10 grid max-w-[550px] grid-cols-3 [animation-delay:240ms]">
+               {([[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']] as [string,string][]).map(([v,l]) => <div key={l} className="swe-stat px-4 py-4 sm:px-6 sm:py-5"><div className="font-mono text-[10px] uppercase text-stage-muted">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold text-stage-foreground sm:text-4xl">{v}</div></div>)}
              </div>
            </div>
-           <div className="swe-emblem-stage rise-in relative mx-auto flex w-full max-w-[460px] items-center justify-center [animation-delay:200ms]">
-             <div className="swe-emblem-aura pointer-events-none absolute inset-0" aria-hidden="true" />
-             <img src="/downloads/pentagonal-xor-emblem/color.svg" alt={tr("Pentagonal XOR spiral emblem")} width="1000" height="1000" className="swe-emblem relative z-10 w-full drop-shadow-[0_30px_90px_rgba(0,0,0,.4)]" />
+           <div className="swe-emblem-stage">
+             <img src="/downloads/pentagonal-xor-emblem/color.svg" alt={tr("Pentagonal XOR spiral emblem")} width="1000" height="1000" className="swe-emblem relative z-10" />
            </div>
          </div>
        </section>
@@ -292,60 +289,60 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       <section id="foundations" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8">
         <div className="mb-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div><SectionLabel>{tr('(a) Standards library')}</SectionLabel><h2 className="font-display text-4xl font-extrabold">{tr('The index')}</h2></div>
-          <label className="flex h-11 items-center gap-2 rounded-full border border-border bg-paper px-4"><Search className="size-4 text-muted-foreground"/><span className="sr-only">{tr('Search standards')}</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={tr("Search guidance")} className="w-44 bg-transparent text-sm outline-none placeholder:text-muted-foreground"/></label>
+          <label className="swe-search flex h-11 items-center gap-2 rounded-md border border-border bg-paper px-4"><Search className="size-4 text-muted-foreground"/><span className="sr-only">{tr('Search standards')}</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={tr("Search guidance")} className="w-44 bg-transparent text-sm outline-none placeholder:text-muted-foreground"/></label>
         </div>
         <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label={tr("Filter by category")}>
           {[{ id: "all", title: "All" }, ...topics].map((t) => (
-            <Button key={t.id} variant={category === t.id ? "ink" : "outline"} size="sm" onClick={() => setCategory(t.id)} className="rounded-full">{tr(t.title)}</Button>
+            <Button key={t.id} variant={category === t.id ? "ink" : "outline"} size="sm" onClick={() => setCategory(t.id)} className="rounded-md">{tr(t.title)}</Button>
           ))}
         </div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((e) => (
-            <button key={tr(e.title)} onClick={() => go(e.cat)} className="group cursor-pointer rounded-2xl bg-paper p-5 text-start ring-1 ring-border transition-transform hover:-translate-y-1">
+            <Button variant="ghost" key={tr(e.title)} onClick={() => go(e.cat)} className="swe-library-item group rounded-lg bg-paper p-5 text-start">
               <div className="flex items-center justify-between gap-2">
-                <span className="rounded-full bg-coral/10 px-2.5 py-1 font-mono text-[10px] uppercase text-coral">{tr(catTitle(e.cat))}</span>
+                <span className="rounded-md bg-coral/10 px-2.5 py-1 font-mono text-[10px] uppercase text-coral">{tr(catTitle(e.cat))}</span>
                 <ArrowRight className="size-4 text-muted-foreground transition-transform rtl:-scale-x-100" />
               </div>
               <div className="mt-4 font-display text-lg font-bold">{tr(e.title)}</div>
               <div className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{tr(e.note)}</div>
-            </button>
+            </Button>
           ))}
           {!filtered.length && (
-            <div className="col-span-full rounded-2xl bg-paper py-12 text-center ring-1 ring-border">
+            <div className="col-span-full rounded-lg bg-paper py-12 text-center ring-1 ring-border">
               <p className="text-muted-foreground">{tr("No standards match")} {query ? <bdi>{`“${query}”`}</bdi> : tr("this filter")}.</p>
-              <Button variant="outline" size="sm" className="mt-4 rounded-full" onClick={() => { setQuery(""); setCategory("all"); }}>{tr('Clear filters')}</Button>
+              <Button variant="outline" size="sm" className="mt-4 rounded-md" onClick={() => { setQuery(""); setCategory("all"); }}>{tr('Clear filters')}</Button>
             </div>
           )}
         </div>
       </section>
 
       <section id="intelligence" className="border-y border-border bg-paper">
-        <div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(b) Intelligence principles')}</SectionLabel><div className="grid gap-12 lg:grid-cols-12"><h2 className="font-display text-5xl font-black leading-[.95] lg:col-span-5">{tr('Built for review, not awe.')}</h2><div className="grid gap-px overflow-hidden rounded-2xl bg-border ring-1 ring-border md:grid-cols-2 lg:col-span-7">{principles.map(([h,b],i)=><article key={h} className="bg-background p-6"><span className="font-mono text-[11px] text-coral">A{i+1}</span><h3 className="mt-5 font-display text-xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tr(b)}</p></article>)}</div></div><div className="mt-8"><Button variant="outline" size="sm" asChild className="rounded-full"><Link to="/ai-governance-framework">{tr("Read the AI governance framework")} <ArrowRight className="rtl:-scale-x-100" /></Link></Button></div></div>
+        <div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(b) Intelligence principles')}</SectionLabel><div className="grid gap-12 lg:grid-cols-12"><h2 className="font-display text-5xl font-black leading-[.95] lg:col-span-5">{tr('Built for review, not awe.')}</h2><div className="grid gap-px overflow-hidden rounded-lg bg-border ring-1 ring-border md:grid-cols-2 lg:col-span-7">{principles.map(([h,b],i)=><article key={h} className="bg-background p-6"><span className="font-mono text-[11px] text-coral">A{i+1}</span><h3 className="mt-5 font-display text-xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tr(b)}</p></article>)}</div></div><div className="mt-8"><Button variant="outline" size="sm" asChild className="rounded-md"><Link to="/ai-governance-framework">{tr("Read the AI governance framework")} <ArrowRight className="rtl:-scale-x-100" /></Link></Button></div></div>
       </section>
 
       <section id="patterns" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(c) Interaction patterns')}</SectionLabel>
-        <div className="mb-6 flex flex-wrap gap-2">{['Recommendation','Approval','Correction'].map((x,i)=><Button key={x} variant={activePattern===i?'ink':'outline'} size="sm" onClick={()=>setActivePattern(i)} className="rounded-full">{tr(x)}</Button>)}</div>
+        <div className="mb-6 flex flex-wrap gap-2">{['Recommendation','Approval','Correction'].map((x,i)=><Button key={x} variant={activePattern===i?'ink':'outline'} size="sm" onClick={()=>setActivePattern(i)} className="rounded-md">{tr(x)}</Button>)}</div>
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl bg-teal p-7 text-primary-foreground"><div className="font-mono text-[11px] uppercase opacity-70">{tr('Do')}</div><h3 className="mt-3 font-display text-2xl font-bold">{tr(['Show the recommendation and why.','Name exactly what approval changes.','Preserve the original and the correction.'][activePattern])}</h3><p className="mt-3 max-w-[46ch] text-sm leading-relaxed opacity-85">{tr('Make the state, consequence, and next step visible in the same place.')}</p></div>
-          <div className="rounded-3xl bg-paper p-7 ring-1 ring-border"><div className="font-mono text-[11px] uppercase text-coral">{tr('Don’t')}</div><h3 className="mt-3 font-display text-2xl font-bold">{tr(['Hide alternatives behind certainty.','Treat silence as consent.','Erase the path that led here.'][activePattern])}</h3><p className="mt-3 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">{tr('Confidence is useful. False finality is not.')}</p></div>
+          <div className="rounded-lg bg-teal p-7 text-primary-foreground"><div className="font-mono text-[11px] uppercase opacity-70">{tr('Do')}</div><h3 className="mt-3 font-display text-2xl font-bold">{tr(['Show the recommendation and why.','Name exactly what approval changes.','Preserve the original and the correction.'][activePattern])}</h3><p className="mt-3 max-w-[46ch] text-sm leading-relaxed opacity-85">{tr('Make the state, consequence, and next step visible in the same place.')}</p></div>
+          <div className="rounded-lg bg-paper p-7 ring-1 ring-border"><div className="font-mono text-[11px] uppercase text-coral">{tr('Don’t')}</div><h3 className="mt-3 font-display text-2xl font-bold">{tr(['Hide alternatives behind certainty.','Treat silence as consent.','Erase the path that led here.'][activePattern])}</h3><p className="mt-3 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">{tr('Confidence is useful. False finality is not.')}</p></div>
         </div>
       </section>
 
       <section id="content" className="border-y border-border bg-foreground text-background"><div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-20 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-4"><SectionLabel>{tr('(d) Content system')}</SectionLabel><h2 className="font-display text-5xl font-black leading-none">{tr('Clear is a feature.')}</h2></div>
-        <div className="grid gap-4 md:grid-cols-3 lg:col-span-8">{[['Direct','Put the outcome in the first sentence.'],['Grounded','Say only what the evidence supports.'],['Human','Use plain words without hiding complexity.']].map(([h,b],i)=><article key={h} className="rounded-2xl border border-background/20 p-5"><span className="font-mono text-[11px] text-amber">0{i+1}</span><h3 className="mt-8 font-display text-xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm text-background/65">{tr(b)}</p></article>)}</div>
+        <div className="grid gap-4 md:grid-cols-3 lg:col-span-8">{[['Direct','Put the outcome in the first sentence.'],['Grounded','Say only what the evidence supports.'],['Human','Use plain words without hiding complexity.']].map(([h,b],i)=><article key={h} className="rounded-lg border border-background/20 p-5"><span className="font-mono text-[11px] text-amber">0{i+1}</span><h3 className="mt-8 font-display text-xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm text-background/65">{tr(b)}</p></article>)}</div>
       </div></section>
 
-      <section id="accessibility" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(e) Accessibility')}</SectionLabel><div className="grid gap-5 lg:grid-cols-2"><div><h2 className="font-display text-5xl font-black leading-none">{tr('Access is part of the specification.')}</h2><p className="mt-5 max-w-[52ch] text-muted-foreground">{tr('Every experience supports keyboard navigation, visible focus, readable contrast, reduced motion, descriptive labels, and clear recovery.')}</p></div><ul className="grid gap-2">{['Keyboard paths are complete','Color never carries meaning alone','Motion respects user preferences','Errors explain the next action'].map(x=><li key={x} className="flex items-center gap-3 rounded-xl bg-paper p-4 ring-1 ring-border"><span className="grid size-7 place-items-center rounded-full bg-teal text-primary-foreground"><Check className="size-4"/></span><span className="font-medium">{tr(x)}</span></li>)}</ul></div></section>
+      <section id="accessibility" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(e) Accessibility')}</SectionLabel><div className="grid gap-5 lg:grid-cols-2"><div><h2 className="font-display text-5xl font-black leading-none">{tr('Access is part of the specification.')}</h2><p className="mt-5 max-w-[52ch] text-muted-foreground">{tr('Every experience supports keyboard navigation, visible focus, readable contrast, reduced motion, descriptive labels, and clear recovery.')}</p></div><ul className="grid gap-2">{['Keyboard paths are complete','Color never carries meaning alone','Motion respects user preferences','Errors explain the next action'].map(x=><li key={x} className="flex items-center gap-3 rounded-md bg-paper p-4 ring-1 ring-border"><span className="grid size-7 place-items-center rounded-md bg-teal text-primary-foreground"><Check className="size-4"/></span><span className="font-medium">{tr(x)}</span></li>)}</ul></div></section>
 
       <section id="identity" className="border-y border-border bg-paper"><div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(f) Identity system')}</SectionLabel><div className="grid gap-4 lg:grid-cols-12">
-        <div className="flex min-h-80 flex-col rounded-3xl bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">{tr('Primary logo')}</div><div className="my-auto flex items-center gap-5 py-8"><img src="/downloads/pentagonal-xor-emblem/color.svg" alt="" aria-hidden="true" width="150" height="150" className="size-24 shrink-0 sm:size-32" /><div className="font-display text-4xl font-black leading-[.95] sm:text-5xl">Simply<br/>Well<br/>Executed</div></div><div className="font-mono text-[11px] text-background/60">{tr('Clear space = 1 node. Never stretch or rotate.')}</div></div>
-        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-4"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('State color')}</div><div className="mt-6 grid grid-cols-2 gap-3">{[['bg-coral','Action'],['bg-amber','Attention'],['bg-teal','Resolved'],['bg-violet','Inquiry']].map(([c,n])=><div key={n} className="overflow-hidden rounded-xl bg-paper ring-1 ring-border"><div className={`h-20 ${c}`}/><div className="p-2 font-mono text-[10px]">{tr(n)}</div></div>)}</div></div>
-        <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('Type')}</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSerif / Display')}</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSans / Text')}</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeMono / Data')}</p></div>
+        <div className="flex min-h-80 flex-col rounded-lg bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">{tr('Primary logo')}</div><div className="my-auto flex items-center gap-5 py-8"><img src="/downloads/pentagonal-xor-emblem/color.svg" alt="" aria-hidden="true" width="150" height="150" className="size-24 shrink-0 sm:size-32" /><div className="font-display text-4xl font-black leading-[.95] sm:text-5xl">Simply<br/>Well<br/>Executed</div></div><div className="font-mono text-[11px] text-background/60">{tr('Clear space = 1 node. Never stretch or rotate.')}</div></div>
+        <div className="rounded-lg bg-background p-7 ring-1 ring-border lg:col-span-4"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('State color')}</div><div className="mt-6 grid grid-cols-2 gap-3">{[['bg-coral','Action'],['bg-amber','Attention'],['bg-teal','Resolved'],['bg-violet','Inquiry']].map(([c,n])=><div key={n} className="overflow-hidden rounded-md bg-paper ring-1 ring-border"><div className={`h-20 ${c}`}/><div className="p-2 font-mono text-[10px]">{tr(n)}</div></div>)}</div></div>
+        <div className="rounded-lg bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('Type')}</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSerif / Display')}</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSans / Text')}</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeMono / Data')}</p></div>
       </div></div></section>
 
       <section id="resources" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(g) Resource access')}</SectionLabel><div className="grid gap-4 md:grid-cols-3">
-        {[['Brand guide','PDF · 3 pages','/downloads/Simply-Well-Executed-brand-guide.pdf'],['Logo package','SVG · primary + compact','/downloads/logo-primary.svg'],['Social artwork','PNG · landscape','/downloads/social-landscape.png']].map(([h,m,u])=><article key={h} className="flex min-h-64 flex-col rounded-3xl bg-paper p-6 ring-1 ring-border"><div className="font-mono text-[11px] text-muted-foreground">{tr(m)}</div><h3 className="mt-5 font-display text-2xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm text-muted-foreground">{tr('Ready-to-use files from the current identity system.')}</p><Button variant="ink" className="mt-auto" asChild><a href={u} download>{tr("Download")} <Download/></a></Button></article>)}
+        {[['Brand guide','PDF · 3 pages','/downloads/Simply-Well-Executed-brand-guide.pdf'],['Logo package','SVG · primary + compact','/downloads/logo-primary.svg'],['Social artwork','PNG · landscape','/downloads/social-landscape.png']].map(([h,m,u])=><article key={h} className="flex min-h-64 flex-col rounded-lg bg-paper p-6 ring-1 ring-border"><div className="font-mono text-[11px] text-muted-foreground">{tr(m)}</div><h3 className="mt-5 font-display text-2xl font-bold">{tr(h)}</h3><p className="mt-2 text-sm text-muted-foreground">{tr('Ready-to-use files from the current identity system.')}</p><Button variant="ink" className="mt-auto" asChild><a href={u} download>{tr("Download")} <Download/></a></Button></article>)}
       </div><div className="mt-4 flex flex-wrap gap-3 text-sm"><a className="underline underline-offset-4" href="/downloads/social-square.png" download>{tr('Square social post')}</a><a className="underline underline-offset-4" href="/downloads/social-avatar.png" download>{tr('Social avatar')}</a><a className="underline underline-offset-4" href="/downloads/brand-art-poster.png" download>{tr('Brand art poster')}</a><a className="underline underline-offset-4" href="/downloads/design-philosophy.md" download>{tr('Design philosophy')}</a><a className="underline underline-offset-4" href="/downloads/logo-compact.svg" download>{tr('Compact logo')}</a></div></section>
 
       <section id="demo" className="border-t border-border">
@@ -376,6 +373,6 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       </section>
     </main>
 
-    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo/><p className="mt-3 max-w-sm text-sm text-muted-foreground">{tr('AI work, made operational.')}</p><button onClick={() => go("demo")} className="mt-4 cursor-pointer text-sm underline underline-offset-4">{tr('Request a demo')}</button><Button asChild variant="link" className="mt-2 block w-fit px-0"><Link to="/dsx-sdl6" lang="en">DSX SDL6 Truth-Fire CORE</Link></Button></div><div className="font-mono text-[11px] text-muted-foreground"><bdi dir="ltr">© 2026</bdi> · {tr("Standards Rev 1.0 · Built to be reviewed")} <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
+    <footer className="border-t border-border"><div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-12 md:flex-row md:items-end md:justify-between lg:px-8"><div><Logo reversed/><p className="mt-3 max-w-sm text-sm text-muted-foreground">{tr('AI work, made operational.')}</p><Button variant="link" onClick={() => go("demo")} className="mt-4 h-auto px-0 text-inherit underline underline-offset-4">{tr('Request a demo')}</Button><Button asChild variant="link" className="mt-2 block w-fit px-0"><Link to="/dsx-sdl6" lang="en">DSX SDL6 Truth-Fire CORE</Link></Button></div><div className="font-mono text-[11px] text-muted-foreground"><bdi dir="ltr">© 2026</bdi> · {tr("Standards Rev 1.0 · Built to be reviewed")} <span aria-hidden="true" title="U+13090">𓂐</span></div></div></footer>
   </div>;
 }
