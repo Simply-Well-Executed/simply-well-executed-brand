@@ -46,32 +46,32 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.955 0.012 85);
-  --foreground: oklch(0.17 0.012 285);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.17 0.012 285);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.17 0.012 285);
-  --primary: oklch(0.66 0.23 37);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.78 0.15 166);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.91 0.01 85);
-  --muted-foreground: oklch(0.49 0.012 85);
-  --accent: oklch(0.78 0.15 166);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.58 0.23 27);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.17 0.012 285 / 0.15);
-  --input: oklch(0.17 0.012 285 / 0.15);
-  --ring: oklch(0.66 0.23 37);
-  --paper: oklch(1 0 0);
-  --ink: oklch(0.17 0.012 285);
-  --coral: oklch(0.66 0.23 37);
-  --amber: oklch(0.79 0.17 77);
-  --teal: oklch(0.62 0.12 178);
-  --violet: oklch(0.55 0.23 288);
+  --radius: 0.875rem;
+  --background: #faf9ff;
+  --foreground: #151023;
+  --card: #ffffff;
+  --card-foreground: #151023;
+  --popover: #ffffff;
+  --popover-foreground: #151023;
+  --primary: #7824c7;
+  --primary-foreground: #ffffff;
+  --secondary: #e3d4fa;
+  --secondary-foreground: #21132f;
+  --muted: #f0eafa;
+  --muted-foreground: #5b5068;
+  --accent: #efe6fc;
+  --accent-foreground: #21132f;
+  --destructive: #b42332;
+  --destructive-foreground: #ffffff;
+  --border: #dacee9;
+  --input: #c7b6d9;
+  --ring: #7524c7;
+  --paper: #ffffff;
+  --ink: #151023;
+  --coral: #7824c7;
+  --amber: #cb8d26;
+  --teal: #167c77;
+  --violet: #8224e8;
 }
 
 @layer base {
@@ -157,4 +157,138 @@
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* Pentagonal XOR brand: presentation-only styling based on poster-print.svg.
+   Original branding vectors remain canonical assets at /downloads/pentagonal-xor-emblem/. */
+.swe-site {
+  --swe-violet: #8224e8;
+  --swe-ultraviolet: #8b00ff;
+  --swe-ink: #151023;
+  --swe-lavender: #f0eafa;
+  background: var(--background);
+}
+.swe-site-header {
+  border-bottom: 1px solid #e4d5f1;
+  box-shadow: 0 6px 28px rgb(38 9 62 / 5%);
+}
+.swe-site-header .swe-wordmark {
+  color: #22132f;
+  letter-spacing: -.02em;
+}
+.swe-wordmark-icon {
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgb(96 31 163 / 16%));
+}
+.swe-site-header [aria-current="page"] {
+  background: #4c1484;
+  color: #fff;
+}
+.swe-site-header [role="group"] {
+  scrollbar-color: #a47acb transparent;
+  scrollbar-width: thin;
+}
+.swe-hero {
+  color: #fff;
+  background: radial-gradient(ellipse at 75% 41%, #5211a8 0%, #281252 26%, transparent 61%),
+              linear-gradient(135deg, #080711 3%, #181029 47%, #10071f 100%);
+  border-color: #543475;
+}
+.swe-hero .dot-grid {
+  background-image: radial-gradient(rgb(235 201 255 / 16%) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, #000, transparent 94%);
+}
+.swe-hero-halo {
+  background: radial-gradient(ellipse at 68% 45%, rgb(217 42 255 / 13%), transparent 55%);
+}
+.swe-hero-kicker { color: #ebd7ff; }
+.swe-kicker-glyph {
+  color: #e5b7ff;
+  font-size: 27px;
+  line-height: 1;
+  text-shadow: 0 0 20px rgb(201 88 255 / 55%);
+}
+.swe-hero-heading {
+  color: white;
+  text-wrap: balance;
+  text-shadow: 0 8px 36px rgb(0 0 0 / 25%);
+}
+.swe-hero-intro { color: #e5dbf0; }
+.swe-hero .swe-hero-secondary {
+  color: #fff;
+  background: rgb(255 255 255 / 5%);
+  border-color: rgb(255 255 255 / 45%);
+}
+.swe-hero .swe-hero-secondary:hover {
+  color: #21132f;
+  background: #fff;
+  border-color: #fff;
+}
+.swe-hero .swe-hero-stats { backdrop-filter: blur(10px); }
+.swe-hero .swe-stat {
+  background: rgb(255 255 255 / 7%);
+  border-inline-end: 1px solid rgb(255 255 255 / 12%);
+}
+.swe-hero .swe-stat:last-child { border-inline-end: 0; }
+.swe-emblem-stage {
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+.swe-emblem-aura {
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(152 56 241 / 42%), rgb(101 29 177 / 12%) 45%, transparent 72%);
+  filter: blur(26px);
+  transform: scale(1.08);
+}
+.swe-emblem { filter: drop-shadow(0 20px 38px rgb(0 0 0 / 40%)); }
+.swe-site main > section:not(#overview) {
+  scroll-margin-top: 5.2rem;
+}
+.swe-site main > section:not(#overview) h2 {
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.swe-site main > section:not(#overview) article {
+  box-shadow: 0 10px 35px rgb(58 27 93 / 4%);
+}
+.swe-site #foundations,
+.swe-site #patterns,
+.swe-site #accessibility,
+.swe-site #resources,
+.swe-site #demo {
+  background-image: radial-gradient(circle at 100% 0%, rgb(130 36 232 / 3%), transparent 35%);
+}
+.swe-site #patterns .bg-teal {
+  background: linear-gradient(140deg, #6223ac, #37126d);
+  color: white;
+}
+.swe-site #identity .bg-foreground {
+  background: radial-gradient(ellipse at 20% 75%, #3f156a, transparent 75%), #151023;
+}
+.swe-site .text-coral { color: #7623c4; }
+.swe-site #content .text-coral,
+.swe-site #identity .bg-foreground .text-coral {
+  color: #dfb5ff;
+}
+.swe-site :where(button, a, input, textarea, select):focus-visible {
+  outline: 3px solid #a64de8;
+  outline-offset: 3px;
+}
+.swe-site :where(button, a) { transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.swe-site :where(button, a):hover { text-decoration-thickness: 1.5px; }
+@media (max-width: 1023px) {
+  .swe-emblem-stage { max-width: 280px; }
+  .swe-hero-heading { max-width: 14ch; }
+}
+@media (max-width: 540px) {
+  .swe-emblem-stage { max-width: 235px; }
+  .swe-hero-heading { font-size: clamp(3.2rem, 12vw, 5rem); }
+  .swe-site-header .swe-wordmark { gap: .35rem; }
+  .swe-site-header .swe-wordmark-icon { width: 33px; height: 33px; }
+  .swe-site-header .swe-wordmark span { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swe-emblem-aura { filter: none; }
 }
