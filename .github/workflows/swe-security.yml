@@ -1,0 +1,92 @@
+name: "🛡️ SWE Security & Integrity Gate"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "21 10 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: swe-security-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  integrity:
+    name: "🔏 Immutable inputs and artwork validation"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: XML parser prerequisite
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libxml2-utils
+      - name: Verify all SVG/PNG/JPEG hashes, XML, paths and tracked .env keys
+        run: bash security/verify-assets.sh
+      - name: Archive input checksums (non-secret)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: brand-sha256-manifest
+          path: public/downloads/pentagonal-xor-emblem/SHA256SUMS
+          retention-days: 30
+
+  application:
+    name: "🧪 Frozen dependencies · audits · 16 locale gates · build"
+    runs-on: ubuntu-24.04
+    needs: integrity
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: "1.4.4"
+      - name: Frozen dependency install (no lockfile rewriting)
+        run: bun install --frozen-lockfile
+      - name: Dependency audit (block high / critical)
+        run: bun audit --audit-level=high
+      - name: Existing multilingual release gate
+        run: bun run gate:release
+      - name: Production bundle / SSR compile
+        run: bun run build
+
+  cxx_guard:
+    name: "⬟ Pinned C++20 boundary validator · 32 states"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      EXPECTED_GUARD_SHA: baefd8921efa147e0ec3bb4a417dbc2a4bbd4c1f
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Checkout audited source at exact immutable commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: Simply-Well-Executed/pentagonal-xor-cpp20
+          ref: baefd8921efa147e0ec3bb4a417dbc2a4bbd4c1f
+          path: swe-engine
+          persist-credentials: false
+      - name: Verify pinned source provenance (not remote main)
+        run: |
+          test "$(git -C swe-engine rev-parse HEAD)" = "$EXPECTED_GUARD_SHA"
+      - name: Build independent SWE C++20 validator
+        run: |
+          cmake -S swe-engine/shared -B swe-engine/shared-build -DCMAKE_BUILD_TYPE=Release
+          cmake --build swe-engine/shared-build --parallel
+      - name: Execute parity plus malicious metadata rejection tests
+        run: ctest --test-dir swe-engine/shared-build --output-on-failure
+      - name: Verify the public emblem metadata with AND-gated controls
+        run: |
+          digest="$(sha256sum public/downloads/pentagonal-xor-emblem/color.svg | cut -d " " -f1)"
+          swe-engine/shared-build/swe_guard https://simpwellx.com/ public/downloads/pentagonal-xor-emblem/color.svg "$digest" color.svg
+
