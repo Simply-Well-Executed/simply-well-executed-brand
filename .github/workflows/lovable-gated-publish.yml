@@ -36,8 +36,8 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Invalid upstream SHA"; exit 1; }
-          current="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0
-            -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json"
+          current="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/git/ref/heads/main" | jq -r .object.sha)"
           [[ "$current" == "$EXPECTED_SHA" ]] || { echo "Head moved after security checks; fail closed"; exit 1; }
       - name: Verify Lovable source revision and security scans match SHA
@@ -86,9 +86,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          response="$(curl --fail --silent --show-error --proto "=https" --max-redirs 0
-            -X POST "$API/projects/$PROJECT_ID/publish"
-            -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11"
+          response="$(curl --fail --silent --show-error --proto "=https" --max-redirs 0 \
+            -X POST "$API/projects/$PROJECT_ID/publish" \
+            -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11" \
             -H "Content-Type: application/json" -d "{}")"
           deployment_id="$(jq -r ".id // .deployment_id // empty" <<<"$response")"
           [[ "$deployment_id" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Lovable did not return a valid deployment ID"; exit 1; }
@@ -99,8 +99,8 @@ jobs:
           set -euo pipefail
           ok=0
           for iteration in {1..100}; do
-            status_json="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0
-              -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11"
+            status_json="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0 \
+              -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11" \
               "$API/projects/$PROJECT_ID/publish/$DEPLOYMENT_ID")"
             error_class="$(jq -r ".error_class // empty" <<<"$status_json")"
             error_message="$(jq -r ".error_message // empty" <<<"$status_json")"
