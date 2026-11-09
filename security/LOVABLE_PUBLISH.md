@@ -23,3 +23,7 @@ Enable a current Lovable security scan for the reviewed commit (Lovable Security
 The pipeline is *fail closed* without its secret, a matching security scan, and synchronized source state. It will not silently deploy old code.
 
 References: https://docs.lovable.dev/api-reference/introduction and https://docs.lovable.dev/api-reference/deploy-domains/get-publish-status
+
+## Explicit production activation
+
+The privileged workflow also requires an explicit GitHub Actions variable `SWE_ALLOW_PRODUCTION_DEPLOY` set to `true`. Its default/absent value keeps publication disabled. Configure the variable under **Settings → Secrets and variables → Actions → Variables** only after verifying branch protections, production-environment reviewers, matching Lovable security scan, a clean dependency audit, and code review. The publisher also requires a successful CodeQL analysis run for the exact same commit SHA.
