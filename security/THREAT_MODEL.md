@@ -44,3 +44,5 @@ Revoke exposed tokens, disable publishing, preserve audit and workflow evidence,
 Unimplemented organizational controls: GitHub branch protection with CODEOWNERS and two reviews, secret scanning/push protection, full RLS/SSR audit, pentest, and externally verifiable release attestation.
 
 References: nvm THREAT_MODEL and INCIDENT_RESPONSE_PLAN, Lovable API documentation, OWASP GitHub Actions Security Cheat Sheet.
+
+**Deployment opt-in safeguard (2026-11-09):** publishing additionally requires Actions variable `SWE_ALLOW_PRODUCTION_DEPLOY=true`; it is absent by default. Matching successful CodeQL static-analysis results are also mandatory. A missing variable or missing protected secret causes no production publication.
