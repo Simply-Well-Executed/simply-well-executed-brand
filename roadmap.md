@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Apply the poster-based presentation-only retheme; verify release gates, preview, responsive locales and existing controls; do not publish
 - [x] Add uploaded DSX SDL6 simulation as a separate linked page and verify controls, mirror halt/recovery, and evidence export
 - [x] Add zh / ko / cs locales + pages, hreflang, sitemap
 - [ ] Search engine verification tags (Bing, Yandex, Baidu, Shenma, Naver, Sogou, Seznam, Petal) — needs codes from user
