@@ -146,7 +146,7 @@ function SequenceGenerator({ defaultLang }: { defaultLang: Locale }) {
 }
 
 function Logo({ compact = false }: { compact?: boolean }) {
-  return <span className="inline-flex items-center gap-2.5"><span className="relative block size-3 after:absolute after:-inset-1 after:rounded-full after:border after:border-coral"><span className="absolute inset-0 rounded-full bg-coral" /></span>{!compact && <span className="font-display text-[15px] font-extrabold leading-none">Simply Well Executed</span>}</span>;
+  return <span className="swe-wordmark inline-flex items-center gap-2.5"><img src="/downloads/pentagonal-xor-emblem/color.svg" alt="" aria-hidden="true" width="40" height="40" className="swe-wordmark-icon size-10 shrink-0" />{!compact && <span className="font-display text-[15px] font-extrabold leading-none">Simply Well Executed</span>}</span>;
 }
 
 function SectionLabel({ children }: { children: string }) {
@@ -253,8 +253,8 @@ export function StandardsPage({ locale }: { locale: Locale }) {
     if (locale !== "ru") window.location.assign("/ru");
   };
 
-  return <div lang={locale} dir={info.dir} data-locale={locale} data-ru-script={locale === "ru" ? russianScript : undefined} className={`min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${locale === "ru" ? "locale-ru" : ""}`}>
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
+  return <div lang={locale} dir={info.dir} data-locale={locale} data-ru-script={locale === "ru" ? russianScript : undefined} className={`swe-site min-h-screen bg-background text-foreground selection:bg-coral selection:text-primary-foreground ${locale === "ru" ? "locale-ru" : ""}`}>
+    <header className="swe-site-header sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 lg:px-8">
         <button onClick={() => go("overview")} className="cursor-pointer" aria-label={tr("Simply Well Executed home")}><Logo /></button>
         <div className="flex min-w-0 items-center gap-3">
@@ -266,22 +266,28 @@ export function StandardsPage({ locale }: { locale: Locale }) {
     </header>
 
     <main data-minmin={minmin}>
-      <section id="overview" className="relative overflow-hidden border-b border-border">
-        <div className="dot-grid absolute inset-0 opacity-60" />
-        <div className="relative mx-auto max-w-[1400px] px-5 pb-20 pt-16 lg:px-8 lg:pt-24">
-          <div className="rise-in flex items-center gap-3 font-mono text-[11px] uppercase text-muted-foreground"><span className="text-coral">●</span> <span>{tr("Public operating standards")}</span> <span className="h-px w-8 bg-border" /> <bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
-          <h1 className="rise-in mt-6 max-w-[14ch] font-display text-[clamp(3.6rem,10vw,9rem)] font-black leading-[.9] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
-          <div className="mt-12 grid items-end gap-8 lg:grid-cols-12">
-            <div className="rise-in lg:col-span-6 [animation-delay:160ms]">
- <p className="max-w-[48ch] text-xl leading-relaxed">{tr("AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.")}</p>
-              <div className="mt-7 flex flex-wrap gap-3"><Button variant="ink" size="lg" onClick={() => go("foundations")}>{tr("Explore standards")} <ArrowRight className="rtl:-scale-x-100" /></Button><Button variant="outline" size="lg" onClick={() => go("resources")} className="rounded-full">{tr("Brand resources")} <Download /></Button></div>
-            </div>
-            <div className="rise-in grid grid-cols-3 overflow-hidden rounded-2xl bg-border ring-1 ring-border lg:col-span-6 [animation-delay:240ms]">
-              {([[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']] as [string,string][]).map(([v,l]) => <div key={l} className="bg-paper p-4 sm:p-6"><div className="font-mono text-[10px] text-muted-foreground">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">{v}</div></div>)}
-            </div>
-          </div>
-        </div>
-      </section>
+      <section id="overview" className="swe-hero relative isolate overflow-hidden border-b border-border">
+         <div className="dot-grid pointer-events-none absolute inset-0 opacity-25" aria-hidden="true" />
+         <div className="swe-hero-halo pointer-events-none absolute inset-0" aria-hidden="true" />
+         <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-5 py-16 lg:min-h-[650px] lg:grid-cols-[minmax(0,1.3fr)_minmax(290px,.7fr)] lg:gap-14 lg:px-8 lg:py-24">
+           <div className="relative z-10">
+             <div className="rise-in swe-hero-kicker flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-[.2em]"><span className="swe-kicker-glyph" aria-hidden="true">⬟</span><span>{tr("Public operating standards")}</span><span className="h-px w-8 bg-white/30" aria-hidden="true" /><bdi dir="ltr">Rev 1.0 · 2026</bdi></div>
+             <h1 className="rise-in swe-hero-heading mt-7 font-display text-[clamp(3.5rem,8.5vw,8.25rem)] font-black leading-[.88] tracking-[-.035em] [animation-delay:80ms]">Simply Well<br/>Executed.</h1>
+             <p className="rise-in swe-hero-intro mt-8 max-w-[49ch] text-lg leading-relaxed sm:text-xl [animation-delay:160ms]">{tr("AI work, made operational. We help business teams turn ambiguity into clear, reviewable action.")}</p>
+             <div className="rise-in mt-8 flex flex-wrap gap-3 [animation-delay:210ms]">
+               <Button variant="brand" size="lg" onClick={() => go("foundations")}>{tr("Explore standards")} <ArrowRight className="rtl:-scale-x-100" /></Button>
+               <Button variant="outline" size="lg" onClick={() => go("resources")} className="swe-hero-secondary rounded-full">{tr("Brand resources")} <Download /></Button>
+             </div>
+             <div className="rise-in swe-hero-stats mt-12 grid max-w-[650px] grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/20 bg-white/10 [animation-delay:240ms]">
+               {([[pad2(topics.length),'DOMAINS'],[pad2(principles.length),'PRINCIPLES'],[pad2(brandAssets.length),'ASSETS']] as [string,string][]).map(([v,l]) => <div key={l} className="swe-stat px-4 py-4 sm:px-6 sm:py-5"><div className="font-mono text-[10px] uppercase tracking-wider text-white/70">{tr(l)}</div><div className="mt-1 font-display text-3xl font-extrabold text-white sm:text-4xl">{v}</div></div>)}
+             </div>
+           </div>
+           <div className="swe-emblem-stage rise-in relative mx-auto flex w-full max-w-[460px] items-center justify-center [animation-delay:200ms]">
+             <div className="swe-emblem-aura pointer-events-none absolute inset-0" aria-hidden="true" />
+             <img src="/downloads/pentagonal-xor-emblem/color.svg" alt={tr("Pentagonal XOR spiral emblem")} width="1000" height="1000" className="swe-emblem relative z-10 w-full drop-shadow-[0_30px_90px_rgba(0,0,0,.4)]" />
+           </div>
+         </div>
+       </section>
 
       <section id="foundations" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8">
         <div className="mb-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -333,7 +339,7 @@ export function StandardsPage({ locale }: { locale: Locale }) {
       <section id="accessibility" className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(e) Accessibility')}</SectionLabel><div className="grid gap-5 lg:grid-cols-2"><div><h2 className="font-display text-5xl font-black leading-none">{tr('Access is part of the specification.')}</h2><p className="mt-5 max-w-[52ch] text-muted-foreground">{tr('Every experience supports keyboard navigation, visible focus, readable contrast, reduced motion, descriptive labels, and clear recovery.')}</p></div><ul className="grid gap-2">{['Keyboard paths are complete','Color never carries meaning alone','Motion respects user preferences','Errors explain the next action'].map(x=><li key={x} className="flex items-center gap-3 rounded-xl bg-paper p-4 ring-1 ring-border"><span className="grid size-7 place-items-center rounded-full bg-teal text-primary-foreground"><Check className="size-4"/></span><span className="font-medium">{tr(x)}</span></li>)}</ul></div></section>
 
       <section id="identity" className="border-y border-border bg-paper"><div className="mx-auto max-w-[1400px] px-5 py-20 lg:px-8"><SectionLabel>{tr('(f) Identity system')}</SectionLabel><div className="grid gap-4 lg:grid-cols-12">
-        <div className="flex min-h-80 flex-col rounded-3xl bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">{tr('Primary logo')}</div><div className="my-auto font-display text-5xl font-black leading-[.9]">Simply<br/>Well<br/>Executed</div><div className="font-mono text-[11px] text-background/60">{tr('Clear space = 1 node. Never stretch or rotate.')}</div></div>
+        <div className="flex min-h-80 flex-col rounded-3xl bg-foreground p-7 text-background lg:col-span-5"><div className="font-mono text-[11px] uppercase text-background/60">{tr('Primary logo')}</div><div className="my-auto flex items-center gap-5 py-8"><img src="/downloads/pentagonal-xor-emblem/color.svg" alt="" aria-hidden="true" width="150" height="150" className="size-24 shrink-0 sm:size-32" /><div className="font-display text-4xl font-black leading-[.95] sm:text-5xl">Simply<br/>Well<br/>Executed</div></div><div className="font-mono text-[11px] text-background/60">{tr('Clear space = 1 node. Never stretch or rotate.')}</div></div>
         <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-4"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('State color')}</div><div className="mt-6 grid grid-cols-2 gap-3">{[['bg-coral','Action'],['bg-amber','Attention'],['bg-teal','Resolved'],['bg-violet','Inquiry']].map(([c,n])=><div key={n} className="overflow-hidden rounded-xl bg-paper ring-1 ring-border"><div className={`h-20 ${c}`}/><div className="p-2 font-mono text-[10px]">{tr(n)}</div></div>)}</div></div>
         <div className="rounded-3xl bg-background p-7 ring-1 ring-border lg:col-span-3"><div className="font-mono text-[11px] uppercase text-muted-foreground">{tr('Type')}</div><div className="mt-7 font-display text-6xl font-black">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSerif / Display')}</p><div className="mt-6 font-body text-3xl">Aa</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeSans / Text')}</p><div className="mt-6 font-mono text-2xl">01</div><p className="font-mono text-[11px] text-muted-foreground">{tr('FreeMono / Data')}</p></div>
       </div></div></section>
