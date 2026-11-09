@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: brand-emblem-export
@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          persist-credentials: true
+          persist-credentials: false
       - name: Install vector and image tools
         run: |
           sudo apt-get update
@@ -48,7 +48,7 @@ jobs:
             sha256sum *.svg jpeg/*.jpg png/*.png > SHA256SUMS
           )
       - name: Upload files as GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: pentagonal-xor-brand-artwork
           path: |
@@ -56,16 +56,4 @@ jobs:
             public/downloads/pentagonal-xor-emblem/**/*.png
             public/downloads/pentagonal-xor-emblem/SHA256SUMS
           if-no-files-found: error
-      - name: Publish each generated artwork to the repository
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/downloads/pentagonal-xor-emblem/jpeg/ public/downloads/pentagonal-xor-emblem/png/ public/downloads/pentagonal-xor-emblem/SHA256SUMS
-          if git diff --cached --quiet; then
-            echo "Raster exports are already up to date."
-          else
-            git commit -m "brand: render per-asset quality-100 JPEGs and lossless PNGs [skip ci]"
-            git push origin HEAD:main
-          fi
+      # Read-only export: maintainers must review and commit derived assets separately.
