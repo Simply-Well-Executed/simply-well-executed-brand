@@ -1,0 +1,62 @@
+name: "🧰 Validate Lovable automation tooling"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'security/Test-LovableAutomationReadiness.ps1'
+      - '.github/workflows/lovable-gated-publish.yml'
+      - '.github/workflows/validate-lovable-tooling.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'security/Test-LovableAutomationReadiness.ps1'
+      - '.github/workflows/lovable-gated-publish.yml'
+      - '.github/workflows/validate-lovable-tooling.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-invariants:
+    name: "PowerShell 7 syntax and fail-closed workflow invariants"
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Fetch untrusted source without persisting credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Parse PowerShell script without executing it
+        shell: pwsh
+        run: |
+          $path = (Resolve-Path './security/Test-LovableAutomationReadiness.ps1').Path
+          $tokens = $null
+          $parseErrors = $null
+          $tree = [System.Management.Automation.Language.Parser]::ParseFile(
+            $path, [ref]$tokens, [ref]$parseErrors
+          )
+          if ($parseErrors.Count -ne 0) {
+            $parseErrors | Format-List
+            throw 'Preflight script has PowerShell parsing errors.'
+          }
+          if ($null -eq $tree) { throw 'No syntax tree returned.' }
+          Write-Host 'PowerShell 7 syntax: PASS'
+      - name: Enforce critical publishing safeguards
+        shell: pwsh
+        run: |
+          $wf = Get-Content './.github/workflows/lovable-gated-publish.yml' -Raw
+          foreach ($needle in @(
+            'SWE_ALLOW_PRODUCTION_DEPLOY',
+            'LOVABLE_API_KEY',
+            'workflow_run.conclusion',
+            'environment: production',
+            'security-scans',
+            'CodeQL',
+            'head_sha',
+            'Lovable-Version: 2026-09-11'
+          )) {
+            if (-not $wf.Contains($needle)) { throw "Critical release control missing: $needle" }
+          }
+          Write-Host 'Protected publication safeguards present: PASS'
