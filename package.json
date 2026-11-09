@@ -19,7 +19,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^4.0.78",
     "@hookform/resolvers": "^5.2.2",
-    "@lovable.dev/mcp-js": "^3.0.4",
+    "@lovable.dev/mcp-js": "^3.4.0",
     "@lovable.dev/webhooks-js": "^0.0.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -95,7 +95,7 @@
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "8.1.5"
+    "vite": "8.1.6"
   },
   "pnpm": {
     "overrides": {
