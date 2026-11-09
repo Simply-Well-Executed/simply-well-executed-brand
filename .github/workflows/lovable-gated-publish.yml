@@ -1,0 +1,120 @@
+name: "🔐 Gated Lovable production publish"
+
+on:
+  workflow_run:
+    workflows: ["🛡️ SWE Security & Integrity Gate"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lovable-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: "Provenance → security scan → Lovable → live smoke test"
+    if: >-
+      github.event.workflow_run.conclusion == 'success'
+      && github.event.workflow_run.event == 'push'
+      && github.event.workflow_run.head_branch == 'main'
+      && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: production
+    env:
+      PROJECT_ID: 975a1426-4d20-433c-8675-00a7e8e80d2e
+      EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
+      LOVABLE_API_KEY: ${{ secrets.LOVABLE_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+      API: https://api.lovable.dev/v1
+    steps:
+      - name: Verify current main == successfully tested source
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Invalid upstream SHA"; exit 1; }
+          current="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0
+            -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json"
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/git/ref/heads/main" | jq -r .object.sha)"
+          [[ "$current" == "$EXPECTED_SHA" ]] || { echo "Head moved after security checks; fail closed"; exit 1; }
+      - name: Verify Lovable source revision and security scans match SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${LOVABLE_API_KEY:-}" ]] || { echo "Configure the protected production secret LOVABLE_API_KEY"; exit 1; }
+          headers=(-H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11" -H "Accept: application/json")
+          api_get() { curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0 "${headers[@]}" "$1"; }
+          project="$(api_get "$API/projects/$PROJECT_ID")"
+          source_sha="$(jq -r ".latest_commit_sha // empty" <<<"$project")"
+          [[ "$source_sha" == "$EXPECTED_SHA" ]] || { echo "Lovable Git sync is behind or divergent"; exit 1; }
+          scan_id=""
+          cursor=""
+          for page in {1..10}; do
+            if [[ -n "$cursor" ]]; then
+              list="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0 "${headers[@]}" -G --data-urlencode "cursor=$cursor" --data-urlencode "limit=100" "$API/projects/$PROJECT_ID/security-scans")"
+            else
+              list="$(api_get "$API/projects/$PROJECT_ID/security-scans?limit=100")"
+            fi
+            scan_id="$(jq -r --arg sha "$EXPECTED_SHA" '[.data[] | select(.commit_sha == $sha and .status == "completed")] | first | .id // empty' <<<"$list")"
+            [[ -n "$scan_id" ]] && break
+            [[ "$(jq -r ".pagination.has_more" <<<"$list")" == "true" ]] || break
+            cursor="$(jq -r ".pagination.next_cursor // empty" <<<"$list")"
+            [[ -n "$cursor" ]] || { echo "Invalid scan pagination"; exit 1; }
+          done
+          [[ -n "$scan_id" && "$scan_id" =~ ^[0-9a-zA-Z_-]+$ ]] || { echo "No completed Lovable scan for tested revision"; exit 1; }
+          cursor=""
+          count=0
+          for page in {1..20}; do
+            if [[ -n "$cursor" ]]; then
+              findings="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0 "${headers[@]}" -G --data-urlencode "cursor=$cursor" --data-urlencode "limit=100" "$API/projects/$PROJECT_ID/security-scans/$scan_id/findings")"
+            else
+              findings="$(api_get "$API/projects/$PROJECT_ID/security-scans/$scan_id/findings?limit=100")"
+            fi
+            blocked="$(jq '[.data[] | select((.level == "error" or .level == "warning" or .level == "critical" or .level == "high") and .status != "fixed")] | length' <<<"$findings")"
+            count=$((count + blocked))
+            [[ "$(jq -r ".pagination.has_more" <<<"$findings")" == "true" ]] || break
+            cursor="$(jq -r ".pagination.next_cursor // empty" <<<"$findings")"
+            [[ -n "$cursor" ]] || { echo "Invalid findings pagination"; exit 1; }
+            [[ $page -lt 20 ]] || { echo "Unbounded security findings; manual review required"; exit 1; }
+          done
+          [[ $count -eq 0 ]] || { echo "Unresolved Lovable security findings block publish: $count"; exit 1; }
+          echo "Lovable SHA and complete security scan verified"
+      - name: Publish only the approved Lovable revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail --silent --show-error --proto "=https" --max-redirs 0
+            -X POST "$API/projects/$PROJECT_ID/publish"
+            -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11"
+            -H "Content-Type: application/json" -d "{}")"
+          deployment_id="$(jq -r ".id // .deployment_id // empty" <<<"$response")"
+          [[ "$deployment_id" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Lovable did not return a valid deployment ID"; exit 1; }
+          echo "DEPLOYMENT_ID=$deployment_id" >> "$GITHUB_ENV"
+      - name: Poll deployment, then verify simpwellx.com HTTPS
+        shell: bash
+        run: |
+          set -euo pipefail
+          ok=0
+          for iteration in {1..100}; do
+            status_json="$(curl --fail --silent --show-error --retry 2 --proto "=https" --max-redirs 0
+              -H "Lovable-API-Key: $LOVABLE_API_KEY" -H "Lovable-Version: 2026-09-11"
+              "$API/projects/$PROJECT_ID/publish/$DEPLOYMENT_ID")"
+            error_class="$(jq -r ".error_class // empty" <<<"$status_json")"
+            error_message="$(jq -r ".error_message // empty" <<<"$status_json")"
+            [[ -z "$error_class" && -z "$error_message" ]] || { echo "Lovable deployment failed: $error_class"; exit 1; }
+            state="$(jq -r ".status // empty" <<<"$status_json")"
+            url="$(jq -r ".url // empty" <<<"$status_json")"
+            if [[ "$state" == "completed" && -n "$url" ]]; then
+              [[ "$url" =~ ^https://([a-z0-9-]+[.]lovable[.]app|simpwellx[.]com)/?$ ]] || { echo "Unexpected published domain"; exit 1; }
+              ok=1; break
+            fi
+            sleep 3
+          done
+          [[ "$ok" -eq 1 ]] || { echo "Lovable deployment not verified"; exit 1; }
+          curl --fail --silent --show-error --proto "=https" --max-redirs 0 --output /dev/null https://simpwellx.com/
+          curl --fail --silent --show-error --proto "=https" --max-redirs 0 --output /dev/null https://simpwellx.com/downloads/pentagonal-xor-emblem/color.svg
+          echo "Live HTTPS homepage and emblem accessible. Deployment $DEPLOYMENT_ID"
+
